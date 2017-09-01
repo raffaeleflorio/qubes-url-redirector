@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <style>
+      #settings > * {
+      margin: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <form id="settings">
+      Default action:<br>
+      <label><input type="radio" name="default" id="dvm" value="dvm" checked>Open in dvm</label><br>
+      <label><input type="radio" name="default" id="vm" value="vm">Open in VM:</label><input type="text" name="vmname"><br>
+      <label style="color: red"><input type="radio" name="default" id="here" value="here">Open here</label><br>
+      <button type="submit">Save</button>
+    </form>
+    <script src="settings.js"></script>
+  </body>
+</html>

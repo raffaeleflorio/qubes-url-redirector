@@ -1,0 +1,7 @@
+{
+    "name": "qvm_open_in_vm",
+    "description": "Open URL in other VM",
+    "allowed_extensions": ["qubes-url-redirector@raffaeleflorio.github.io"],
+    "type": "stdio",
+    "path": "/usr/local/bin/qvm-open-in-vm-we.py"
+}
