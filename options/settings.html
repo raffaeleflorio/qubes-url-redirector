@@ -3,19 +3,60 @@
   <head>
     <meta charset="utf-8">
     <style>
-      #settings > * {
-      margin: 5px;
+      html,body {
+      font-size: 16px;
+      line-height: 1.8;
+      }
+
+      #whitelistTbl {
+      width: 100%;
+      border-collapse: collapse;
+      border: 1px solid #000;
+      }
+
+      #whitelistTbl thead {
+      background-color: #63a0ff;
+      }
+
+      #whitelistTbl th, td {
+      text-align: center;
+      border-bottom: 1px solid #000;
+      }
+
+      #whitelistTbl td:first-child{
+      width: 100%;
+      }
+
+      #whitelistFrm {
+      margin: 40px 0px 40px 0px;
       }
     </style>
   </head>
   <body>
-    <form id="settings">
+    <form id="settingsFrm">
       Default action:<br>
       <label><input type="radio" name="default" id="dvm" value="dvm" checked>Open in dvm</label><br>
-      <label><input type="radio" name="default" id="vm" value="vm">Open in VM:</label><input type="text" name="vmname"><br>
+      <label><input type="radio" name="default" id="vm" value="vm">Open in default VM</label><br>
       <label style="color: red"><input type="radio" name="default" id="here" value="here">Open here</label><br>
+      <label>Default VM: <input type="text" name="vmname"></label><br>
       <button type="submit">Save</button>
     </form>
+
+    <form id="whitelistFrm">
+      <label>Add URL to whitelist:<input type="text" name="url"></label><br>
+      <button type="submit">Save</button>
+    </form>
+
+    <table id="whitelistTbl">
+      <caption>Whitelisted URL</caption>
+      <thead>
+	<th>URL</th>
+	<th>Action</th>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+
     <script src="settings.js"></script>
   </body>
 </html>

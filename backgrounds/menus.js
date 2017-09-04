@@ -6,7 +6,7 @@ function createMenus()
 	contexts: ["link"]
     });
     
-    getVmName().then(item => {
+    getDefaultVmName().then(item => {
 	browser.contextMenus.create({
 	    id: "default-vm",
 	    title: "Open in " + item.vmname + " VM",
@@ -30,12 +30,10 @@ function createMenus()
     browser.contextMenus.onClicked.addListener((info, tab) => {
 	switch (info.menuItemId) {
 	case "dvm":
-	    /* in native.js */
 	    openurl("$dispvm", info.linkUrl);
 	    break;
 	case "default-vm":
-	    /* in native.js */
-	    getVmName().then(item => {
+	    getDefaultVmName().then(item => {
 		openurl(item.vmname, info.linkUrl);
 	    });
 	    break;
@@ -54,24 +52,9 @@ function createMenus()
     });
 }
 
-function getVmName()
-{
-    return browser.storage.local.get("settings")
-	.then(item => {
-	    if (item.settings)
-		item = item.settings;
-	    else
-		item = {}
-	    
-	    item.menu_enabled = !item.vmname || item.vmname == "" ? false : true;
-	    item.vmname = !item.vmname || item.vmname == "" ? "default" : item.vmname;
-	    return item;
-	});
-}
-
 function updateMenus()
 {
-    getVmName().then(item => {
+    getDefaultVmName().then(item => {
 	browser.contextMenus.update("default-vm", {
 	    title: "Open in " + item.vmname + " VM",
 	    enabled: item.menu_enabled

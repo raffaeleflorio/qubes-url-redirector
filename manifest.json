@@ -26,7 +26,8 @@
 	"scripts": [
 	    "backgrounds/main.js",
 	    "backgrounds/native.js",
-	    "backgrounds/menus.js"
+	    "backgrounds/menus.js",
+	    "backgrounds/webRequest.js"
 	]
     },
     
