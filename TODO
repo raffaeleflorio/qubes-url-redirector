@@ -1,1 +1,4 @@
-- webRequest redirection
+- url matching based on regexp
+- xpi
+- chrome test
+- better README

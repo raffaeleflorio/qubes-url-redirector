@@ -2,7 +2,7 @@
     "manifest_version": 2,
 
     "name": "qubes-url-redirector",
-    "version": "0.5",
+    "version": "1.0",
     "applications": {
 	"gecko": {
 	    "id": "qubes-url-redirector@raffaeleflorio.github.io"
@@ -35,6 +35,8 @@
 	"contextMenus",
 	"storage",
 	"nativeMessaging",
-	"webRequest"
+	"webRequest",
+	"webRequestBlocking",
+	"<all_urls>"
     ]    
 }

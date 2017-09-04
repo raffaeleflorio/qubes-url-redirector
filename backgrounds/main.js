@@ -13,33 +13,25 @@ function addToWhitelist(url)
 
 function getSettings()
 {
-    return browser.storage.local.get("settings")
-	.then(item => {
-	    if (item.settings)
-		return item.settings;
-	    else
-		return {};
-	});
+    return getWhitelistAndSettings().then(items => { return items.settings });
 }
 
 function getWhitelist()
 {
-    return browser.storage.local.get("whitelist")
-	.then(item => {
-	    if (item.whitelist)
-		return item.whitelist;
-	    else
-		return [];
-	});
+    return getWhitelistAndSettings().then(items => { return items.whitelist });
 }
 
-function getDefaultVmName()
+function getWhitelistAndSettings()
 {
-    return getSettings()
-	.then(settings => {
-	    settings.menu_enabled = settings.vmname != "" ? true : false;
-	    settings.vmname = settings.vmname != "" ? settings.vmname : "default";
-	    return settings;
+    return browser.storage.local.get(["settings", "whitelist"])
+	.then(items => {
+	    if (!items.whitelist)
+		items.whitelist = [];
+
+	    if (!items.settings)
+		items.settings = {};
+
+	    return items;
 	});
 }
 

@@ -76,7 +76,7 @@ function saveSettings(e)
     const form = e.target;
 
     const settings = {
-	default_action: form["default"].value,
+	default_action: form["default_action"].value,
 	vmname: form["vmname"].value
     };
 
