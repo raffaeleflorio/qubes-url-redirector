@@ -7,12 +7,14 @@ function redirect(e)
 
     const vmname = form["vmname"].value;
 
-    if (vmname == null || vmname == "")
+    if (!vmname || vmname == "") {
 	alert("VM name cannot be empty!");
-    
-    browser.extension.getBackgroundPage().openurl(vmname, url);
+    } else {
+	browser.extension.getBackgroundPage().openurl(vmname, url);
+	window.close();
+    }
+
     e.preventDefault();
-    window.close();
 }
 
 document.getElementById("urlForm").addEventListener("submit", redirect);
