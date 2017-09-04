@@ -52,7 +52,14 @@ function rmFromWhitelist(url)
 
 function saveSettings(settings)
 {
-    return browser.storage.local.set({"settings": settings});
+    const actions = ["dvm", "default-vm", "here"];
+
+    if (actions.indexOf(settings.default_action) == -1)
+	return Promise.reject(false);
+    else if (actions == "default-vm" && (!settings.vmname || settings.vmname == ""))
+	return Promise.reject(false);	
+    else
+	return browser.storage.local.set({"settings": settings});
 }
 
 function saveWhitelist(whitelist)

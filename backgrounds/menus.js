@@ -56,8 +56,8 @@ function getDefaultVmName()
 {
     return getSettings()
 	.then(settings => {
-	    settings.menu_enabled = settings.vmname != "" ? true : false;
-	    settings.vmname = settings.vmname != "" ? settings.vmname : "default";
+	    settings.menu_enabled = settings.vmname && settings.vmname != "" ? true : false;
+	    settings.vmname = settings.vmname && settings.vmname != "" ? settings.vmname : "default";
 	    return settings;
 	});
 }

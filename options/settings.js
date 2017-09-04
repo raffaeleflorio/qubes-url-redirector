@@ -42,8 +42,10 @@ function restoreSettings()
 
     background.getSettings()
 	.then(settings => {
-	    form[settings.default_action].checked = true;
-	    form["vmname"].value = settings.vmname;
+	    if (settings.default_action)
+		form[settings.default_action].checked = true;
+	    if (settings.vmname)
+		form["vmname"].value = settings.vmname;
 	});
 }
 

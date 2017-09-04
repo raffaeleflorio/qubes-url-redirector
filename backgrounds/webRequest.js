@@ -7,7 +7,7 @@ function routeRequest(details)
 		const settings = items.settings;
 		
 		if (settings.default_action != "here" && whitelist.indexOf(details.url) == -1) {
-		    const vmname = settings.default_action == "dvm" ? "$dispvm" : settings.vmname;
+		    const vmname = (!settings.default_action || settings.default_action == "dvm") ? "$dispvm" : settings.vmname;
 		    openurl(vmname, details.url);
 		    browser.tabs.remove(details.tabId);
 		    return {cancel: true}
