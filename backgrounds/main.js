@@ -56,7 +56,7 @@ function saveSettings(settings)
 
     if (actions.indexOf(settings.default_action) == -1)
 	return Promise.reject(false);
-    else if (actions == "default-vm" && (!settings.vmname || settings.vmname == ""))
+    else if (settings.default_action == "default-vm" && (!settings.vmname || settings.vmname == ""))
 	return Promise.reject(false);	
     else
 	return browser.storage.local.set({"settings": settings});
