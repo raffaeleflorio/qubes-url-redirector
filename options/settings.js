@@ -44,6 +44,9 @@ function restoreSettings()
 	.then(settings => {
 	    if (settings.default_action)
 		document.getElementById(settings.default_action).checked = true;
+	    else
+		document.getElementById("dvm").checked = true;
+
 	    if (settings.vmname)
 		form["vmname"].value = settings.vmname;
 	});
