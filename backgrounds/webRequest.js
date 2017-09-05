@@ -1,5 +1,4 @@
-function routeRequest(details)
-{
+const routeRequest = details => {
     return getWhitelistAndSettings()
 	.then(
 	    items => {

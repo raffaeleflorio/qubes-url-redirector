@@ -1,5 +1,4 @@
-function createMenus()
-{
+const createMenus = () => {
     browser.contextMenus.create({
 	id: "dvm",
 	title: "Open in dvm",
@@ -40,7 +39,7 @@ function createMenus()
 	case "some-vm":
 	    browser.windows.create({
 		type: "popup",
-		url: "choose-vm/popup.html?url=" + info.linkUrl,
+		url: "choose-vm/popup.html?url=" + encodeURIComponent(info.linkUrl),
 		width: 600,
 		height: 160
 	    });
@@ -52,8 +51,7 @@ function createMenus()
     });
 }
 
-function getDefaultVmName()
-{
+const getDefaultVmName = () => {
     return getSettings()
 	.then(settings => {
 	    settings.menu_enabled = settings.vmname && settings.vmname != "" ? true : false;
@@ -62,8 +60,7 @@ function getDefaultVmName()
 	});
 }
 
-function updateMenus()
-{
+const updateMenus =  () => {
     getDefaultVmName().then(item => {
 	browser.contextMenus.update("default-vm", {
 	    title: "Open in " + item.vmname + " VM",

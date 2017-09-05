@@ -62,8 +62,8 @@ function saveSettings(settings)
 	return browser.storage.local.set({"settings": settings});
 }
 
-function saveWhitelist(whitelist)
-{
+/* not accessible by getBackgroundPage() */
+const saveWhitelist = whitelist => {
     return browser.storage.local.set({"whitelist": whitelist});
 }
 

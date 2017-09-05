@@ -53,8 +53,7 @@ function restoreWhitelist()
 {
     background.getWhitelist()
 	.then(whitelist => {
-	    for (let i = 0; i < whitelist.length; i++)
-		appendUrl(whitelist[i]);
+	    whitelist.forEach(url => appendUrl(url));
 	});
 }
 
