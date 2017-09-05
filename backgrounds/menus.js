@@ -1,3 +1,23 @@
+let tmpWhitelist = {
+    list: [],
+
+    add: function(url) {
+	if (this.list.indexOf(url) == -1)
+	    this.list.push(url);
+    },
+
+    use: function(url) {
+	const index = this.list.indexOf(url);
+
+	if (index == -1)
+	    return false;
+	else {
+	    this.list.splice(index, 1);
+	    return true;
+	}
+    }
+};
+
 const createMenus = () => {
     browser.contextMenus.create({
 	id: "dvm",
@@ -45,6 +65,7 @@ const createMenus = () => {
 	    });
 	    break;
 	case "here":
+	    tmpWhitelist.add(info.linkUrl);
 	    browser.tabs.create({url: info.linkUrl});
 	    break;
 	}
