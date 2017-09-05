@@ -4,8 +4,8 @@ const routeRequest = details => {
 	    items => {
 		const whitelist = items.whitelist;
 		const settings = items.settings;
-		
-		if (!tmpWhitelist.use(details.url) && settings.default_action != "here" && whitelist.indexOf(details.url) == -1) {
+
+		if (!tmpWhitelist.use(details.url) && settings.default_action != "here" && !whitelist.test(details.url)) {
 		    const vmname = (!settings.default_action || settings.default_action == "dvm") ? "$dispvm" : settings.vmname;
 		    openurl(vmname, details.url);
 		    browser.tabs.remove(details.tabId);

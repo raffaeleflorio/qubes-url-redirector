@@ -1,9 +1,9 @@
-function addToWhitelist(url)
+function addToWhitelist(reg)
 {
     return getWhitelist()
 	.then(whitelist => {
-	    if (whitelist.indexOf(url) == -1 && url.match(/^\w*:\/\//)) {
-		whitelist.push(url);
+	    if (whitelist.reg.indexOf(reg) == -1) {
+		whitelist.reg.push(reg);
 		return saveWhitelist(whitelist);
 	    } else {
 		throw false;
@@ -25,23 +25,32 @@ function getWhitelistAndSettings()
 {
     return browser.storage.local.get(["settings", "whitelist"])
 	.then(items => {
-	    if (!items.whitelist)
-		items.whitelist = [];
-
+	    if (!items.whitelist) {
+		items.whitelist = { };
+		items.whitelist.reg = [];
+	    }
+		
 	    if (!items.settings)
 		items.settings = {};
+
+	    items.whitelist.test = function(url) {
+		let found = false;
+		for (let i = 0; i < this.reg.length && !found; i++)
+		    found = (new RegExp(this.reg[i])).test(url);
+		return found;
+	    };
 
 	    return items;
 	});
 }
 
-function rmFromWhitelist(url)
+function rmFromWhitelist(reg)
 {
     return getWhitelist()
 	.then(whitelist => {
-	    const index = whitelist.indexOf(url);
+	    const index = whitelist.reg.indexOf(reg);
 	    if (index != -1) {
-		whitelist.splice(index, 1);
+		whitelist.reg.splice(index, 1);
 		saveWhitelist(whitelist);
 		return true;
 	    } else {

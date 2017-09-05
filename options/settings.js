@@ -1,11 +1,11 @@
 const background = browser.extension.getBackgroundPage();
 
-function appendUrl(url)
+function appendReg(reg)
 {
     const tbody = document.getElementById("whitelistTbl").querySelector("tbody");
     const tr = document.createElement("tr");
     let td = document.createElement("td");
-    td.textContent = url;
+    td.textContent = reg;
     tr.appendChild(td);
     const btn = document.createElement("button");
     btn.className = "rmUrlBtn";
@@ -28,7 +28,7 @@ function addToWhitelist(e)
 	.then(
 	    () => {
 		alert("Saved successfully!");
-		appendUrl(url);
+		appendReg(url);
 	    },
 	    () => alert("Failed to save!")
 	);
@@ -56,7 +56,7 @@ function restoreWhitelist()
 {
     background.getWhitelist()
 	.then(whitelist => {
-	    whitelist.forEach(url => appendUrl(url));
+	    whitelist.reg.forEach(reg => appendReg(reg));
 	});
 }
 
@@ -69,7 +69,7 @@ function rmFromWhitelist(e)
 	.then(
 	    () => {
 		tr.parentNode.removeChild(tr);
-		alert("URL removed successfully!");
+		alert("RegExp removed successfully!");
 	    },
 	    () => alert("Failed to remove!")
 	);
