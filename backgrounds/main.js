@@ -49,7 +49,7 @@ function modifyWhitelist(oldRegex, newRegex)
     return getWhitelist()
 	.then(whitelist => {
 	    const index = whitelist.regex.indexOf(oldRegex);
-	    if (newRegex && index != -1) {
+	    if (newRegex && index != -1 && whitelist.regex.indexOf(newRegex) == -1) {
 		whitelist.regex[index] = newRegex;
 		return saveWhitelist(whitelist);
 	    } else {
