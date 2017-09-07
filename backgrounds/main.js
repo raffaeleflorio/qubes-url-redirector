@@ -2,7 +2,7 @@ function addToWhitelist(regex)
 {
     return getWhitelist()
 	.then(whitelist => {
-	    if (whitelist.regex.indexOf(regex) == -1) {
+	    if (regex && whitelist.regex.indexOf(regex) == -1) {
 		whitelist.regex.push(regex);
 		return saveWhitelist(whitelist);
 	    } else {
@@ -41,6 +41,20 @@ function getWhitelistAndSettings()
 	    };
 
 	    return items;
+	});
+}
+
+function modifyWhitelist(oldRegex, newRegex)
+{
+    return getWhitelist()
+	.then(whitelist => {
+	    const index = whitelist.regex.indexOf(oldRegex);
+	    if (newRegex && index != -1) {
+		whitelist.regex[index] = newRegex;
+		return saveWhitelist(whitelist);
+	    } else {
+		throw false;
+	    }
 	});
 }
 

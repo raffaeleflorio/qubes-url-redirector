@@ -4,16 +4,29 @@ function appendRegex(regex)
 {
     const tbody = document.getElementById("whitelistTbl").querySelector("tbody");
     const tr = document.createElement("tr");
+
     let td = document.createElement("td");
     td.textContent = regex;
     tr.appendChild(td);
-    const btn = document.createElement("button");
-    btn.className = "rmRegex";
-    btn.textContent = "Remove";
+
+    let btn = document.createElement("button");
+    btn.className = "modifyRegex";
+    btn.textContent = "Modify";
+    btn.addEventListener("click", modifyRegex);
+
     td = document.createElement("td");
-    btn.addEventListener("click", rmFromWhitelist);
     td.appendChild(btn);
     tr.appendChild(td);
+
+    btn = document.createElement("button");
+    btn.className = "rmRegex";
+    btn.textContent = "Remove";
+    btn.addEventListener("click", rmFromWhitelist);
+
+    td = document.createElement("td");
+    td.appendChild(btn);
+    tr.appendChild(td);
+    
     tbody.appendChild(tr);
 }
 
@@ -34,6 +47,23 @@ function addToWhitelist(e)
 	);
 
     e.preventDefault();
+}
+
+function modifyRegex(e)
+{
+    const td = e.target.parentNode.parentNode.querySelector("td");
+    const oldRegex = td.textContent;
+    const newRegex = prompt("Insert new RegExp:");
+
+    if (newRegex)
+	background.modifyWhitelist(oldRegex, newRegex)
+	    .then(
+		() => {
+		    alert("Modifed successfully!");
+		    td.textContent = newRegex;
+		},
+		() => alert("Unable to modify!")
+	    );
 }
 
 function restoreSettings()
