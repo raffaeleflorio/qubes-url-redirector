@@ -1,9 +1,9 @@
-function addToWhitelist(reg)
+function addToWhitelist(regex)
 {
     return getWhitelist()
 	.then(whitelist => {
-	    if (whitelist.reg.indexOf(reg) == -1) {
-		whitelist.reg.push(reg);
+	    if (whitelist.regex.indexOf(regex) == -1) {
+		whitelist.regex.push(regex);
 		return saveWhitelist(whitelist);
 	    } else {
 		throw false;
@@ -27,16 +27,16 @@ function getWhitelistAndSettings()
 	.then(items => {
 	    if (!items.whitelist) {
 		items.whitelist = { };
-		items.whitelist.reg = [];
+		items.whitelist.regex = [];
 	    }
 		
 	    if (!items.settings)
 		items.settings = {};
 
-	    items.whitelist.test = function(url) {
+	    items.whitelist.test = function(regex) {
 		let found = false;
-		for (let i = 0; i < this.reg.length && !found; i++)
-		    found = (new RegExp(this.reg[i])).test(url);
+		for (let i = 0; i < this.regex.length && !found; i++)
+		    found = (new RegExp(this.regex[i])).test(regex);
 		return found;
 	    };
 
@@ -44,13 +44,13 @@ function getWhitelistAndSettings()
 	});
 }
 
-function rmFromWhitelist(reg)
+function rmFromWhitelist(regex)
 {
     return getWhitelist()
 	.then(whitelist => {
-	    const index = whitelist.reg.indexOf(reg);
+	    const index = whitelist.regex.indexOf(regex);
 	    if (index != -1) {
-		whitelist.reg.splice(index, 1);
+		whitelist.regex.splice(index, 1);
 		saveWhitelist(whitelist);
 		return true;
 	    } else {

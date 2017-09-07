@@ -1,14 +1,14 @@
 const background = browser.extension.getBackgroundPage();
 
-function appendReg(reg)
+function appendRegex(regex)
 {
     const tbody = document.getElementById("whitelistTbl").querySelector("tbody");
     const tr = document.createElement("tr");
     let td = document.createElement("td");
-    td.textContent = reg;
+    td.textContent = regex;
     tr.appendChild(td);
     const btn = document.createElement("button");
-    btn.className = "rmUrlBtn";
+    btn.className = "rmRegex";
     btn.textContent = "Remove";
     td = document.createElement("td");
     btn.addEventListener("click", rmFromWhitelist);
@@ -20,15 +20,15 @@ function appendReg(reg)
 function addToWhitelist(e)
 {
     const form = e.target;
-    const url = form["url"].value;
+    const regex = form["regex"].value;
     
-    form["url"].value = "";
+    form["regex"].value = "";
 
-    background.addToWhitelist(url)
+    background.addToWhitelist(regex)
 	.then(
 	    () => {
 		alert("Saved successfully!");
-		appendReg(url);
+		appendRegex(regex);
 	    },
 	    () => alert("Failed to save!")
 	);
@@ -56,16 +56,16 @@ function restoreWhitelist()
 {
     background.getWhitelist()
 	.then(whitelist => {
-	    whitelist.reg.forEach(reg => appendReg(reg));
+	    whitelist.regex.forEach(regex => appendRegex(regex));
 	});
 }
 
 function rmFromWhitelist(e)
 {
     const tr = e.target.parentNode.parentNode;
-    const url = tr.querySelector("td").textContent;
+    const regex = tr.querySelector("td").textContent;
     
-    background.rmFromWhitelist(url)
+    background.rmFromWhitelist(regex)
 	.then(
 	    () => {
 		tr.parentNode.removeChild(tr);
