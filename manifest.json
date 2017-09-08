@@ -8,7 +8,10 @@
 	    "id": "qubes-url-redirector@raffaeleflorio.github.io"
 	}
     },
-
+    "icons": {
+	"48": "images/qubes-logo.png"
+    },
+    
     "author": "Raffaele Florio",
     "homepage_url": "https://github.com/raffaeleflorio/qubes-url-redirector",
 
@@ -19,7 +22,8 @@
 
     "browser_action": {
 	"browser_style": true,
-	"default_title": "Qubes URL Redirector"
+	"default_title": "Qubes URL Redirector",
+	"default_icon": "images/qubes-logo.png"
     },
 
     "background": {
