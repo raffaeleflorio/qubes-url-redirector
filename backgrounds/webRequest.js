@@ -1,9 +1,10 @@
 const routeRequest = details => {
-    return getWhitelistAndSettings()
+    
+    return Promise.all([getSettings(), getWhitelist()])
 	.then(
 	    items => {
-		const whitelist = items.whitelist;
-		const settings = items.settings;
+		const whitelist = items[1];
+		const settings = items[0];
 
 		if (!tmpWhitelist.use(details.url) && settings.default_action != "here" && !whitelist.test(details.url)) {
 		    const vmname = (!settings.default_action || settings.default_action == "dvm") ? "$dispvm" : settings.vmname;
@@ -13,7 +14,8 @@ const routeRequest = details => {
 		}
 		else
 		    return {cancel: false} /* open here */
-	    },
+	    })
+	.catch(
 	    () => {
 		browser.tabs.remove(details.tabId);
 		return {cancel: true}

@@ -42,7 +42,8 @@ function addToWhitelist(e)
 	    () => {
 		alert("Saved successfully!");
 		appendRegex(regex);
-	    },
+	    })
+	.catch(
 	    () => alert("Failed to save!")
 	);
 
@@ -61,7 +62,9 @@ function modifyRegex(e)
 		() => {
 		    alert("Modifed successfully!");
 		    td.textContent = newRegex;
-		},
+		}
+	    )
+	    .catch(
 		() => alert("Unable to modify!")
 	    );
 }
@@ -100,7 +103,8 @@ function rmFromWhitelist(e)
 	    () => {
 		tr.parentNode.removeChild(tr);
 		alert("RegExp removed successfully!");
-	    },
+	    })
+	.catch (
 	    () => alert("Failed to remove!")
 	);
 }
@@ -116,7 +120,9 @@ function saveSettings(e)
 
     background.saveSettings(settings)
 	.then(
-	    () => alert("Saved succesfully!"),
+	    () => alert("Saved succesfully!")
+	)
+	.catch(
 	    () => {
 		alert("Failed to save!");
 		restoreSettings();

@@ -13,34 +13,27 @@ function addToWhitelist(regex)
 
 function getSettings()
 {
-    return getWhitelistAndSettings().then(items => { return items.settings });
+    return browser.storage.local.get("settings")
+	.then(item => {
+	    item = item.settings ? item.settings : { };
+	    return item;
+	});
 }
 
 function getWhitelist()
 {
-    return getWhitelistAndSettings().then(items => { return items.whitelist });
-}
+    return browser.storage.local.get("whitelist")
+	.then(item => {
+	    item = item.whitelist ? item.whitelist : {regex: []};
 
-function getWhitelistAndSettings()
-{
-    return browser.storage.local.get(["settings", "whitelist"])
-	.then(items => {
-	    if (!items.whitelist) {
-		items.whitelist = { };
-		items.whitelist.regex = [];
-	    }
-		
-	    if (!items.settings)
-		items.settings = {};
-
-	    items.whitelist.test = function(regex) {
+	    item.test = function(regex) {
 		let found = false;
 		for (let i = 0; i < this.regex.length && !found; i++)
 		    found = (new RegExp(this.regex[i])).test(regex);
 		return found;
 	    };
-
-	    return items;
+	    
+	    return item;
 	});
 }
 
