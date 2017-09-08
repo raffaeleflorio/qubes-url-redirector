@@ -1,0 +1,61 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+html, body {
+    color: #333;
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+section {
+    margin: 15px 0px 15px 0px;
+}
+section > * {
+    padding-left: 15px;
+}
+
+article > * {
+    padding-left: 15px;
+}
+
+dl > dd {
+    padding-left: 30px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    line-height: 1.2;
+    margin-bottom: 5px;
+    padding: 0px;
+}
+
+.qubes-danger {
+    color: #BD2727;
+}
+
+#whitelistTbl {
+    display: none;
+    margin-top: 30px;
+    
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #333;
+}
+#whitelistTbl thead {
+    background-color: #d2d2d2;
+}
+#whitelistTbl th, td {
+    padding: 5px;
+    padding-bottom: 6px;
+    vertical-align: middle;
+    text-align: center;
+    border-bottom: 1px solid #000;
+}
+#whitelistTbl td:first-child{
+    width: 100%;
+}
+
+#whitelistFrm input[name="regex"] {
+    width: 40%;
+}

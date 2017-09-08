@@ -1,8 +1,12 @@
 const background = browser.extension.getBackgroundPage();
+const whitelistTbl = document.getElementById("whitelistTbl");
+
 
 function appendRegex(regex)
 {
-    const tbody = document.getElementById("whitelistTbl").querySelector("tbody");
+    whitelistTbl.style.display = "table";
+    
+    const tbody = whitelistTbl.querySelector("tbody");
     const tr = document.createElement("tr");
 
     let td = document.createElement("td");
@@ -52,11 +56,12 @@ function addToWhitelist(e)
 
 function modifyRegex(e)
 {
+    /* btn -> td -> tr -> first td */
     const td = e.target.parentNode.parentNode.querySelector("td");
     const oldRegex = td.textContent;
-    const newRegex = prompt("Insert new RegExp:");
+    const newRegex = prompt("Insert new RegExp:", oldRegex);
 
-    if (newRegex)
+    if (newRegex && newRegex != oldRegex)
 	background.modifyWhitelist(oldRegex, newRegex)
 	    .then(
 		() => {
@@ -95,14 +100,18 @@ function restoreWhitelist()
 
 function rmFromWhitelist(e)
 {
+    /* btn -> td -> tr */
     const tr = e.target.parentNode.parentNode;
     const regex = tr.querySelector("td").textContent;
     
     background.rmFromWhitelist(regex)
 	.then(
 	    () => {
-		tr.parentNode.removeChild(tr);
 		alert("RegExp removed successfully!");
+
+		if (whitelistTbl.rows.length == 2)
+		    whitelistTbl.style.display = "none";
+		tr.parentNode.removeChild(tr);
 	    })
 	.catch (
 	    () => alert("Failed to remove!")

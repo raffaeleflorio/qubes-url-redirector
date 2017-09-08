@@ -2,62 +2,49 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <style>
-      html,body {
-      font-size: 16px;
-      line-height: 1.8;
-      }
-
-      #whitelistTbl {
-      width: 100%;
-      border-collapse: collapse;
-      border: 1px solid #000;
-      }
-
-      #whitelistTbl thead {
-      background-color: #63a0ff;
-      }
-
-      #whitelistTbl th, td {
-      text-align: center;
-      border-bottom: 1px solid #000;
-      }
-
-      #whitelistTbl td:first-child{
-      width: 100%;
-      }
-
-      #whitelistFrm {
-      margin: 40px 0px 40px 0px;
-      }
-    </style>
+    <link href="./settings.css" rel="stylesheet"></link>
   </head>
   <body>
-    <form id="settingsFrm">
-      Default action:<br>
-      <label><input type="radio" name="default_action" id="dvm" value="dvm" checked>Open in dvm</label><br>
-      <label><input type="radio" name="default_action" id="default-vm" value="default-vm">Open in default VM</label><br>
-      <label style="color: red"><input type="radio" name="default_action" id="here" value="here">Open here</label><br>
-      <label>Default VM: <input type="text" name="vmname"></label><br>
-      <button type="submit">Save</button>
-    </form>
+    <section>
+      <h2> Default Behavior </h2>
+      <form id="settingsFrm">
+	<label>
+	  <input type="radio" name="default_action" id="dvm" value="dvm" checked> Open in dvm
+	</label><br>
 
-    <form id="whitelistFrm">
-      <label>Add Javascript RegExp URL to whitelist: <input type="text" name="regex"></label><br>
-      <button type="submit">Save</button>
-    </form>
+	<label>
+	  <input type="radio" name="default_action" id="default-vm" value="default-vm"> Open in default VM
+	</label><br>
 
-    <table id="whitelistTbl">
-      <caption>Whitelisted RegExp URL</caption>
-      <thead>
-	<th>RegExp</th>
-	<th>Modify</th>
-	<th>Remove</th>
-      </thead>
-      <tbody>
-      </tbody>
-    </table>
+	<label class="qubes-danger">
+	  <input type="radio" name="default_action" id="here" value="here"> Open here
+	</label><br>
 
+	<label>Default VM: <input type="text" name="vmname"></label><br>
+
+	<button type="submit">Save</button>
+      </form>
+    </section>
+    
+    <section>
+      <h2> Whitelist </h2>
+      <em> To escape special chars use a backslash. Slash's escape is optional.</em>
+      <form id="whitelistFrm">
+	<label> Javascript RegExp: <input type="text" name="regex"></label><br>
+	<button type="submit">Add</button>
+      </form>
+
+      <table id="whitelistTbl">
+	<caption><h3>Whitelisted RegExp URL<h3></caption>
+	<thead>
+	  <th>RegExp</th>
+	  <th>Modify</th>
+	  <th>Remove</th>
+	</thead>
+	<tbody>
+	</tbody>
+      </table>
+    </section>
     <script src="settings.js"></script>
   </body>
 </html>
