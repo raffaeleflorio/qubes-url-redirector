@@ -30,7 +30,14 @@
       <h2> Whitelist </h2>
       <em> To escape special chars use a backslash. Slash's escape is optional.</em>
       <form id="whitelistFrm">
-	<label> Javascript RegExp: <input type="text" name="regex"></label><br>
+	<section>
+	  <h3> Type to add: </h3>
+	  <label><input type="radio" name="type" value="regex" checked> RegExp </label><br>
+	  <label><input type="radio" name="type" value="domain"> Domain </label>
+	</section>
+
+	<label id="wl_label_type" for="wl_regex"> Javascript RegExp: </label>
+	<input type="text" id="wl_regex" name="regex"><br>
 	<button type="submit">Add</button>
       </form>
 

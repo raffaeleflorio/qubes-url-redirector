@@ -1,5 +1,7 @@
 const background = browser.extension.getBackgroundPage();
 const whitelistTbl = document.getElementById("whitelistTbl");
+const whitelistFrm = document.getElementById("whitelistFrm");
+let regex_prefix = "";
 
 
 function appendRegex(regex)
@@ -41,15 +43,18 @@ function addToWhitelist(e)
     
     form["regex"].value = "";
 
-    background.addToWhitelist(regex)
-	.then(
-	    () => {
-		alert("Saved successfully!");
-		appendRegex(regex);
-	    })
-	.catch(
-	    () => alert("Failed to save!")
-	);
+    if (form["type"].value == "domain" && !(/^(?:\w\.)*\w+\.\w+/.test(regex)))
+	alert("Invalid domain!");
+    else
+	background.addToWhitelist(regex_prefix+regex)
+	    .then(
+		() => {
+		    alert("Saved successfully!");
+		    appendRegex(regex_prefix+regex);
+		})
+	    .catch(
+		() => alert("Failed to save!")
+	    );
 
     e.preventDefault();
 }
@@ -145,4 +150,17 @@ restoreSettings();
 restoreWhitelist();
 
 document.getElementById("settingsFrm").addEventListener("submit", saveSettings);
-document.getElementById("whitelistFrm").addEventListener("submit", addToWhitelist);
+
+whitelistFrm.addEventListener("submit", addToWhitelist);
+
+whitelistFrm["type"].forEach(radio => radio.addEventListener("change", e => {
+    
+    if (e.target.value == "regex") {
+	document.getElementById("wl_label_type").textContent = " Javascript RegExp: ";
+	regex_prefix = "";
+    }
+    else {
+	document.getElementById("wl_label_type").textContent = " Domain: www.";
+	regex_prefix = "^(?:https?://)?(?:www\\.)?";
+    }
+}));
