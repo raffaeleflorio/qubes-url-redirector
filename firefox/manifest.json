@@ -28,6 +28,7 @@
 
     "background": {
 	"scripts": [
+	    "backgrounds/polyfill.js",
 	    "backgrounds/main.js",
 	    "backgrounds/native.js",
 	    "backgrounds/menus.js",

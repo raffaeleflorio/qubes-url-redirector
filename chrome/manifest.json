@@ -1,0 +1,44 @@
+{
+    "manifest_version": 2,
+
+    "name": "qubes-url-redirector",
+    "version": "1.2",
+
+    "icons": {
+	"48": "images/qubes-logo.png"
+    },
+    
+    "author": "Raffaele Florio",
+    "homepage_url": "https://github.com/raffaeleflorio/qubes-url-redirector",
+
+    "options_ui": {
+	"page": "options/settings.html",
+	"chrome_style": true,
+	"open_in_tab": true
+    },
+
+    "browser_action": {
+	"chrome_style": true,
+	"default_title": "Qubes URL Redirector",
+	"default_icon": "images/qubes-logo.png"
+    },
+
+    "background": {
+	"scripts": [
+	    "backgrounds/polyfill.js",
+	    "backgrounds/main.js",
+	    "backgrounds/native.js",
+	    "backgrounds/menus.js",
+	    "backgrounds/webRequest.js"
+	]
+    },
+    
+    "permissions": [
+	"contextMenus",
+	"storage",
+	"nativeMessaging",
+	"webRequest",
+	"webRequestBlocking",
+	"<all_urls>"
+    ]    
+}

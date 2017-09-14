@@ -59,7 +59,7 @@ const createMenus = () => {
 	case "some-vm":
 	    browser.windows.create({
 		type: "popup",
-		url: "choose-vm/popup.html?url=" + encodeURIComponent(info.linkUrl),
+		url: "popups/choose-vm.html?url=" + encodeURIComponent(info.linkUrl),
 		width: 600,
 		height: 160
 	    });
