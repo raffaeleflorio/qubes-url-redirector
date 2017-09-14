@@ -9,7 +9,7 @@
 	}
     },
     "icons": {
-	"48": "images/qubes-logo.png"
+	"48": "qubes-logo.png"
     },
     
     "author": "Raffaele Florio",
@@ -23,7 +23,7 @@
     "browser_action": {
 	"browser_style": true,
 	"default_title": "Qubes URL Redirector",
-	"default_icon": "images/qubes-logo.png"
+	"default_icon": "qubes-logo.png"
     },
 
     "background": {
