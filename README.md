@@ -9,3 +9,5 @@ In order to use this extension with these browsers you have to disable `Use a pr
 # Google Search `rwt` issue
 
 In Google Search when `onmousedown` event fires on link element, `rwt` function is called. It's a Javascript function that replaces link's URL with a custom Google's URL that redirects to original URL... So in order to prevent this behavior an external extension is needed. I did not implement this feature on this extension because it's more a privacy related issue than security one. Soon I'll write it.
+
+However because with `rwt` you cannot use this extension with Google Search I implemented escaping of manipulated URL.

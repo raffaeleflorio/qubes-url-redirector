@@ -65,6 +65,12 @@ const createMenus = () => {
 	    });
 	    break;
 	case "here":
+	    const google_rwt = /^(?:https?:\/\/)?(?:www\.)?google\.\w+\/url\?/;
+	    const url_rwt = (new URL(info.linkUrl)).searchParams.get("url");
+
+	    if (google_rwt.test(info.linkUrl) && url_rwt)
+		info.linkUrl = url_rwt;
+
 	    tmpWhitelist.add(info.linkUrl);
 	    browser.tabs.create({url: info.linkUrl});
 	    break;
