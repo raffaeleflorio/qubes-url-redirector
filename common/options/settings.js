@@ -43,7 +43,7 @@ function addToWhitelist(e)
     
     form["regex"].value = "";
 
-    if (form["type"].value == "domain" && !(/^(?:\w\.)*\w+\.\w+/.test(regex)))
+    if (form["type"].value == "domain" && !(/^(\w+\.\w+)+$/.test(regex)))
 	alert("Invalid domain!");
     else
 	background.addToWhitelist(regex_prefix+regex)
