@@ -1,3 +1,2 @@
-- xpi
-- crx
-- improve README
+- improve redirection behavior (?): ask open here or treat it normally?, redirect's settings?, treat it normally as it's currently?
+- implementation in thunderbird
