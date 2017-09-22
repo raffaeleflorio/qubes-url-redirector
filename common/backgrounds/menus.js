@@ -2,14 +2,14 @@ let tmpWhitelist = {
     list: [],
 
     add: function(url) {
-	if (this.list.indexOf(url) == -1)
+	if (this.list.indexOf(url) === -1)
 	    this.list.push(url);
     },
 
     use: function(url) {
 	const index = this.list.indexOf(url);
 
-	if (index == -1)
+	if (index === -1)
 	    return false;
 	else {
 	    this.list.splice(index, 1);
@@ -81,8 +81,8 @@ const createMenus = () => {
 const getDefaultVmName = () => {
     return getSettings()
 	.then(settings => {
-	    settings.menu_enabled = settings.vmname && settings.vmname != "" ? true : false;
-	    settings.vmname = settings.vmname && settings.vmname != "" ? settings.vmname : "default";
+	    settings.menu_enabled = settings.vmname ? true : false;
+	    settings.vmname = settings.vmname ? settings.vmname : "default";
 	    return settings;
 	});
 }

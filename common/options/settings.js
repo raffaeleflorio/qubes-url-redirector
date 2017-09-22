@@ -43,7 +43,7 @@ function addToWhitelist(e)
     
     form["regex"].value = "";
 
-    if (form["type"].value == "domain" && !(/^(\w+\.\w+)+$/.test(regex)))
+    if (form["type"].value === "domain" && !(/^(\w+\.\w+)+$/.test(regex)))
 	alert("Invalid domain!");
     else
 	background.addToWhitelist(regex_prefix+regex)
@@ -66,7 +66,7 @@ function modifyRegex(e)
     const oldRegex = td.textContent;
     const newRegex = prompt("Insert new RegExp:", oldRegex);
 
-    if (newRegex && newRegex != oldRegex)
+    if (newRegex && newRegex !== oldRegex)
 	background.modifyWhitelist(oldRegex, newRegex)
 	    .then(
 		() => {
@@ -114,7 +114,7 @@ function rmFromWhitelist(e)
 	    () => {
 		alert("RegExp removed successfully!");
 
-		if (whitelistTbl.rows.length == 2)
+		if (whitelistTbl.rows.length === 2)
 		    whitelistTbl.style.display = "none";
 		tr.parentNode.removeChild(tr);
 	    })
@@ -155,7 +155,7 @@ whitelistFrm.addEventListener("submit", addToWhitelist);
 
 whitelistFrm["type"].forEach(radio => radio.addEventListener("change", e => {
     
-    if (e.target.value == "regex") {
+    if (e.target.value === "regex") {
 	document.getElementById("wl_label_type").textContent = " Javascript RegExp: ";
 	regex_prefix = "";
     }

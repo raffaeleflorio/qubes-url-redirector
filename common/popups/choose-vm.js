@@ -7,7 +7,7 @@ function redirect(e)
 
     const vmname = form["vmname"].value;
 
-    if (!vmname || vmname == "") {
+    if (!vmname) {
 	alert("VM name cannot be empty!");
     } else {
 	browser.extension.getBackgroundPage().openurl(vmname, url);

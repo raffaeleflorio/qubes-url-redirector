@@ -5,7 +5,7 @@ const routeRequest = details => {
     if (!/^https?:\/\//.test(details.url))
 	return {cancel: false};
 
-    if (processedRequest.indexOf(details.requestId) != -1)
+    if (processedRequest.indexOf(details.requestId) !== -1)
 	return {cancel: true};
     
     return Promise.all([getSettings(), getWhitelist()])
@@ -14,10 +14,10 @@ const routeRequest = details => {
 		const whitelist = items[1];
 		const settings = items[0];
 
-		const openHere = tmpWhitelist.use(details.url) || settings.default_action == "here" || whitelist.test(details.url);
+		const openHere = tmpWhitelist.use(details.url) || settings.default_action === "here" || whitelist.test(details.url);
 
 		if (!openHere) {
-		    const vmname = (!settings.default_action || settings.default_action == "dvm") ? "$dispvm" : settings.vmname;
+		    const vmname = (!settings.default_action || settings.default_action === "dvm") ? "$dispvm" : settings.vmname;
 		    openurl(vmname, details.url);
 		    browser.tabs.remove(details.tabId);
 		    processedRequest.push(details.requestId);
