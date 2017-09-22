@@ -29,6 +29,7 @@
     "background": {
 	"scripts": [
 	    "backgrounds/polyfill.js",
+	    "backgrounds/anti_rwt.js",
 	    "backgrounds/main.js",
 	    "backgrounds/native.js",
 	    "backgrounds/menus.js",
