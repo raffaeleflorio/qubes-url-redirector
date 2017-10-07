@@ -1,5 +1,3 @@
-- FIX: regexp issues in settings
-- add resource radio in settings
 - improve code
 - pageAction to disable in a specified tab
 - implementation in thunderbird

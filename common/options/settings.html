@@ -28,12 +28,13 @@
     
     <section>
       <h2> Whitelist </h2>
-      <em> To escape special chars use a backslash. Slash's escape is optional.</em>
+      <em id="wl_info_regex"> To escape special chars use a backslash. Slash's escape is optional.</em>
       <form id="whitelistFrm">
 	<section>
 	  <h3> Type to add: </h3>
 	  <label><input type="radio" name="type" value="regex" checked> RegExp </label><br>
-	  <label><input type="radio" name="type" value="domain"> Domain </label>
+	  <label><input type="radio" name="type" value="domain"> Domain </label><br>
+	  <label><input type="radio" name="type" value="exact"> Exact match: </label>
 	</section>
 
 	<label id="wl_label_type" for="wl_regex"> Javascript RegExp: </label>

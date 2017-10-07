@@ -1,8 +1,6 @@
 const background = browser.extension.getBackgroundPage();
 const whitelistTbl = document.getElementById("whitelistTbl");
 const whitelistFrm = document.getElementById("whitelistFrm");
-let regex_prefix = "";
-
 
 function appendRegex(regex)
 {
@@ -39,23 +37,34 @@ function appendRegex(regex)
 function addToWhitelist(e)
 {
     const form = e.target;
-    const regex = form["regex"].value;
-    
+    let regex = form["regex"].value;
+
     form["regex"].value = "";
 
-    if (form["type"].value === "domain" && !(/^([\w-]+\.\w+)+$/.test(regex)))
+    const isDomain = form["type"].value === "domain";
+    const isExact = form["type"].value === "exact";
+    
+    if (isDomain && !(/^([\w-]+\.\w+)+$/.test(regex))) {
 	alert("Invalid domain!");
-    else
-	background.addToWhitelist(regex_prefix+regex)
+    } else {
+	regex = isDomain || isExact ? regex.replace(/[|\\{}\[\]^$+*?.]/g, "\\$&") : regex;
+
+	if (isDomain)
+	    regex = "^(?:https?://)?(?:www\\.)?" + regex;
+	else if (isExact)
+	    regex = "^" + regex + "$";
+	
+	background.addToWhitelist(regex)
 	    .then(
 		() => {
 		    alert("Saved successfully!");
-		    appendRegex(regex_prefix+regex);
+		    appendRegex(regex);
 		})
 	    .catch(
 		() => alert("Failed to save!")
 	    );
-
+    }
+    
     e.preventDefault();
 }
 
@@ -157,10 +166,12 @@ whitelistFrm["type"].forEach(radio => radio.addEventListener("change", e => {
     
     if (e.target.value === "regex") {
 	document.getElementById("wl_label_type").textContent = " Javascript RegExp: ";
-	regex_prefix = "";
-    }
-    else {
+	document.getElementById("wl_info_regex").style.display = "initial";
+    } else if (e.target.value === "domain") {
 	document.getElementById("wl_label_type").textContent = " Domain: www.";
-	regex_prefix = "^(?:https?://)?(?:www\\.)?";
+	document.getElementById("wl_info_regex").style.display = "none";
+    } else if (e.target.value === "exact") {
+	document.getElementById("wl_label_type").textContent = " String: ";
+	document.getElementById("wl_info_regex").style.display = "none";
     }
 }));
