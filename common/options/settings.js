@@ -45,7 +45,7 @@ function addToWhitelist(e)
     const isExact = form["type"].value === "exact";
     
     if (isDomain && !(/^([\w-]+\.\w+)+$/.test(regex))) {
-	alert("Invalid domain!");
+	alert("Invalid domain name!");
     } else {
 	regex = isDomain || isExact ? regex.replace(/[|\\{}\[\]^$+*?.]/g, "\\$&") : regex;
 
@@ -166,12 +166,12 @@ whitelistFrm["type"].forEach(radio => radio.addEventListener("change", e => {
     
     if (e.target.value === "regex") {
 	document.getElementById("wl_label_type").textContent = " Javascript RegExp: ";
-	document.getElementById("wl_info_regex").style.display = "initial";
+	document.getElementById("wl_info_regex").textContent = " To escape regexp chars use a backslash. Slash's escape is optional. ";
     } else if (e.target.value === "domain") {
-	document.getElementById("wl_label_type").textContent = " Domain: www.";
-	document.getElementById("wl_info_regex").style.display = "none";
+	document.getElementById("wl_label_type").textContent = " Domain name: www.";
+	document.getElementById("wl_info_regex").testContent = " Escaping of regexp chars is done automatically. ";
     } else if (e.target.value === "exact") {
 	document.getElementById("wl_label_type").textContent = " String: ";
-	document.getElementById("wl_info_regex").style.display = "none";
+	document.getElementById("wl_info_regex").testContent = " Escaping of regexp chars is done automatically.. ";
     }
 }));
