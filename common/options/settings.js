@@ -169,9 +169,9 @@ whitelistFrm["type"].forEach(radio => radio.addEventListener("change", e => {
 	document.getElementById("wl_info_regex").textContent = " To escape regexp chars use a backslash. Slash's escape is optional. ";
     } else if (e.target.value === "domain") {
 	document.getElementById("wl_label_type").textContent = " Domain name: www.";
-	document.getElementById("wl_info_regex").testContent = " Escaping of regexp chars is done automatically. ";
+	document.getElementById("wl_info_regex").textContent = " Escaping of regexp chars is done automatically. ";
     } else if (e.target.value === "exact") {
 	document.getElementById("wl_label_type").textContent = " String: ";
-	document.getElementById("wl_info_regex").testContent = " Escaping of regexp chars is done automatically.. ";
+	document.getElementById("wl_info_regex").textContent = " Escaping of regexp chars is done automatically.. ";
     }
 }));
