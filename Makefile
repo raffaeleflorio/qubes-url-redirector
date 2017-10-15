@@ -10,6 +10,8 @@ help:
 setup:
 	sudo cp common/qvm-open-in-vm-we.py /usr/local/bin/
 	sudo chmod u+x /usr/local/bin/qvm-open-in-vm-we.py
+	git submodule init
+	git submodule update
 
 chrome: setup
 	cp -r chrome/NativeMessagingHosts ~/.config/google-chrome/
