@@ -6,8 +6,6 @@ const routeRequest = details => {
 
     if (processedRequest.indexOf(details.requestId) !== -1)
 	return {cancel: false};
-    else
-	processedRequest.push(details.requestId);
     
     return Promise.all([getSettings(), getWhitelist()])
 	.then(
@@ -22,6 +20,8 @@ const routeRequest = details => {
 		    browser.tabs.remove(details.tabId);
 		    return {cancel: true}
 		} else {
+		    if (processedRequest.indexOf(details.requestId) === -1)
+			processedRequest.push(details.requestId);
 		    return {cancel: false}
 		}
 	    })
