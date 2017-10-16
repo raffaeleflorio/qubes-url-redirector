@@ -28,7 +28,7 @@
 
     "background": {
 	"scripts": [
-	    "backgrounds/polyfill.js"
+	    "backgrounds/polyfill.js",
 	    "backgrounds/main.js",
 	    "backgrounds/native.js",
 	    "backgrounds/menus.js",
@@ -42,6 +42,7 @@
 	"nativeMessaging",
 	"webRequest",
 	"webRequestBlocking",
+	"tab",
 	"<all_urls>"
     ]    
 }
