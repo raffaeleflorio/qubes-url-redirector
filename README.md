@@ -5,7 +5,9 @@ It has a settings page embedded in browser where you manage default behavior and
 
 You can see interface in screenshots directory.
 
-# Tested Browsers
+# Supported Browsers
+  In theory every browser compatible with WebExtension API.
+  ### Tested Browsers
   - Firefox (according API's reference from 50 onwards)
   - Chrome/Chromium (according API's reference from 42 onwards)
 
