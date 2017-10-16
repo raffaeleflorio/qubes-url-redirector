@@ -36,7 +36,6 @@ If you encounter some problems, don't hesitate to contact me!
 # Chrome/Chromium prediction issue
 In order to use this extension with these browsers you have to disable `Use a prediction service to load pages more quickly` feature. If the latter is enabled the browser connects to a predetermined server before user consent.
 
-# Google Search `rwt` issue
-In Google Search when `onmousedown` event fires on link element, `rwt` function is called. It's a Javascript function that replaces link's URL with a custom Google's URL that redirects to original URL... So in order to prevent this behavior an external extension is needed. I did not implement this feature on this extension because it's more a privacy related issue than security one. Maybe I'll write it.
-
-However because with `rwt` you cannot use properly this extension with Google Search I implemented escaping of manipulated URL.
+# Google Search `rwt` issue and `anti_rwt`
+In Google Search when `onmousedown` event fires on link element, `rwt` function is called. It's a Javascript function that replaces link's URL with a custom Google's URL that redirects to original URL... So in order to prevent this behavior an external extension is needed. I did not implement this feature on this extension because it's more a privacy related issue than security one.
+However I wrote an extension to disable this manipulation: `anti_rwt`. Without the latter this `qubes-url-redirector` cannot work properly with Google Search. Here the extension's repo: https://github.com/raffaeleflorio/anti_rwt.
