@@ -49,24 +49,22 @@ const createMenus = () => {
     browser.contextMenus.onClicked.addListener((info, tab) => {
 	switch (info.menuItemId) {
 	case "dvm":
-	    openurl("$dispvm", anti_rwt.escape(info.linkUrl));
+	    openurl("$dispvm", info.linkUrl);
 	    break;
 	case "default-vm":
 	    getDefaultVmName().then(item => {
-		openurl(item.vmname, anti_rwt.escape(info.linkUrl));
+		openurl(item.vmname, info.linkUrl);
 	    });
 	    break;
 	case "some-vm":
 	    browser.windows.create({
 		type: "popup",
-		url: "popups/choose-vm.html?url=" + encodeURIComponent(anti_rwt.escape(info.linkUrl)),
+		url: "popups/choose-vm.html?url=" + encodeURIComponent(info.linkUrl),
 		width: 600,
 		height: 160
 	    });
 	    break;
 	case "here":
-	    info.linkUrl = anti_rwt.escape(info.linkUrl);
-	    
 	    tmpWhitelist.add(info.linkUrl);
 	    browser.tabs.create({url: info.linkUrl});
 	    break;
