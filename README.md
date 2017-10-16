@@ -38,4 +38,4 @@ In order to use this extension with these browsers you have to disable `Use a pr
 
 # Google Search `rwt` issue and `anti_rwt`
 In Google Search when `onmousedown` event fires on link element, `rwt` function is called. It's a Javascript function that replaces link's URL with a custom Google's URL that redirects to original URL... So in order to prevent this behavior an external extension is needed. I did not implement this feature on this extension because it's more a privacy related issue than security one.
-However I wrote an extension to disable this manipulation: `anti_rwt`. Without the latter this `qubes-url-redirector` cannot work properly with Google Search. Here the extension's repo: https://github.com/raffaeleflorio/anti_rwt.
+However I wrote an extension to disable this manipulation: `anti_rwt`. Without the latter `qubes-url-redirector` cannot work properly with Google Search. Here the extension's repo: https://github.com/raffaeleflorio/anti_rwt.
