@@ -2,7 +2,7 @@
     "manifest_version": 2,
 
     "name": "qubes-url-redirector",
-    "version": "1.2",
+    "version": "2.0",
     "applications": {
 	"gecko": {
 	    "id": "qubes-url-redirector@raffaeleflorio.github.io"
@@ -28,11 +28,12 @@
 
     "background": {
 	"scripts": [
-	    "backgrounds/polyfill.js",
-	    "backgrounds/main.js",
+	    "backgrounds/whitelist.js",
+	    "backgrounds/settings.js",
 	    "backgrounds/native.js",
-	    "backgrounds/menus.js",
-	    "backgrounds/webRequest.js"
+	    "backgrounds/ui.js",
+	    "backgrounds/redirector.js",
+	    "backgrounds/qur.js"
 	]
     },
     
@@ -42,7 +43,7 @@
 	"nativeMessaging",
 	"webRequest",
 	"webRequestBlocking",
-	"tab",
+	"tabs",
 	"<all_urls>"
     ]    
 }

@@ -10,7 +10,7 @@ function redirect(e)
     if (!vmname) {
 	alert("VM name cannot be empty!");
     } else {
-	browser.extension.getBackgroundPage().openurl(vmname, url);
+	browser.extension.getBackgroundPage().getQur().native.openurl(vmname, url);
 	window.close();
     }
 

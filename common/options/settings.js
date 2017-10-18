@@ -1,4 +1,4 @@
-const background = browser.extension.getBackgroundPage();
+const qur = browser.extension.getBackgroundPage().getQur()
 const whitelistTbl = document.getElementById("whitelistTbl");
 const whitelistFrm = document.getElementById("whitelistFrm");
 
@@ -55,7 +55,7 @@ function addToWhitelist(e)
 	else if (isExact)
 	    regex = "^" + regex + "$";
 	
-	background.addToWhitelist(regex)
+	qur.whitelist.add(regex)
 	    .then(
 		() => {
 		    alert("Saved successfully!");
@@ -77,7 +77,7 @@ function modifyRegex(e)
     const newRegex = prompt("Insert new RegExp:", oldRegex);
 
     if (newRegex && newRegex !== oldRegex)
-	background.modifyWhitelist(oldRegex, newRegex)
+	qur.whitelist.modify(oldRegex, newRegex)
 	    .then(
 		() => {
 		    alert("Modifed successfully!");
@@ -93,24 +93,19 @@ function restoreSettings()
 {
     const form = document.getElementById("settingsFrm");
 
-    background.getSettings()
-	.then(settings => {
-	    if (settings.default_action)
-		document.getElementById(settings.default_action).checked = true;
-	    else
-		document.getElementById("dvm").checked = true;
+    const default_action = qur.settings.getDefaultAction()
+    const default_vm = qur.settings.getDefaultVm()
 
-	    if (settings.vmname)
-		form["vmname"].value = settings.vmname;
-	});
+    document.getElementById("action" + default_action).checked = true;
+    if (default_vm)
+	form["vmname"].value = default_vm;
 }
 
 function restoreWhitelist()
 {
-    background.getWhitelist()
-	.then(whitelist => {
-	    whitelist.regex.forEach(regex => appendRegex(regex));
-	});
+    qur.whitelist.forEach((regex) => {
+	appendRegex(regex);
+    })
 }
 
 function rmFromWhitelist(e)
@@ -119,7 +114,7 @@ function rmFromWhitelist(e)
     const tr = e.target.parentNode.parentNode;
     const regex = tr.querySelector("td").textContent;
     
-    background.rmFromWhitelist(regex)
+    qur.whitelist.rm(regex)
 	.then(
 	    () => {
 		alert("RegExp removed successfully!");
@@ -138,11 +133,11 @@ function saveSettings(e)
     const form = e.target;
 
     const settings = {
-	default_action: form["default_action"].value,
-	vmname: form["vmname"].value
+	default_action: parseInt(form["default_action"].value),
+	default_vm: form["vmname"].value
     };
 
-    background.saveSettings(settings)
+    qur.settings.set(settings)
 	.then(
 	    () => alert("Saved succesfully!")
 	)
