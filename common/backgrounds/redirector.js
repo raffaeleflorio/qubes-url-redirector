@@ -18,11 +18,15 @@ const redirector = () => {
 		const vmname = default_action === qur.settings.ACTION.DVM ? "$dispvm" : qur.settings.getDefaultVm();
 
 		/* TODO: fix for Chrome */
-		browser.tabs.get(details.tabId)
+		/* Currently immediate closing, in every browser, because issue #2 */
+		if (chrome)
+		    browser.tabs.remove(details.tabId);
+		else
+		    browser.tabs.get(details.tabId)
 		    .then((requestTab) => {
 			if (requestTab.url === "about:blank" || requestTab.url === "about:newtab" || requestTab.url === details.url)
 			    browser.tabs.remove(details.tabId);
-		    })
+		    });
 		
 		qur.native.openurl(vmname, details.url);
 		return {cancel: true};
