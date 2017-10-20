@@ -3,7 +3,7 @@
 const qur = { };
 
 /* init script */
-const init = async () => {
+(async () => {
     qur.whitelist = await whitelist();
     qur.settings = await settings();
     qur.native = native;
@@ -18,9 +18,9 @@ const init = async () => {
     );
 
     ui.init();
-};
 
-init();
+    /* callable by getBackgroundPage() */
+    getQur = () => qur;
+    
+})();
 
-/* callable by getBackgroundPage() */
-getQur = () => qur;
