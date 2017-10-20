@@ -1,90 +1,89 @@
 const whitelist = async () => {
-    /* contains temporary whitelisted URL */
-    let tmpBuffer = []
+    let tmpBuffer = []; // temporary whitelisted URL, they aren't saved
 
-    /* contains whitelisted RegExp */
-    let buffer = []
+    let buffer = []; // contains whitelisted RegExp, they are saved
     await browser.storage.local.get("whitelist")
 	.then((item) => {
-	    buffer = item.whitelist === undefined ? [] : item.whitelist
-	}).catch((err) => console.error(`whitelist initialization error: ${err}`))
+	    buffer = item.whitelist === undefined ? [] : item.whitelist;
+	})
+	.catch((err) => console.error(`whitelist initialization error: ${err}`));
 
     /* **try** to save */
     const save = (whitelist) => {
-	return browser.storage.local.set({whitelist})
-    }
+	return browser.storage.local.set({whitelist});
+    };
 
     const getIndex = (regex, array = buffer) => {
-	return array.indexOf(regex)
-    }
+	return array.indexOf(regex);
+    };
     const contain = (regex, array = buffer) => {
-	return getIndex(regex, array) !== -1 ? true : false
-    }
+	return getIndex(regex, array) !== -1 ? true : false;
+    };
     
     return ({
 	forEach: (func) => buffer.forEach(func),
 
 	add: (regex, isTmp = false) => {
 	    if (regex && isTmp === true && !contain(regex, tmpBuffer)) {
-		tmpBuffer.push(regex)
-		return Promise.resolve()
+		tmpBuffer.push(regex);
+		return Promise.resolve();
 	    } else if (regex && isTmp === false && !contain(regex)) {
-		const cloned = buffer.slice(0)
-		cloned.push(regex)
+		const cloned = buffer.slice(0);
+		cloned.push(regex);
 
 		return save(cloned).then(() => {
-		    buffer = cloned
-		})
+		    buffer = cloned;
+		});
 	    } else {
-		return Promise.reject(false)
+		return Promise.reject(false);
 	    }
 	},
 
 	rm: (regex) => {
-	    const index = getIndex(regex)
+	    const index = getIndex(regex);
 	    if (index !== -1) {
-		const cloned = buffer.slice(0)
-		cloned.splice(index, 1)
+		const cloned = buffer.slice(0);
+		cloned.splice(index, 1);
 
 		return save(cloned).then(() => {
-		    buffer = cloned
-		})
+		    buffer = cloned;
+		});
 	    } else {
-		return Promise.reject(false)
+		return Promise.reject(false);
 	    }
 	},
 
 	modify: (oldRegex, newRegex) => {
-	    const oldIndex = getIndex(oldRegex)
+	    const oldIndex = getIndex(oldRegex);
 	    if (newRegex && oldIndex !== -1 && !contain(newRegex)) {
-		const cloned = buffer.slice(0)
-		cloned[oldIndex] = newRegex
+		const cloned = buffer.slice(0);
+		cloned[oldIndex] = newRegex;
 
 		return save(cloned).then(() => {
-		    buffer = cloned
-		})
+		    buffer = cloned;
+		});
 	    } else {
-		return Promise.reject(false)
+		return Promise.reject(false);
 	    }
 	},
 
 	test: (regex) => {
-	    const tmpIndex = getIndex(regex, tmpBuffer)
+	    const tmpIndex = getIndex(regex, tmpBuffer);
 	    if (tmpIndex !== -1) {
-		tmpBuffer.splice(tmpIndex, 1)
-		return true
+		tmpBuffer.splice(tmpIndex, 1);
+		return true;
 	    }
 
 	    const bufferIndex = buffer.findIndex((e) => {
-		return (new RegExp(e)).test(regex)
-	    })
-	    return bufferIndex !== -1 ? true : false
+		return (new RegExp(e)).test(regex);
+	    });
+	    return bufferIndex !== -1 ? true : false;
 	},
 
 	clear: () => {
 	    return browser.storage.local.remove("whitelist").then(() => {
-		buffer = []
-	    })
+		buffer = [];
+	    });
 	}
-    })
-}
+    });
+};

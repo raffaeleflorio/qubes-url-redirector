@@ -1,11 +1,12 @@
 /* initiliaze extension */
 
-const qur = { }
+const qur = { };
 
+/* init script */
 const init = async () => {
-    qur.whitelist = await whitelist()
-    qur.settings = await settings()
-    qur.native = native
+    qur.whitelist = await whitelist();
+    qur.settings = await settings();
+    qur.native = native;
 
     browser.webRequest.onBeforeRequest.addListener(
 	redirector().route,
@@ -14,12 +15,12 @@ const init = async () => {
 	    types: ["main_frame"]
 	},
 	["blocking"]
-    )
+    );
 
-    ui.init()
-}
+    ui.init();
+};
 
-init()
+init();
 
 /* callable by getBackgroundPage() */
-getQur = () => qur
+getQur = () => qur;

@@ -1,4 +1,4 @@
-const qur = browser.extension.getBackgroundPage().getQur()
+const qur = browser.extension.getBackgroundPage().getQur();
 const whitelistTbl = document.getElementById("whitelistTbl");
 const whitelistFrm = document.getElementById("whitelistFrm");
 
@@ -93,8 +93,8 @@ function restoreSettings()
 {
     const form = document.getElementById("settingsFrm");
 
-    const default_action = qur.settings.getDefaultAction()
-    const default_vm = qur.settings.getDefaultVm()
+    const default_action = qur.settings.getDefaultAction();
+    const default_vm = qur.settings.getDefaultVm();
 
     document.getElementById("action" + default_action).checked = true;
     if (default_vm)
@@ -105,7 +105,7 @@ function restoreWhitelist()
 {
     qur.whitelist.forEach((regex) => {
 	appendRegex(regex);
-    })
+    });
 }
 
 function rmFromWhitelist(e)
