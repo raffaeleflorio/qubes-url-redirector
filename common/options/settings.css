@@ -47,6 +47,13 @@ h1, h2, h3, h4, h5, h6 {
 #whitelistTbl td:first-child{
     width: 100%;
 }
+#whitelistClean {
+    display: none;
+}
+#whitelistClean button {
+    padding: 0px;
+    margin-left: 15px;
+}
 
 #whitelistFrm input[name="regex"] {
     width: 40%;

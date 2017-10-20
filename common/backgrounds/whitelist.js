@@ -79,7 +79,7 @@ const whitelist = async () => {
 	    });
 	},
 
-	clear: () => {
+	clean: () => {
 	    return browser.storage.local.remove("whitelist").then(() => {
 		buffer = [];
 	    });

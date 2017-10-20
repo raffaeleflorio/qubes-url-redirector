@@ -1,11 +1,13 @@
 const qur = browser.extension.getBackgroundPage().getQur();
 const whitelistTbl = document.getElementById("whitelistTbl");
 const whitelistFrm = document.getElementById("whitelistFrm");
+const whitelistClean = document.getElementById("whitelistClean");
 
 function appendRegex(regex)
 {
     whitelistTbl.style.display = "table";
-    
+    whitelistClean.style.display = "block";
+
     const tbody = whitelistTbl.querySelector("tbody");
     const tr = document.createElement("tr");
 
@@ -157,6 +159,19 @@ restoreWhitelist();
 document.getElementById("settingsFrm").addEventListener("submit", saveSettings);
 
 whitelistFrm.addEventListener("submit", addToWhitelist);
+
+whitelistClean.querySelector("button").addEventListener("click", () => {
+    qur.whitelist.clean()
+	.then(() => {
+	    alert("Whitelist cleaned succesfully!");
+	    whitelistTbl.style.display = "none";
+	    whitelistClean.style.display = "none";
+	    whitelistTbl.replaceChild(document.createElement("tbody"), whitelistTbl.querySelector("tbody"));
+	})
+	.catch(() => {
+	    alert("Unable to clean the whitelist!");
+	});
+});
 
 whitelistFrm["type"].forEach(radio => radio.addEventListener("change", e => {
     
