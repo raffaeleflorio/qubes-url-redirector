@@ -74,10 +74,9 @@ const whitelist = async () => {
 		return true;
 	    }
 
-	    const bufferIndex = buffer.findIndex((e) => {
+	    return buffer.some((e) => {
 		return (new RegExp(e)).test(regex);
 	    });
-	    return bufferIndex !== -1 ? true : false;
 	},
 
 	clear: () => {
