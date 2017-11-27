@@ -7,8 +7,8 @@ const redirector = () => {
 	    if (!/^https?:\/\//.test(details.url))
 		return {cancel: false};
 
-	    if (anti_rwt.test(details.url))
-		return {redirectUrl: anti_rwt.escape(details.url)};
+	    if (qur.anti_rdr.test(details.url))
+		return {redirectUrl: qur.anti_rdr.escape(details.url)};
 
 	    if (processedRequest.indexOf(details.requestId) !== -1)
 		return {cancel: false};

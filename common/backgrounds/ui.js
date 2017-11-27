@@ -35,7 +35,8 @@ const menus = () => {
 	    });
 
 	    browser.contextMenus.onClicked.addListener((info, tab) => {
-		const url = anti_rwt.escape(info.linkUrl);
+		const url = qur.anti_rdr.escape(info.linkUrl);
+
 		switch (info.menuItemId) {
 		case "dvm":
 		    qur.native.openurl("$dispvm", url);

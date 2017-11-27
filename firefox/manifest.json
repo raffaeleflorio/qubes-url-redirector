@@ -28,7 +28,7 @@
 
     "background": {
 	"scripts": [
-	    "backgrounds/anti_rwt.js",
+	    "backgrounds/anti_rdr.js",
 	    "backgrounds/whitelist.js",
 	    "backgrounds/settings.js",
 	    "backgrounds/native.js",

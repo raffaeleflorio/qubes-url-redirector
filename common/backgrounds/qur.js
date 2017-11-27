@@ -7,6 +7,7 @@ const qur = { };
     qur.whitelist = await whitelist();
     qur.settings = await settings();
     qur.native = native;
+    qur.anti_rdr = anti_rdr();
 
     browser.webRequest.onBeforeRequest.addListener(
 	redirector().route,

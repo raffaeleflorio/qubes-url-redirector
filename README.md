@@ -40,3 +40,8 @@ In order to use this extension with these browsers you have to disable `Use a pr
 In Google Search when `onmousedown` event fires on link element, `rwt` function is called. It's a Javascript function that replaces link's URL with a custom Google's URL that redirects to original URL... I implemented the rwt escaping in this extension because it's needed to work correctly.
 
 Nonetheless I also wrote a separate extension to disable this manipulation: [anti_rwt](https://github.com/raffaeleflorio/anti_rwt). However `qubes-url-redirector` implement anti manipulation in more solid way.
+
+# anti_rdr
+`anti_rdr` is an object that escape manipulated URL. In this way correct behavior of this extension is preserved. Currently it implements escaping of:
+- Google Search `google.com/url`
+- Facebook `l.facebook.com` url
