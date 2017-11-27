@@ -27,7 +27,7 @@ const redirector = () => {
 		else
 		    browser.tabs.get(details.tabId)
 		    .then((requestTab) => {
-			if (requestTab.url === "about:blank" || requestTab.url === "about:newtab" || requestTab.url === details.url)
+			if (requestTab.url === "about:blank")
 			    browser.tabs.remove(details.tabId);
 		    });
 		
