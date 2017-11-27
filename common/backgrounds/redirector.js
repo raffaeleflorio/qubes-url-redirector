@@ -7,6 +7,13 @@ const redirector = () => {
 	    if (!/^https?:\/\//.test(details.url))
 		return {cancel: false};
 
+	    if (anti_rwt.test(details.url)) {
+		console.log("RWWTT");
+		return {redirectUrl: anti_rwt.escape(details.url)};
+	    }
+
+	    console.log("open: " + details.url);
+
 	    if (processedRequest.indexOf(details.requestId) !== -1)
 		return {cancel: false};
 	    

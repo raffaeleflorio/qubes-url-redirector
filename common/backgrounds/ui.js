@@ -35,24 +35,26 @@ const menus = () => {
 	    });
 
 	    browser.contextMenus.onClicked.addListener((info, tab) => {
+		const url = anti_rwt.escape(info.linkUrl);
 		switch (info.menuItemId) {
 		case "dvm":
-		    qur.native.openurl("$dispvm", info.linkUrl);
+		    qur.native.openurl("$dispvm", url);
 		    break;
 		case "default-vm":
-		    qur.native.openurl(qur.settings.getDefaultVm(), info.linkUrl);
+		    qur.native.openurl(qur.settings.getDefaultVm(), url);
 		    break;
 		case "some-vm":
 		    browser.windows.create({
 			type: "popup",
-			url: "popups/choose-vm.html?url=" + encodeURIComponent(info.linkUrl),
+			url: "popups/choose-vm.html?url=" + encodeURIComponent(url),
 			width: 600,
 			height: 160
 		    });
 		    break;
 		case "here":
-		    qur.whitelist.add(info.linkUrl, true);
-		    browser.tabs.create({url: info.linkUrl});
+
+		    qur.whitelist.add(url, true);
+		    browser.tabs.create({url});
 		    break;
 		}
 	    });
