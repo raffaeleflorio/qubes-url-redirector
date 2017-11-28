@@ -1,3 +1,3 @@
 [submodule "common/webextension-browser-proxy"]
-	path = common/webextension-browser-proxy
+	path = chrome/webextension-browser-proxy
 	url = https://github.com/raffaeleflorio/webextension-browser-proxy.git
