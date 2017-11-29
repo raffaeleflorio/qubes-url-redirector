@@ -67,11 +67,13 @@ const whitelist = async () => {
 	    }
 	},
 
-	test: (regex) => {
-	    const tmpIndex = getIndex(regex, tmpBuffer);
-	    if (tmpIndex !== -1) {
-		tmpBuffer.splice(tmpIndex, 1);
-		return true;
+	test: (regex, checkTmp = true) => {
+	    if (checkTmp === true) {
+		const tmpIndex = getIndex(regex, tmpBuffer);
+		if (tmpIndex !== -1) {
+		    tmpBuffer.splice(tmpIndex, 1);
+		    return true;
+		}
 	    }
 
 	    return buffer.some((e) => {

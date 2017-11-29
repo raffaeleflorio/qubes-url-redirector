@@ -36,6 +36,15 @@
 	]
     },
     
+    "content_scripts": [{
+	"js": [
+//	    "webextension-browser-proxy/polyfill.js",
+	    "content_scripts/aHandler.js"
+	],
+	"matches": ["<all_urls>"],
+	"run_at": "document_end"
+    }],
+
     "permissions": [
 	"contextMenus",
 	"storage",
