@@ -20,8 +20,7 @@ const redirector = () => {
 	    if (!openHere) {
 		const vmname = default_action === qur.settings.ACTION.DVM ? "$dispvm" : qur.settings.getDefaultVm();
 
-		/* TODO: fix for Chrome */
-		/* Currently immediate closing in Chrome */
+		/* Immediate closing in Chrome */
 		if (browser.isPolyfilled)
 		    browser.tabs.remove(details.tabId);
 		else
