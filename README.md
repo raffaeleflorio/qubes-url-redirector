@@ -33,15 +33,16 @@ Note that with this method the installation is temporarly. Furthermore only exte
 After loading you can start to use it!
 If you encounter some problems, don't hesitate to contact me!
 
-# Chrome/Chromium prediction issue
-In order to use this extension with these browsers you have to disable `Use a prediction service to load pages more quickly` feature. If the latter is enabled the browser connects to a predetermined server before user consent.
+# Additional infos
+### Chrome/Chromium prediction issue
+In order to use this extension with these browsers you have to disable `Use a prediction service to load pages more quickly` feature. If the latter is enabled the browser connects to a predetermined server before user consent. In this way some URL opens in an unexpected way.
 
-# Google Search `rwt` issue and `anti_rwt`
+### Google Search `rwt`
 In Google Search when `onmousedown` event fires on link element, `rwt` function is called. It's a Javascript function that replaces link's URL with a custom Google's URL that redirects to original URL... I implemented the rwt escaping in this extension because it's needed to work correctly.
 
-Nonetheless I also wrote a separate extension to disable this manipulation: [anti_rwt](https://github.com/raffaeleflorio/anti_rwt). However `qubes-url-redirector` implement anti manipulation in more solid way.
+Nonetheless I also wrote a separate extension to disable this manipulation: [anti_rwt](https://github.com/raffaeleflorio/anti_rwt). However `qubes-url-redirector` implement anti manipulation more effectively with `anti_rdr` object.
 
-# anti_rdr
+### anti_rdr
 `anti_rdr` is an object that escape manipulated URL. In this way correct behavior of this extension is preserved. Currently it implements escaping of:
 - Google Search `google.com/url`
 - Facebook `l.facebook.com` url
