@@ -44,5 +44,5 @@ Nonetheless I also wrote a separate extension to disable this manipulation: [ant
 
 ### anti_rdr
 `anti_rdr` is an object that escape manipulated URL. In this way correct behavior of this extension is preserved. Currently it implements escaping of:
-- Google Search `google.com/url`
-- Facebook `l.facebook.com` url
+- `google.com/url` url
+- `l.facebook.com` url
