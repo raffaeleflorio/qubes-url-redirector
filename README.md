@@ -4,7 +4,9 @@ qubes-url-redirector is a browser's extension to improve security. It's for Qube
 It has a settings page embedded in browser where you manage default behavior and it supports a whitelist based on Javascript's RegExp, in this way there is a lot of flexibility to define trustworthy URLs or domains. Settings page is also accessible through a button in browser's toolbar, besides the default way (e.g. Firefox's Add-Ons manager).
 
 # Screenshots
+** Settings **
 ![settings](https://raw.githubusercontent.com/raffaeleflorio/qubes-url-redirector/master/screenshots/empty_settings.png)
+** Menus with a default vm name setted **
 ![menus](https://raw.githubusercontent.com/raffaeleflorio/qubes-url-redirector/master/screenshots/menus.png)
 
 # Supported Browsers
