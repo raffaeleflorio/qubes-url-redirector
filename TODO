@@ -1,6 +1,0 @@
-- anti redirect filter for common web sites
-- improve html pages and related scripts
-- DOCUMENTATION.md
-- improve (sub)domain regexp verification (e.g. max length and other requirements)
-- pageAction to disable in a specified tab
-- implementation in thunderbird
