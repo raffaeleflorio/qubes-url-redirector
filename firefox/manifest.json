@@ -10,32 +10,32 @@
 	}
     },
     "icons": {
-	"48": "qubes-logo.png"
+	"48": "common/qubes-logo.png"
     },
     
     "author": "Raffaele Florio",
     "homepage_url": "https://github.com/raffaeleflorio/qubes-url-redirector",
 
     "options_ui": {
-	"page": "options/settings.html",
+	"page": "common/options/settings.html",
 	"browser_style": true
     },
 
     "browser_action": {
 	"browser_style": true,
 	"default_title": "Open in Qube settings",
-	"default_icon": "qubes-logo.png"
+	"default_icon": "common/qubes-logo.png"
     },
 
     "background": {
 	"scripts": [
-	    "backgrounds/anti_rdr.js",
-	    "backgrounds/whitelist.js",
-	    "backgrounds/settings.js",
-	    "backgrounds/native.js",
-	    "backgrounds/ui.js",
-	    "backgrounds/redirector.js",
-	    "backgrounds/qur.js"
+	    "common/backgrounds/anti_rdr.js",
+	    "common/backgrounds/whitelist.js",
+	    "common/backgrounds/settings.js",
+	    "common/backgrounds/native.js",
+	    "common/backgrounds/ui.js",
+	    "common/backgrounds/redirector.js",
+	    "common/backgrounds/qur.js"
 	]
     },
     
