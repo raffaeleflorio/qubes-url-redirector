@@ -16,25 +16,18 @@ It has a settings page embedded in browser where you manage default behavior and
   - Chrome/Chromium (according API's reference from 42 onwards)
 
 # How to install
-Currently there isn't any official Qubes package. For this reason installation is manual and it's done in two phases: setup and loading.
+Currently there is only a signed package for Firefox. The installation in Chrome is manual.
+In both case you need to download the Makefile.
 
-### Setup
-To perform initial setup you can use `make`.<br>
-For example to setup for Firefox:
-```
-[my/repo/path]$ make firefox
-```
-
-### Loading
 #### Firefox
-Follow istructions in this link: https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Temporary_Installation_in_Firefox<br>
-Note that with this method the installation is temporarly. Furthermore only extensions signed by Mozilla could be installed permanently, unless you disable sign verification globally. Obviously when package is finished, extension will be signed.
+1. make firefox
 
 #### Chrome/Chromium
-1. Follow istructions this link: https://developer.chrome.com/extensions/getstarted#unpacked
-2. Replace `EXTENSION_ID_HERE` with the generated one in `~/.config/google-chrome/NativeMessagingHosts/qvm_open_in_vm.json` or `~/.config/chromium/NativeMessagingHosts/qvm_open_in_vm.json`, if you use Chrome or Chromium respectivly.
+1. make chrome (or chromium)
+2. Follow istructions at this link, to install the extension (it's in `chrome` dir): https://developer.chrome.com/extensions/getstarted#unpacked
+3. Replace `EXTENSION_ID_HERE` with the generated one (from the chrome://extensions page) in `~/.config/google-chrome/NativeMessagingHosts/qvm_open_in_vm.json` or `~/.config/chromium/NativeMessagingHosts/qvm_open_in_vm.json`, if you use Chrome or Chromium respectivly.
 
-After loading you can start to use it!
+Now you can start to use it!
 If you encounter some problems, don't hesitate to contact me!
 
 # Additional infos
