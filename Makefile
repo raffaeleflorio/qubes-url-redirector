@@ -34,7 +34,7 @@ firefox: setup
 	wget -q $(FIREFOX_URL)
 	mkdir -p ~/.mozilla/native-messaging-hosts
 	mv qvm_open_in_vm.json ~/.mozilla/native-messaging-hosts
-	firefox qubes-url-redirector-v2.1-firefox.xpi
+	firefox qubes-url-redirector-v2.1-firefox.xpi &
 
 clean:
 	rm -f ~/.mozilla/native-messaging-hosts/qvm_open_in_vm.json
