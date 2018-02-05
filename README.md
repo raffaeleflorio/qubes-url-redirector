@@ -18,8 +18,8 @@ Because of WebExtension API, currently, it can handles only HTTP(S) URL.
   - Chrome/Chromium (according API's reference from 42 onwards)
 
 # How to install
-Currently there is only a signed package for Firefox. The installation in Chrome is manual.
-In both case you need to clone this repo. It also contains a submodule ([webextension-browser-proxy](https://github.com/raffaeleflorio/webextension-browser-proxy) as dependency.
+Currently there is only a signed package for Firefox. The installation in Chrome is manual.<br>
+In both case you need to clone this repo. It also contains a submodule ([webextension-browser-proxy](https://github.com/raffaeleflorio/webextension-browser-proxy) as dependency.<br>
 Every commit is signed. You can get my key through https://pgp.mit.edu or through https://raffaeleflorio.github.io. The **fingerprint** is: _5527 116A DB00 1157 5877  8038 53D6 2C23 CF68 1104_.
 
 #### Firefox
