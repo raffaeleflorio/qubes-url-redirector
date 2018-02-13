@@ -23,7 +23,7 @@ In both case you need to clone this repo. It also contains a submodule ([webexte
 
 In order to get the submodule you can clone this repo with:
 ```
-$ git clone --recursive
+$ git clone --recursive https://github.com/raffaeleflorio/qubes-url-redirector.git
 ```
 Otherwise you can clone the submodule separately with:
 ```
