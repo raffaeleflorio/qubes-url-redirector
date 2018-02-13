@@ -34,6 +34,9 @@ Now you can start to use it!
 If you encounter some problems, don't hesitate to contact me!
 
 # Additional infos
+### Chrome/Chromium new tab behavior
+Actually these browsers makes an HTTP(S) request to get the new tab contents. Currently the URL is: `https://google.com/_/chrome/newtab?ie=UTF-8`. So you need to either whitelist the URL or change the new tab behavior.
+
 ### Chrome/Chromium prediction issue
 In order to use this extension with these browsers you have to disable `Use a prediction service to load pages more quickly` feature. If the latter is enabled the browser connects to a predetermined server before user consent. In this way some URL opens in an unexpected way.
 
