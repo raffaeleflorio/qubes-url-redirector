@@ -22,14 +22,14 @@ Currently there is only a signed package for Firefox. The installation in Chrome
 In both case you need to clone this repo. It also contains a submodule ([webextension-browser-proxy](https://github.com/raffaeleflorio/webextension-browser-proxy)) as dependency.
 
 In order to get the submodule you can clone this repo with:
-`
+```
 $ git clone --recursive
-`
+```
 Otherwise you can clone the submodule separately with:
-`
+```
 qubes-url-redirector/cloned/repo $ git submodule init
 qubes-url-redirector/cloned/repo $ git submodule update
-`
+```
 
 Every commit is signed. You can get my key through https://pgp.mit.edu or through https://raffaeleflorio.github.io. The **fingerprint** is: _5527 116A DB00 1157 5877  8038 53D6 2C23 CF68 1104_.
 
