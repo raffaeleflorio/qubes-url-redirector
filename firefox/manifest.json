@@ -9,7 +9,8 @@
 	    "update_url": "https://raffaeleflorio.github.io/resources/we-updates-manifest/firefox.json"
 	}
     },
-    "description": "It handles which VM is responsibile to open URLs. You can choose between DVM, a default VM and this VM. Furthermore through context menu entries you can open specific URL in a custom way.",
+    "description": "Redirect untrusted URLs to other VM while you surf the web!",
+
     "icons": {
 	"48": "common/qubes-logo.png"
     },
