@@ -3,7 +3,7 @@
 
     "name": "Open in Qube",
     "version": "2.1",
-    "update_url": "https://raffaeleflorio.github.io/resources/we-updates-manifest/chrome.xml",
+
     "description": "Redirect untrusted URLs to other VM while you surf the web!",
 
     "icons": {

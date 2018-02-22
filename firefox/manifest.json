@@ -5,8 +5,7 @@
     "version": "2.1",
     "applications": {
 	"gecko": {
-	    "id": "qubes-url-redirector@raffaeleflorio.github.io",
-	    "update_url": "https://raffaeleflorio.github.io/resources/we-updates-manifest/firefox.json"
+	    "id": "qubes-url-redirector@raffaeleflorio.github.io"
 	}
     },
     "description": "Redirect untrusted URLs to other VM while you surf the web!",
