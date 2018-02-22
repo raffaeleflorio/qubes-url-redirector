@@ -1,3 +1,5 @@
+# WIP v2.1.1
+
 # qubes-url-redirector v2.1
 qubes-url-redirector is a browser's extension to improve security. It's for Qubes OS and it's written using standard WebExtension APIs. It permits to manage which VM is responsible to open links, obviously redirection happens before any TCP connection is made. Furthermore, through context menu entries, you can open a specific link in a custom way. Currently you can open links in: DVM, a default-VM, a specific VM and in this VM.
 
