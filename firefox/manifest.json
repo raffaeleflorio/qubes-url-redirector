@@ -6,7 +6,7 @@
     "applications": {
 	"gecko": {
 	    "id": "qubes-url-redirector@raffaeleflorio.github.io",
-	    "update_url": "https://raw.githubusercontent.com/raffaeleflorio/qubes-url-redirector/master/firefox/updates.json"
+	    "update_url": "https://raffaeleflorio.github.io/resources/we-updates-manifest/firefox.json"
 	}
     },
     "description": "It handles which VM is responsibile to open URLs. You can choose between DVM, a default VM and this VM. Furthermore through context menu entries you can open specific URL in a custom way.",

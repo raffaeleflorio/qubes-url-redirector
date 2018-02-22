@@ -5,6 +5,8 @@
     "version": "2.1",
     "description": "It handles which VM is responsibile to open URLs. You can choose between DVM, a default VM and this VM. Furthermore through context menu entries you can open specific URL in a custom way.",
 
+    "update_url": "https://raffaeleflorio.github.io/resources/we-updates-manifest/chrome.xml",
+
     "icons": {
 	"48": "common/qubes-logo.png"
     },
