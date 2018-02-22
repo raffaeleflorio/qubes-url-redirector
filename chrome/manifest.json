@@ -3,6 +3,7 @@
 
     "name": "Open in Qube",
     "version": "2.1",
+    "description": "It handles which VM is responsibile to open URLs. You can choose between DVM, a default VM and this VM. Furthermore through context menu entries you can open specific URL in a custom way.",
 
     "icons": {
 	"48": "common/qubes-logo.png"
