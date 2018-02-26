@@ -7,7 +7,11 @@
     "description": "Redirect untrusted URLs to other VM while you surf the web!",
 
     "icons": {
-	"48": "common/qubes-logo.png"
+	"16": "common/logo.png",
+	"32": "common/logo.png",
+	"48": "common/logo.png",
+	"64": "common/logo.png",
+	"128": "common/logo.png"
     },
     
     "author": "Raffaele Florio",
@@ -22,7 +26,7 @@
     "browser_action": {
 	"chrome_style": true,
 	"default_title": "Open in Qube settings",
-	"default_icon": "common/qubes-logo.png"
+	"default_icon": "common/logo.png"
     },
 
     "background": {
