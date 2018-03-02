@@ -51,12 +51,14 @@ QUR.whitelist_entries = Object.freeze({
 
 	const that = QUR.whitelist_entries;
 
+	const MY_TYPE = that.ENTRY_TYPE.REGEXP;
 	const reObj = new RegExp(spec);
+	const json = JSON.stringify({type: MY_TYPE, spec: spec});
 	return Object.freeze({
-	    getType: () => that.ENTRY_TYPE.REGEXP,
+	    getType: () => MY_TYPE,
 	    test: (v) => reObj.test(v),
 	    toString: () => reObj.toString(),
-	    toJSON: () => reObj.toString()
+	    toJSON: () => json
 	});
     },
     makeExact (spec) {
@@ -68,13 +70,15 @@ QUR.whitelist_entries = Object.freeze({
 
 	const that = QUR.whitelist_entries;
 
+	const MY_TYPE = that.ENTRY_TYPE.EXACT;
 	const reObj = new RegExp("^" + that.escapeRE(spec) + "$");
 	const simpleString = reObj.toString().slice(2, -2);
+	const json = JSON.stringify({type: MY_TYPE, spec: spec});
 	return Object.freeze({
-	    getType: () => that.ENTRY_TYPE.EXACT,
+	    getType: () => MY_TYPE,
 	    test: (v) => reObj.test(v),
 	    toString: (detailed = false) => detailed ? reObj.toString() : simpleString,
-	    toJSON: () => reObj.toString()
+	    toJSON: () => json
 	});
     },
     makeDomain (spec) {
@@ -91,6 +95,7 @@ QUR.whitelist_entries = Object.freeze({
 
 	const that = QUR.whitelist_entries;
 
+	const MY_TYPE = that.ENTRY_TYPE.DOMAIN;
 	const reObj = new RegExp(function () {
 	    const subPrefix = "(?:[\\w\\-]+\\.)*";
 	    const prefix = "^(?:https?://)?(?:www\\.)?" + (subdomain ? subPrefix : "");
@@ -98,12 +103,35 @@ QUR.whitelist_entries = Object.freeze({
 	    return prefix + that.escapeRE(domain);
 	}());
 	const simpleString = (subdomain ? "*." : "") + domain;
+	const json = JSON.stringify({type: MY_TYPE, spec: spec});
 	return Object.freeze({
-	    getType: () => that.ENTRY_TYPE.DOMAIN,
+	    getType: () => MY_TYPE,
 	    test: (v) => reObj.test(v),
 	    toString: (detailed = false) => detailed ? reObj.toString() : simpleString,
-	    toJSON: () => reObj.toString()
+	    toJSON: () => json
 	});
     },
-    escapeRE: (v) => v.replace(/[|\\{}\[\]^$+*?.]/g, "\\$&")
+    escapeRE: (v) => v.replace(/[|\\{}\[\]^$+*?.]/g, "\\$&"),
+    fromJSON (j) {
+	"use strict";
+
+	const that = QUR.whitelist_entries;
+
+	const obj = JSON.parse(j);
+	if (Array.isArray(obj)) {
+	    const ret = [];
+	    let entry = null;
+
+	    obj.forEach(function (x) {
+		entry = that.makeEntry(JSON.parse(x));
+		entry && ret.push(entry);
+	    });
+	    return ret;
+	}
+	if (typeof obj === "object") {
+	    return that.makeEntry(obj);
+	}
+
+	return null;
+    }
 });
