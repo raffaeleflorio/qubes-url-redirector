@@ -21,10 +21,9 @@ QUR.settings = (function () {
     "use strict";
 
     const ACTION = Object.freeze({
-	/* 0 is falsey, it could cause problem with condition test. */
-	DVM: 1,
-	DEFAULT_VM: 2,
-	OPEN_HERE: 3
+	DVM: 0,
+	DEFAULT_VM: 1,
+	OPEN_HERE: 2
     });
     
     const _settings = {
@@ -43,21 +42,14 @@ QUR.settings = (function () {
 	getDefaultVm: () => _settings.default_vm,
 	toString: () => JSON.stringify(_settings),
 	set (settings) {
-    	    let {default_vm, default_action} = settings;
-	    
-    	    default_action = default_action || _settings.default_action;
-    	    if (!isValidAction(default_action)) {
+	    const {default_vm = _settings.default_vm, default_action = _settings.default_action} = settings;
+
+	    if (!isValidAction(default_action) || !isValidVmName(default_vm)) {
     		return false;
     	    }
-    	    if (default_vm !== undefined && !isValidVmName(default_vm)) {
-    		return false;
-    	    }
-    	    if (default_vm === undefined) {
-    		default_vm = _settings.default_vm;
-    	    }
-	    /* default_vm and default_action are valids */
 
     	    const requireVmName = default_action === ACTION.DEFAULT_VM;
+	    /* default_vm could be null */
     	    if (requireVmName && !default_vm) {
     		return false;
     	    }
