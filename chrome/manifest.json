@@ -17,11 +17,11 @@
     "author": "Raffaele Florio",
     "homepage_url": "https://github.com/raffaeleflorio/qubes-url-redirector",
 
-    "options_ui": {
-	"page": "common/options/settings.html",
-	"chrome_style": true,
-	"open_in_tab": true
-    },
+    // "options_ui": {
+    // 	"page": "common/options/settings.html",
+    // 	"chrome_style": true,
+    // 	"open_in_tab": true
+    // },
 
     "browser_action": {
 	"chrome_style": true,
@@ -31,24 +31,17 @@
 
     "background": {
 	"scripts": [
-	    "webextension-browser-proxy/polyfill.js",
-	    "common/backgrounds/anti_rdr.js",
-	    "common/backgrounds/whitelist.js",
-	    "common/backgrounds/settings.js",
-	    "common/backgrounds/native.js",
-	    "common/backgrounds/ui.js",
-	    "common/backgrounds/redirector.js",
-	    "common/backgrounds/qur.js"
+	    "webextension-browser-proxy/polyfill.js"
 	]
     },
     
-    "content_scripts": [{
-	"js": [
-	    "content_scripts/aHandler.js"
-	],
-	"matches": ["<all_urls>"],
-	"run_at": "document_end"
-    }],
+    // "content_scripts": [{
+    // 	"js": [
+    // 	    "content_scripts/aHandler.js"
+    // 	],
+    // 	"matches": ["<all_urls>"],
+    // 	"run_at": "document_end"
+    // }],
 
     "permissions": [
 	"contextMenus",

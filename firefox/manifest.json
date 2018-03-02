@@ -21,10 +21,10 @@
     "author": "Raffaele Florio",
     "homepage_url": "https://github.com/raffaeleflorio/qubes-url-redirector",
 
-    "options_ui": {
-	"page": "common/options/settings.html",
-	"browser_style": true
-    },
+    // "options_ui": {
+    // 	"page": "common/options/settings.html",
+    // 	"browser_style": true
+    // },
 
     "browser_action": {
 	"browser_style": true,
@@ -34,13 +34,10 @@
 
     "background": {
 	"scripts": [
-	    "common/backgrounds/anti_rdr.js",
-	    "common/backgrounds/whitelist.js",
-	    "common/backgrounds/settings.js",
-	    "common/backgrounds/native.js",
-	    "common/backgrounds/ui.js",
-	    "common/backgrounds/redirector.js",
-	    "common/backgrounds/qur.js"
+	    "common/js/backend/main.js",
+	    "common/js/backend/core/settings.js",
+	    "common/js/backend/core/whitelist_entries.js",
+	    "common/js/backend/core/whitelist.js"
 	]
     },
     
