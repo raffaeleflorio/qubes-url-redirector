@@ -53,7 +53,7 @@ QUR.whitelist_entries = Object.freeze({
 
 	const MY_TYPE = that.ENTRY_TYPE.REGEXP;
 	const reObj = new RegExp(spec);
-	const json = JSON.stringify({type: MY_TYPE, spec: spec});
+	const json = {type: MY_TYPE, spec: spec};
 	return Object.freeze({
 	    getType: () => MY_TYPE,
 	    test: (v) => reObj.test(v),
@@ -73,7 +73,7 @@ QUR.whitelist_entries = Object.freeze({
 	const MY_TYPE = that.ENTRY_TYPE.EXACT;
 	const reObj = new RegExp("^" + that.escapeRE(spec) + "$");
 	const simpleString = reObj.toString().slice(2, -2);
-	const json = JSON.stringify({type: MY_TYPE, spec: spec});
+	const json = {type: MY_TYPE, spec: spec};
 	return Object.freeze({
 	    getType: () => MY_TYPE,
 	    test: (v) => reObj.test(v),
@@ -103,7 +103,7 @@ QUR.whitelist_entries = Object.freeze({
 	    return prefix + that.escapeRE(domain);
 	}());
 	const simpleString = (subdomain ? "*." : "") + domain;
-	const json = JSON.stringify({type: MY_TYPE, spec: spec});
+	const json = {type: MY_TYPE, spec: Object.assign({}, spec)}
 	return Object.freeze({
 	    getType: () => MY_TYPE,
 	    test: (v) => reObj.test(v),
@@ -112,18 +112,18 @@ QUR.whitelist_entries = Object.freeze({
 	});
     },
     escapeRE: (v) => v.replace(/[|\\{}\[\]^$+*?.]/g, "\\$&"),
-    fromJSON (j) {
+    fromJSON (json) {
 	"use strict";
 
 	const that = QUR.whitelist_entries;
 
-	const obj = JSON.parse(j);
+	const obj = JSON.parse(json);
 	if (Array.isArray(obj)) {
 	    const ret = [];
 	    let entry = null;
 
-	    obj.forEach(function (x) {
-		entry = that.makeEntry(JSON.parse(x));
+	    obj.forEach(function (entrySpec) {
+		entry = that.makeEntry(entrySpec);
 		entry && ret.push(entry);
 	    });
 	    return ret;

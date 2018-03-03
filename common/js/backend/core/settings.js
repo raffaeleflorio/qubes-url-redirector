@@ -41,7 +41,7 @@ QUR.settings = (function () {
 	getDefaultAction: () => _settings.default_action,
 	getDefaultVm: () => _settings.default_vm,
 	toString: () => JSON.stringify(_settings),
-	toJSON: () => JSON.stringify(_settings),
+	toJSON: () => Object.assign({}, _settings),
 	set (settings) {
 	    const {default_vm = _settings.default_vm, default_action = _settings.default_action} = settings;
 

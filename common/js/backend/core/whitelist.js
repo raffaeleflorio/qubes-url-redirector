@@ -27,7 +27,7 @@ QUR.whitelist = (function () {
     /* PUBLIC */
     return Object.freeze({
 	toString: () => _whitelist.toString(),
-	toJSON: () => JSON.stringify(_whitelist),
+	toJSON: () => _whitelist.slice(0),
 	test: (value) => _whitelist.some((x) => x.test(value)),
 	add (entry) {
 	    if (findIndex(entry) >= 0) {
