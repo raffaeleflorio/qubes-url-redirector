@@ -37,7 +37,8 @@
 	    "common/js/backend/main.js",
 	    "common/js/backend/core/settings.js",
 	    "common/js/backend/core/whitelist_entries.js",
-	    "common/js/backend/core/whitelist.js"
+	    "common/js/backend/core/whitelist.js",
+	    "common/js/backend/persistence.js"
 	]
     },
     
