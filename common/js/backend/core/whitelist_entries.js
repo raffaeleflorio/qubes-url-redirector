@@ -35,7 +35,7 @@ QUR.whitelist_entries = Object.freeze({
 	];
 
 	const {type, spec} = entrySpec;
-	const isValidEntryType = (v) => Object.keys(that.ENTRY_TYPE).some((x) => that.ENTRY_TYPE[x] === v);
+	const isValidEntryType = (v) => Object.values(that.ENTRY_TYPE).some((x) => x === v);
 	if (!isValidEntryType(type) || !spec) {
 	    return null;
 	}

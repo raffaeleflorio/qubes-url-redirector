@@ -32,12 +32,11 @@ QUR.settings = (function () {
     };
 
     const isValidVmName = (v) => (typeof v === "string" && v !== "") || (v === null);
-    const isValidAction = (v) => Object.keys(ACTION).some((x) => ACTION[x] === v);
+    const isValidAction = (v) => Object.values(ACTION).some((x) => x === v);
     	    
     /* PUBLIC */
     return Object.freeze({
 	ACTION,
-
 	getDefaultAction: () => _settings.default_action,
 	getDefaultVm: () => _settings.default_vm,
 	toString: () => JSON.stringify(_settings),
