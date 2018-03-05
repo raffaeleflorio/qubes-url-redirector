@@ -35,13 +35,15 @@
     /* UI stuffs */
     function renderSettings (settings) {
 	const form = document.getElementById("settings");
-	form["default_action"].value = settings.default_action;
-	form["default_vm"].value = settings.default_vm;
+	form.default_action.value = settings.default_action;
+	form.default_vm.value = settings.default_vm;
     }
 
     /* INIT: get messages and settings */
     sendMessage({msg: null})
-	.then((messages) => MSG = messages)
+	.then(function (messages) {
+	    MSG = messages;
+	})
 	.then(() => sendMessage({msg: MSG.GET_SETTINGS}))
 	.then(function (settings) {
 	    renderSettings(settings);
@@ -55,8 +57,8 @@
     document.getElementById("settings").addEventListener("submit", function (ev) {
 	const form = ev.target;
 
-	const default_action = +form["default_action"].value;
-	const default_vm = form["default_vm"].value || null;
+	const default_action = Number(form.default_action.value);
+	const default_vm = form.default_vm.value || null;
 	const newSettings = {default_action, default_vm};
 
 	sendMessage({msg: MSG.UPDATE_SETTINGS, options: newSettings})
