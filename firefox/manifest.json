@@ -22,7 +22,7 @@
     "homepage_url": "https://github.com/raffaeleflorio/qubes-url-redirector",
 
     "options_ui": {
-	"page": "common/html/pages/settings.html",
+	"page": "common/html/settings.html",
 	"browser_style": true
     },
 
