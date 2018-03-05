@@ -18,9 +18,11 @@
  */
 
 QUR.messaging = (function () {
+    "use strict";
+
     const MSG = Object.freeze({
 	UPDATE_SETTINGS: 0,
-	GET_SETTINGS: 1,
+	GET_SETTINGS: 1
     });
     /* listeners[msg] = [handler_0, ... handler_n] */
     const listeners = { };
