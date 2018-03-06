@@ -10,15 +10,15 @@
       <h1> Default Behavior </h1>
       <form id="settings">
 	<label>
-	  <input type="radio" name="default_action" id="DVM" value="0" checked> Open in a DVM
+	  <input type="radio" name="default_action" value="0" checked> Open in a DVM
 	</label>
 
 	<label>
-	  <input type="radio" name="default_action" id="DEFAULT_VM" value="1"> Open in the default VM
+	  <input type="radio" name="default_action" value="1"> Open in the default VM
 	</label>
 
 	<label class="dangerous">
-	  <input type="radio" name="default_action" id="OPEN_HERE" value="2"> Open here
+	  <input type="radio" name="default_action" value="2"> Open here
 	</label>
 
 	<label>
@@ -32,6 +32,27 @@
 
     <section>
       <h1> Whitelist </h1>
+      <form id="whitelist">
+	<em id="type_info"> Remember to escape special RegExp characters with a backslash. </em>
+	<h2> Type to add: </h2>
+	<label>
+	  <input type="radio" name="type" value="0" checked> RegExp
+	</label>
+
+	<label>
+	  <input type="radio" name="type" value="1"> Exact match
+	</label>
+
+	<label>
+	  <input type="radio" name="type" value="2"> Domain
+	</label>
+
+	<label id="type_label">
+	  JavaScript RegExp: <input type="text" name="spec" size="64" value="" required>
+	</label>
+
+	<button type="submit"> Save </button>
+      </form>
     </section>
 
     <script src="/common/js/frontend/settings.js"></script>

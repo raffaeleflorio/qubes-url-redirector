@@ -53,7 +53,8 @@
 	.catch ((error) => fatal(error));
 
 
-    /* settings submit handler */
+    /* HANDLERS */
+    /* settings form submit handler */
     document.getElementById("settings").addEventListener("submit", function (ev) {
 	const form = ev.target;
 
@@ -74,4 +75,37 @@
 	
 	ev.preventDefault();
     });
+
+    /* whitelist form submit handler */
+    document.getElementById("whitelist").addEventListener("submit", function (ev) {
+	const form = ev.target;
+
+	const type = Number(form.type);
+	const spec = Array.from(form.spec).map((x) => x.value);
+
+	console.log(spec);
+
+	ev.preventDefault();
+    });
+
+    /* whitelist entry type change handler */
+    (function () {
+	const type = Array.from(document.getElementById("whitelist").type);
+	type.forEach((e) => e.addEventListener("change", function (ev) {
+	    const checkedType = Number(ev.target.value);
+
+	    const typeInfo = [];
+	    typeInfo[0] = "Remember to escape special RegExp characters with a backslash.";
+	    typeInfo[1] = "Escaping of special characters is done automatically.";
+	    typeInfo[2] = typeInfo[1];
+	    document.getElementById("type_info").textContent = typeInfo[checkedType];
+
+	    const typeLabel = [
+		"JavaScript RegExp: ",
+		"Domain: www.",
+		"String: "
+	    ];
+	    document.getElementById("type_label").firstChild.textContent = typeLabel[checkedType];
+	}));
+    }());
 }());
