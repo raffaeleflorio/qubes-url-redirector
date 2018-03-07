@@ -23,12 +23,19 @@
     let MSG = null;
     function sendMessage (message) {
 	return browser.runtime.sendMessage(message)
-	    .then((results) => results.response);
+	    .then(function (result) {
+		// if (result.response === false) {
+		//     return Promise.reject(false);
+		// } else {
+		//     return result.response;
+		// }
+		return result.response;
+	    });
     }
 
     function fatal (error) {
 	console.error(error);
-	alert("A fatal error occurred. The extension couldn't work anymore!");
+	alert("A fatal error occurred. Reload the extension!");
 	return false;
     }
 
@@ -38,20 +45,36 @@
 	form.default_action.value = settings.default_action;
 	form.default_vm.value = settings.default_vm;
     }
+    function renderWhitelist (whitelist) {
+	const entries = document.getElementById("whitelist_entries");
+	whitelist.forEach(function (e) {
+	    // const tr = document.createElement("tr");
 
-    /* INIT: get messages and settings */
-    sendMessage({msg: null})
+	    // const simpleString = document.createElement("td");
+	    // simpleString.textContent = e;
+	    // tr.appendChild(simpleString);
+	    
+	    console.log(e);
+	    // entries.appendChild(tr);
+	});
+    }
+
+    /* Initialization */
+    sendMessage({msg: null}) /* get messages */
 	.then(function (messages) {
 	    MSG = messages;
 	})
-	.then(() => sendMessage({msg: MSG.GET_SETTINGS}))
+	.then(() => sendMessage({msg: MSG.GET_SETTINGS})) /* get settings */
 	.then(function (settings) {
 	    renderSettings(settings);
 	    document.body.style.display = "";
+	})
+	.then(() => sendMessage({msg: MSG.GET_WHITELIST})) /* get whitelist */
+	.then(function (whitelist) {
+	    console.log(whitelist);
 	    console.log("[INFO] Init done");
 	})
 	.catch ((error) => fatal(error));
-
 
     /* HANDLERS */
     /* settings form submit handler */
