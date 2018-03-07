@@ -23,7 +23,7 @@ QUR.messaging = (function () {
     const MSG = Object.freeze({
 	UPDATE_SETTINGS: 0,
 	GET_SETTINGS: 1,
-	UPDATE_WHITELIST: 2,
+	ADD_TO_WHITELIST: 2,
 	GET_WHITELIST: 3
     });
     /* single listener for each event */
@@ -40,12 +40,14 @@ QUR.messaging = (function () {
 	    return true;
 	}
 	if (!isValidMessage(msg)) {
-	    return Promise.reject("Invalid message: " + msg.toString());
+	    console.error("Invalid message: " + msg.toString());
+	    return false;
 	}
 
 	const handler = listeners[msg];
 	if (!handler) {
-	    return Promise.reject("There isn't any listener for this message");
+	    console.error("There isn't any listener for this message");
+	    return false;
 	}
 
 	const details = {sendResponse, sender, options};

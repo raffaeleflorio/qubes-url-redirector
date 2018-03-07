@@ -27,7 +27,18 @@
 	msg: that.MSG.UPDATE_SETTINGS,
 	handler: function (details) {
 	    const {sendResponse, options:newSettings} = details;
-	    sendResponse({response: QUR.settings.set(newSettings)});
+	    const oldSettings = QUR.settings.toJSON();
+
+	    if (QUR.settings.set(newSettings)) {
+		QUR.JSONPersistence.persist({"settings": QUR.settings})
+		    .then(() => sendResponse({response: true}))
+		    .catch(function () {
+			QUR.settings.set(oldSettings);
+			sendResponse({response: false});
+		    });
+	    } else {
+		sendResponse({response: false});
+	    }
 	}
     });
 
@@ -37,11 +48,14 @@
 	handler: function (details) {
 	    const {sendResponse} = details;
 
-	    const default_action = QUR.settings.getDefaultAction();
-	    const default_vm = QUR.settings.getDefaultVm();
-	    const settings = {default_action, default_vm};
+	    QUR.JSONPersistence.get("settings")
+		.then(function (result) {
+		    const {settings = QUR.settings.toJSON()} = result;
 
-	    sendResponse({response: settings});
+		    QUR.settings.set(settings);
+		    sendResponse({response: settings});
+		})
+		.catch(() => sendResponse({response: false}));
 	}
     });
 }());
