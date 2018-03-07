@@ -1,0 +1,44 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+html, body {
+    color: #333;
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+h1 {
+    font-size: 180%;
+}
+
+section {
+    padding-bottom: 16px;
+}
+
+section > form {
+    padding-left: 16px;
+}
+
+label {
+    display: block;
+}
+
+.dangerous {
+    color: #BD2727;
+}
+
+#whitelist_entries {
+    width: 100%;
+    margin-top: 32px;
+    border-collapse: collapse;
+    border: 1px solid #333;
+}
+#whitelist_entries caption {
+    text-align: center;
+    font-size: 150%;
+}
+#whitelist_entries thead {
+    background-color: #d2d2d2;
+}
