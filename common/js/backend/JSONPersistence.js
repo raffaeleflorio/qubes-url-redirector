@@ -27,7 +27,7 @@ QUR.JSONPersistence = (function () {
 
     function stackTrace (error) {
 	console.error(`[JSONPersistence] ${error}`);
-	return false;
+	return Promise.reject(false);
     }
 
     return Object.freeze({
