@@ -46,7 +46,7 @@ QUR.messaging = (function () {
 
 	const handler = listeners[msg];
 	if (!handler) {
-	    console.error("There isn't any listener for this message");
+	    console.error("There isn't any listener for the message: " + msg);
 	    return false;
 	}
 
