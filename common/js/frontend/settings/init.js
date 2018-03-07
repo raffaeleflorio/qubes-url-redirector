@@ -24,12 +24,11 @@
     function sendMessage (message) {
 	return browser.runtime.sendMessage(message)
 	    .then(function (result) {
-		// if (result.response === false) {
-		//     return Promise.reject(false);
-		// } else {
-		//     return result.response;
-		// }
-		return result.response;
+		if (result === null) {
+		    return Promise.reject();
+		} else {
+		    return result.response;
+		}
 	    });
     }
 
@@ -48,14 +47,7 @@
     function renderWhitelist (whitelist) {
 	const entries = document.getElementById("whitelist_entries");
 	whitelist.forEach(function (e) {
-	    // const tr = document.createElement("tr");
-
-	    // const simpleString = document.createElement("td");
-	    // simpleString.textContent = e;
-	    // tr.appendChild(simpleString);
-	    
 	    console.log(e);
-	    // entries.appendChild(tr);
 	});
     }
 
@@ -71,7 +63,7 @@
 	})
 	.then(() => sendMessage({msg: MSG.GET_WHITELIST})) /* get whitelist */
 	.then(function (whitelist) {
-	    console.log(whitelist);
+	    renderWhitelist(whitelist);
 	    console.log("[INFO] Init done");
 	})
 	.catch ((error) => fatal(error));

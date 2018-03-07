@@ -22,37 +22,27 @@
 
     const that = QUR.messaging;
 
-    /* UPDATE_SETTINGS handler */
+    /* GET_WHITELIST handler */
     that.addListener({
-	msg: that.MSG.UPDATE_SETTINGS,
-	handler: function (details) {
-	    const {sendResponse, options:newSettings} = details;
-	    const oldSettings = QUR.settings.toJSON();
-
-	    if (QUR.settings.set(newSettings)) {
-		QUR.JSONPersistence.persist({"settings": QUR.settings})
-		    .then(() => sendResponse({response: true}))
-		    .catch(function () {
-			QUR.settings.set(oldSettings);
-			sendResponse(null);
-		    });
-	    } else {
-		sendResponse({response: false});
-	    }
-	}
-    });
-
-    /* GET_SETTINGS handler */
-    that.addListener({
-	msg: that.MSG.GET_SETTINGS,
+	msg: that.MSG.GET_WHITELIST,
 	handler: function (details) {
 	    const {sendResponse} = details;
 
-	    QUR.JSONPersistence.get("settings")
+	    QUR.JSONPersistence.get("whitelist")
 		.then(function (result) {
-		    const {settings = QUR.settings.toJSON()} = result;
-		    QUR.settings.set(settings);
-		    sendResponse({response: settings});
+		    const {whitelist = QUR.whitelist.toJSON()} = result;
+		    const ret = [];
+
+		    whitelist.forEach(function (e) {
+			const r = QUR.whitelist_entries.makeEntry(e);
+			ret.push({
+			    type: r.getType(),
+			    regexp: r.toString(true),
+			    simple: r.toString(false)
+			});
+		    });
+
+		    sendResponse({response: ret});
 		})
 		.catch(() => sendResponse(null));
 	}
