@@ -22,14 +22,17 @@ QUR.messaging = (function () {
 
     const MSG = Object.freeze({
 	UPDATE_SETTINGS: 0,
-	GET_SETTINGS: 1
+	GET_SETTINGS: 1,
+	UPDATE_WHITELIST: 2,
+	GET_WHITELIST: 3
     });
-    /* listeners[msg] = [handler_0, ... handler_n] */
-    const listeners = { };
+    /* single listener for each event */
+    const listeners = [];
 
     const isValidMessage = (x) => Object.values(MSG).some((m) => m === x);
     const isValidListener = (x) => typeof x === "function";
 
+    /* dispatcher */
     browser.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 	const {msg, options} = request;
 	if (msg === null) {
@@ -40,9 +43,14 @@ QUR.messaging = (function () {
 	    return Promise.reject("Invalid message: " + msg.toString());
 	}
 
-	const handlers = listeners[msg];
+	const handler = listeners[msg];
+	if (!handler) {
+	    return Promise.reject("There isn't any listener for this message");
+	}
+
 	const details = {sendResponse, sender, options};
-	handlers && handlers.forEach((fn) => fn(details));
+	window.setTimeout(() => handler(details), 0);
+	return true; /* async response */
     });
 
     return Object.freeze({
@@ -50,12 +58,11 @@ QUR.messaging = (function () {
 
 	addListener (spec) {
 	    const {msg, handler} = spec;
-	    if (!isValidMessage(msg) || !isValidListener(handler)) {
+	    if (!isValidMessage(msg) || !isValidListener(handler) || listeners[msg]) {
 		return false;
 	    }
 
-	    listeners[msg] = listeners[msg] || [];
-	    listeners[msg].push(handler);
+	    listeners[msg] = handler;
 	    return true;
 	}
     });
