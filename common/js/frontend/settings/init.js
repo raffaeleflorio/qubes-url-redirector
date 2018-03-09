@@ -27,6 +27,8 @@
     /* Initialization */
     sendMessage({msg: MSG.GET_SETTINGS})
 	.then(renderSettings)
+	.then(() => sendMessage({msg: MSG.GET_WHITELIST}))
+	.then(renderWhitelist)
 	.then(attachFormHandlers)
 	.then(() => document.body.style.display = "")
 	.then(() => console.log("[INFO] Init done"))

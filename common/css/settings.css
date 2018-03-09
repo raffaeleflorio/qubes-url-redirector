@@ -42,3 +42,11 @@ label {
 #whitelist_entries thead {
     background-color: #d2d2d2;
 }
+#whitelist_entries td, th {
+    padding: 5px;
+    text-align: center;
+    border-bottom: 1px solid #000;
+}
+#whitelist_entries tr.entry:hover {
+    background-color: #f2f2f2;
+}
