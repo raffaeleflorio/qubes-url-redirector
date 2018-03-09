@@ -35,19 +35,17 @@ QUR.messaging = (function () {
     /* dispatcher */
     browser.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 	const {msg, options} = request;
-	if (msg === null) {
-	    sendResponse({response: MSG});
-	    return true;
-	}
 	if (!isValidMessage(msg)) {
-	    console.error("Invalid message: " + msg.toString());
-	    return false;
+	    console.error("Invalid message: " + msg);
+	    sendResponse(null);
+	    return;
 	}
 
 	const handler = listeners[msg];
 	if (!handler) {
-	    console.error("There isn't any listener for the message: " + msg);
-	    return false;
+	    console.error("There isn't any listener for the message: " + msg.toString());
+	    sendResponse(null);
+	    return;
 	}
 
 	const details = {sendResponse, sender, options};
