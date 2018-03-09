@@ -42,6 +42,23 @@ QUR.whitelist_entries = Object.freeze({
 
 	return ENTRY_FUNC[type](spec);
     },
+    isValidEntry (obj) {
+	const that = QUR.whitelist_entries;
+
+	const ENTRIES = [
+	    that.makeRegexp(""),
+	    that.makeExact(""),
+	    that.makeDomain({domain: "example.org"})
+	];
+
+	if (typeof obj !== "object" || typeof obj.getType !== "function") {
+	    return false;
+	}
+
+	const type = obj.getType();
+	const compEntry = ENTRIES[type];
+	return Object.keys(obj).every((k) => typeof obj[k] === typeof compEntry[k]);
+    },
     makeRegexp (spec) {
 	"use strict";
 
