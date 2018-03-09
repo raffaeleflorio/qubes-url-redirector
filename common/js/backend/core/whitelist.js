@@ -31,6 +31,7 @@
     const publicWhitelist = Object.freeze({
 	toString: () => _whitelist.toString(),
 	toJSON: () => _whitelist.slice(0),
+	forEach: (fn) => getCloned().forEach(fn),
 	test: (value) => _whitelist.some((x) => x.test(value)),
 	add (entry) {
 	    if (findIndex(entry) >= 0 || !that.isValidEntry(entry)) {
