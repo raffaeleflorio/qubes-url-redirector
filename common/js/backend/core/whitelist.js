@@ -24,13 +24,13 @@ QUR.whitelist = (function () {
 
     const findIndex = (entry) => _whitelist.findIndex((x) => x.toString(true) === entry.toString(true));
 
-    /* PUBLIC */
+    const that = QUR.whitelist_entries;
     return Object.freeze({
 	toString: () => _whitelist.toString(),
 	toJSON: () => _whitelist.slice(0),
 	test: (value) => _whitelist.some((x) => x.test(value)),
 	add (entry) {
-	    if (findIndex(entry) >= 0) {
+	    if (findIndex(entry) >= 0 || !that.isValidEntry(entry)) {
 		return false;
 	    }
 
@@ -49,7 +49,7 @@ QUR.whitelist = (function () {
 	replace (oldEntry, newEntry) {
 	    const i = findIndex(oldEntry);
 	    const j = findIndex(newEntry);
-	    if (i === -1 || j >= 0) {
+	    if (i === -1 || j >= 0 || !that.isValidEntry(newEntry)) {
 		return false;
 	    }
 
