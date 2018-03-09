@@ -17,18 +17,24 @@
  * along with qubes-url-redirector.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function () {
+function settingsSubmit (ev) {
     "use strict";
 
-    function attachFormHandlers () {
-	document.getElementById("settings").addEventListener("submit", settingsSubmit);
-    }
+    const form = ev.target;
 
-    /* Initialization */
-    sendMessage({msg: MSG.GET_SETTINGS})
-	.then(renderSettings)
-	.then(attachFormHandlers)
-	.then(() => document.body.style.display = "")
-	.then(() => console.log("[INFO] Init done"))
+    const default_action = Number(form.default_action.value);
+    const default_vm = form.default_vm.value || null;
+    const newSettings = {default_action, default_vm};
+
+    sendMessage({msg: MSG.UPDATE_SETTINGS, options: newSettings})
+	.then(function (result) {
+	    if (result) {
+		alert("Settings saved successfully");
+	    } else {
+		alert("Unable to save settings!");
+	    }
+	})
 	.catch((error) => fatal(error));
-}());
+
+    ev.preventDefault();
+}

@@ -17,18 +17,27 @@
  * along with qubes-url-redirector.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function () {
-    "use strict";
+QUR.messaging.addListener({
+    msg: QUR.messaging.MSG.GET_SETTINGS,
+    handler: function (details) {
+	"use strict";
 
-    function attachFormHandlers () {
-	document.getElementById("settings").addEventListener("submit", settingsSubmit);
+	const {sendResponse} = details;
+	sendResponse({response: QUR.settings.toJSON()});
     }
+});
 
-    /* Initialization */
-    sendMessage({msg: MSG.GET_SETTINGS})
-	.then(renderSettings)
-	.then(attachFormHandlers)
-	.then(() => document.body.style.display = "")
-	.then(() => console.log("[INFO] Init done"))
-	.catch((error) => fatal(error));
-}());
+QUR.messaging.addListener({
+    msg: QUR.messaging.MSG.UPDATE_SETTINGS,
+    handler: function (details) {
+	"use strict";
+
+	const {sendResponse, options:newSettings} = details;
+	QUR.settings.set(newSettings)
+	    .then((result) => sendResponse({response: result}))
+	    .catch(function (error) {
+		console.error(error);
+		sendResponse(null);
+	    });
+    }
+});

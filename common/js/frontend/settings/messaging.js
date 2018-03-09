@@ -17,18 +17,29 @@
  * along with qubes-url-redirector.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function () {
+const MSG = Object.freeze({
+    UPDATE_SETTINGS: 0,
+    GET_SETTINGS: 1,
+    ADD_TO_WHITELIST: 2,
+    GET_WHITELIST: 3
+});
+
+function sendMessage (message) {
     "use strict";
 
-    function attachFormHandlers () {
-	document.getElementById("settings").addEventListener("submit", settingsSubmit);
-    }
+    return browser.runtime.sendMessage(message)
+	.then(function (result) {
+	    if (result === null) {
+		return Promise.reject("Communication error")
+	    }
 
-    /* Initialization */
-    sendMessage({msg: MSG.GET_SETTINGS})
-	.then(renderSettings)
-	.then(attachFormHandlers)
-	.then(() => document.body.style.display = "")
-	.then(() => console.log("[INFO] Init done"))
-	.catch((error) => fatal(error));
-}());
+	    return result.response;
+	});
+}
+
+function fatal (error) {
+    "use strict";
+
+    console.error(error);
+    alert("A fatal error occurred. Reload the extension!");
+}
