@@ -17,7 +17,7 @@
  * along with qubes-url-redirector.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-QUR.settings = (function () {
+(function () {
     "use strict";
 
     const ACTION = Object.freeze({
@@ -33,30 +33,65 @@ QUR.settings = (function () {
 
     const isValidVmName = (v) => (typeof v === "string" && v !== "") || (v === null);
     const isValidAction = (v) => Object.values(ACTION).some((x) => x === v);
-    	    
-    /* PUBLIC */
-    return Object.freeze({
+    function isValidSettings (settings) {
+	const {default_action, default_vm} = settings;
+	if (!isValidAction(default_action) || !isValidVmName(default_vm)) {
+	    return false;
+	}
+
+	const requireVmName = default_action === ACTION.DEFAULT_VM;
+	/* default_vm could be null */
+	if (requireVmName && !default_vm) {
+	    return false;
+	}
+
+	return true;
+    }
+
+    const persist = (settings) => browser.storage.local.set({"settings": settings});
+
+    const publicSettings = Object.freeze({
 	ACTION,
 	getDefaultAction: () => _settings.default_action,
 	getDefaultVm: () => _settings.default_vm,
 	toString: () => JSON.stringify(_settings),
 	toJSON: () => Object.assign({}, _settings),
 	set (settings) {
-	    const {default_vm = _settings.default_vm, default_action = _settings.default_action} = settings;
+	    const {default_vm = _settings.default_vm} = settings;
+	    const {default_action = _settings.default_action} = settings;
+	    const newSettings = {default_action, default_vm};
 
-	    if (!isValidAction(default_action) || !isValidVmName(default_vm)) {
-    		return false;
-    	    }
+	    if (!isValidSettings(newSettings)) {
+		return Promise.resolve(false);
+	    }
 
-    	    const requireVmName = default_action === ACTION.DEFAULT_VM;
-	    /* default_vm could be null */
-    	    if (requireVmName && !default_vm) {
-    		return false;
-    	    }
-
-    	    _settings.default_vm = default_vm;
-    	    _settings.default_action = default_action;
-    	    return true;
+	    return persist(newSettings).then(function () {
+		_settings.default_vm = default_vm;
+		_settings.default_action = default_action;
+		return Promise.resolve(true);
+	    });
 	}
     });
+
+    /* initialization of settings */
+    browser.storage.local.get("settings")
+	.then(function (result) {
+	    if (result.settings && isValidSettings(result.settings)) {
+		return result.settings;
+	    }
+
+	    return _settings;
+	})
+	.then(publicSettings.set)
+	.then(function () {
+	    QUR.settings = publicSettings;
+	    console.log("[INFO] QUR.settings initialized");
+	})
+	.catch(function (error) {
+	    const msg = [
+		"Error during QUR.settings initialization: " + error.toString(),
+		"The extension will not work!"
+	    ].join("\n");
+	    console.error(msg);
+	});
 }());
