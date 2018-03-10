@@ -34,3 +34,28 @@ QUR.messaging.addListener({
 	sendResponse({response: ret});
     }
 });
+
+QUR.messaging.addListener({
+    msg: QUR.messaging.MSG.ADD_TO_WHITELIST,
+    handler: function (details) {
+	"use strict";
+	const {sendResponse, options:entrySpec} = details;
+	const entry = QUR.whitelist_entries.makeEntry(entrySpec);
+
+	QUR.whitelist.add(entry)
+	    .then(function (result) {
+		const addedEntry = {
+		    type: entry.getType(),
+		    simpleString: entry.toString(),
+		    detailedString: entry.toString(true)
+		};
+		sendResponse({
+		    response: {result, addedEntry}
+		});
+	    })
+	    .catch(function (error) {
+		console.error(error);
+		sendResponse(null);
+	    });
+    }
+});

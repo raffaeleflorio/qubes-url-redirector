@@ -38,3 +38,36 @@ function settingsSubmit (ev) {
 
     ev.preventDefault();
 }
+
+function whitelistSubmit (ev) {
+    "use strict";
+
+    const form = ev.target;
+
+    const entrySpec = {
+	type: Number(form.type.value),
+	spec: null
+    };
+
+    /* domain */
+    if (entrySpec.type === 2) {
+	entrySpec.spec = {};
+	entrySpec.spec.domain = form.spec.value;
+	entrySpec.spec.subdomain =  form.subdomain.checked;
+    } else {
+	entrySpec.spec = form.spec.value;
+    }
+
+    sendMessage({msg: MSG.ADD_TO_WHITELIST, options: entrySpec})
+	.then(function (response) {
+	    if (response.result) {
+		alert("Entry added successfully");
+		addEntry(response.addedEntry);
+	    } else {
+		alert("Unable to add entry!");
+	    }
+	})
+	.catch((error) => fatal(error));
+
+    ev.preventDefault();
+}

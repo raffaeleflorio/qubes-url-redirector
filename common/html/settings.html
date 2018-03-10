@@ -7,7 +7,7 @@
   </head>
   <body style="display: none">
     <section>
-      <h1> Default Behavior </h1>
+      <h1> Default Action </h1>
       <form id="settings">
 	<label>
 	  <input type="radio" name="default_action" value="0" checked> Open in a DVM
@@ -43,8 +43,12 @@
 	  <input type="radio" name="type" value="1"> Exact match
 	</label>
 
-	<label>
+	<label class="entrySpecDomain">
 	  <input type="radio" name="type" value="2"> Domain
+	</label>
+
+	<label class="entrySpecDomain">
+	  <input type="checkbox" name="subdomain"> Whitelist subdomains too
 	</label>
 
 	<label id="type_label">

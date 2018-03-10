@@ -25,34 +25,37 @@ function renderSettings (settings) {
     form.default_vm.value = settings.default_vm;
 }
 
+function addEntry (entry) {
+    const table = document.getElementById("whitelist_entries");
+
+    const row = document.createElement("tr");
+    const cells = [];
+    for (let i = 0; i < 5; ++i) {
+	cells[i] = document.createElement("td");
+    }
+
+    /* String that represent the entry type */
+    const typeString = [
+	"RegExp",
+	"Exact Match",
+	"Domain"
+    ];
+
+    cells[0].textContent = entry.simpleString;
+    cells[1].textContent = entry.detailedString;
+    cells[2].textContent = typeString[entry.type];
+    cells[3].textContent = "Modify Button";
+    cells[4].textContent = "Remove Button";
+
+    row.className = "entry";
+    cells.forEach((c) => row.appendChild(c));
+    table.appendChild(row);
+}
+
 function renderWhitelist (whitelist) {
     "use strict";
 
-    const table = document.getElementById("whitelist_entries");
-    whitelist.forEach(function (entry) {
-	const row = document.createElement("tr");
-	const cells = [];
-	for (let i = 0; i < 5; ++i) {
-	    cells[i] = document.createElement("td");
-	}
-
-	/* String that represent the entry type */
-	const typeString = [
-	    "RegExp",
-	    "Exact Match",
-	    "Domain"
-	];
-
-	cells[0].textContent = entry.simpleString;
-	cells[1].textContent = entry.detailedString;
-	cells[2].textContent = typeString[entry.type];
-	cells[3].textContent = "Modify Button";
-	cells[4].textContent = "Remove Button";
-
-	row.className = "entry";
-	cells.forEach((c) => row.appendChild(c));
-	table.appendChild(row);
-    });
+    whitelist.forEach(addEntry);
 }
 
 (function () {

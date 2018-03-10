@@ -22,6 +22,7 @@
 
     function attachFormHandlers () {
 	document.getElementById("settings").addEventListener("submit", settingsSubmit);
+	document.getElementById("whitelist").addEventListener("submit", whitelistSubmit);
     }
 
     /* Initialization */

@@ -14,15 +14,18 @@ h1 {
 }
 
 section {
-    padding-bottom: 16px;
+    padding-bottom: 1rem;
 }
-
 section > form {
-    padding-left: 16px;
+    padding-left: 1rem;
 }
 
 label {
     display: block;
+}
+label.entrySpecDomain {
+    display: inline-block;
+    margin-right: 1rem;
 }
 
 .dangerous {
@@ -31,7 +34,7 @@ label {
 
 #whitelist_entries {
     width: 100%;
-    margin-top: 32px;
+    margin-top: 2rem;
     border-collapse: collapse;
     border: 1px solid #333;
 }
