@@ -128,27 +128,5 @@ QUR.whitelist_entries = Object.freeze({
 	    toJSON: () => json
 	});
     },
-    escapeRE: (v) => v.replace(/[|\\{}\[\]^$+*?.]/g, "\\$&"),
-    fromJSON (json) {
-	"use strict";
-
-	const that = QUR.whitelist_entries;
-
-	const obj = JSON.parse(json);
-	if (Array.isArray(obj)) {
-	    const ret = [];
-	    let entry = null;
-
-	    obj.forEach(function (entrySpec) {
-		entry = that.makeEntry(entrySpec);
-		entry && ret.push(entry);
-	    });
-	    return ret;
-	}
-	if (typeof obj === "object" && obj !== null) {
-	    return that.makeEntry(obj);
-	}
-
-	return null;
-    }
+    escapeRE: (v) => v.replace(/[|\\{}\[\]^$+*?.]/g, "\\$&")
 });
