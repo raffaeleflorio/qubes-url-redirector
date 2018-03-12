@@ -61,3 +61,23 @@ QUR.messaging.addListener({
 	    });
     }
 });
+
+QUR.messaging.addListener({
+    msg: QUR.messaging.MSG.RM_FROM_WHITELIST,
+    handler (details) {
+	"use strict";
+
+	const {sendResponse, options:id} = details;
+	const entry = QUR.whitelist.getFromString(id);
+	if (!entry) {
+	    sendResponse(false);
+	} else {
+	    QUR.whitelist.rm(entry)
+		.then(sendResponse)
+		.catch(function (error) {
+		    console.error(error);
+		    sendResponse(null);
+		});
+	}
+    }
+});

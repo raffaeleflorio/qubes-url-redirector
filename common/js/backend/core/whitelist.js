@@ -33,6 +33,14 @@
 	toJSON: () => _whitelist.slice(0),
 	forEach: (fn) => getCloned().forEach(fn),
 	test: (value) => _whitelist.some((x) => x.test(value)),
+	getFromString (s) {
+	    const i = findIndex({toString: () => s});
+	    if (i === -1) {
+		return null;
+	    }
+
+	    return _whitelist[i];
+	},
 	add (entry) {
 	    if (!that.isValidEntry(entry) || findIndex(entry) >= 0) {
 		return Promise.resolve(false);
@@ -54,7 +62,7 @@
 	    if (i === -1) {
 		return Promise.resolve(false);
 	    }
-	    
+
 	    const cloned = getCloned();
 	    cloned.splice(i, 1);
 	    return persist(cloned).then(function () {

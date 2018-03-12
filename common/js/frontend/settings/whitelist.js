@@ -71,7 +71,22 @@ function addEntry (entry) {
     cells[1].textContent = entry.detailedString;
     cells[2].textContent = typeString[entry.type];
     cells[3].textContent = "Modify Button";
-    cells[4].textContent = "Remove Button";
+
+    const rmBtn = document.createElement("button");
+    rmBtn.textContent = "Remove";
+    rmBtn.addEventListener("click", function (ev) {
+	sendMessage({msg: MSG.RM_FROM_WHITELIST, options: entry.detailedString})
+	    .then(function (result) {
+		if (result) {
+		    table.removeChild(row);
+		    alert("Entry removed successfully!");
+		} else {
+		    alert("Unable to remove entry!");
+		}
+	    })
+	    .catch((error) => fatal(error));
+    });
+    cells[4].appendChild(rmBtn);
 
     row.className = "entry";
     cells.forEach((c) => row.appendChild(c));
