@@ -120,7 +120,7 @@ QUR.whitelist_entries = Object.freeze({
 	    return prefix + that.escapeRE(domain);
 	}());
 	const simpleString = (subdomain ? "*." : "") + domain;
-	const json = {type: MY_TYPE, spec: Object.assign({}, spec)}
+	const json = {type: MY_TYPE, spec: {domain, subdomain}}
 	return Object.freeze({
 	    getType: () => MY_TYPE,
 	    test: (v) => reObj.test(v),
