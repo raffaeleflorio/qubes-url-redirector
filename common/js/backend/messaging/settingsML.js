@@ -19,7 +19,7 @@
 
 QUR.messaging.addListener({
     msg: QUR.messaging.MSG.GET_SETTINGS,
-    handler: function (details) {
+    handler (details) {
 	"use strict";
 
 	const {sendResponse} = details;
@@ -29,7 +29,7 @@ QUR.messaging.addListener({
 
 QUR.messaging.addListener({
     msg: QUR.messaging.MSG.UPDATE_SETTINGS,
-    handler: function (details) {
+    handler (details) {
 	"use strict";
 
 	const {sendResponse, options:newSettings} = details;

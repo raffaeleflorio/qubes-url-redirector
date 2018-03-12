@@ -19,7 +19,7 @@
 
 QUR.messaging.addListener({
     msg: QUR.messaging.MSG.GET_WHITELIST,
-    handler: function (details) {
+    handler (details) {
 	"use strict";
 
 	const {sendResponse} = details;
@@ -37,7 +37,7 @@ QUR.messaging.addListener({
 
 QUR.messaging.addListener({
     msg: QUR.messaging.MSG.ADD_TO_WHITELIST,
-    handler: function (details) {
+    handler (details) {
 	"use strict";
 	const {sendResponse, options:entrySpec} = details;
 	const entry = QUR.whitelist_entries.makeEntry(entrySpec);
