@@ -60,9 +60,10 @@ function whitelistSubmit (ev) {
 
     sendMessage({msg: MSG.ADD_TO_WHITELIST, options: entrySpec})
 	.then(function (response) {
-	    if (response.result) {
+	    const {result, addedEntry} = response;
+	    if (result) {
 		alert("Entry added successfully");
-		addEntry(response.addedEntry);
+		addEntry(addedEntry);
 	    } else {
 		alert("Unable to add entry!");
 	    }

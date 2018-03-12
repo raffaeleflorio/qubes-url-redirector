@@ -31,7 +31,7 @@ QUR.messaging.addListener({
 		detailedString: entry.toString(true)
 	    });
 	});
-	sendResponse({response: ret});
+	sendResponse(ret);
     }
 });
 
@@ -45,18 +45,14 @@ QUR.messaging.addListener({
 	QUR.whitelist.add(entry)
 	    .then(function (result) {
 		if (!result) {
-		    sendResponse({
-			response: {result}
-		    });
+		    sendResponse({result});
 		} else {
 		    const addedEntry = {
 			type: entry.getType(),
 			simpleString: entry.toString(),
 			detailedString: entry.toString(true)
 		    };
-		    sendResponse({
-			response: {result, addedEntry}
-		    });
+		    sendResponse({result, addedEntry});
 		}
 	    })
 	    .catch(function (error) {

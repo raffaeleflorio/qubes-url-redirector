@@ -28,12 +28,12 @@ function sendMessage (message) {
     "use strict";
 
     return browser.runtime.sendMessage(message)
-	.then(function (result) {
-	    if (result === null) {
+	.then(function (response) {
+	    if (response === null) {
 		return Promise.reject("Communication error")
 	    }
 
-	    return result.response;
+	    return response;
 	});
 }
 

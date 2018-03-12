@@ -23,7 +23,7 @@ QUR.messaging.addListener({
 	"use strict";
 
 	const {sendResponse} = details;
-	sendResponse({response: QUR.settings.toJSON()});
+	sendResponse(QUR.settings.toJSON());
     }
 });
 
@@ -34,7 +34,7 @@ QUR.messaging.addListener({
 
 	const {sendResponse, options:newSettings} = details;
 	QUR.settings.set(newSettings)
-	    .then((result) => sendResponse({response: result}))
+	    .then(sendResponse)
 	    .catch(function (error) {
 		console.error(error);
 		sendResponse(null);
