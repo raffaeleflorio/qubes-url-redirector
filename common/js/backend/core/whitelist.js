@@ -81,7 +81,10 @@
 	    });
 	},
 	clear () {
-	    _whitelist = [];
+	    return persist([]).then(function () {
+		_whitelist = [];
+		return Promise.resolve(true);
+	    });
 	}
     });
 
