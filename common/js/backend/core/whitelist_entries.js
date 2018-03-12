@@ -51,7 +51,7 @@ QUR.whitelist_entries = Object.freeze({
 	    that.makeDomain({domain: "example.org"})
 	];
 
-	if (typeof obj !== "object" || typeof obj.getType !== "function") {
+	if (typeof obj !== "object" || obj === null || typeof obj.getType !== "function") {
 	    return false;
 	}
 
@@ -145,7 +145,7 @@ QUR.whitelist_entries = Object.freeze({
 	    });
 	    return ret;
 	}
-	if (typeof obj === "object") {
+	if (typeof obj === "object" && obj !== null) {
 	    return that.makeEntry(obj);
 	}
 

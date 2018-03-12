@@ -34,7 +34,7 @@
 	forEach: (fn) => getCloned().forEach(fn),
 	test: (value) => _whitelist.some((x) => x.test(value)),
 	add (entry) {
-	    if (findIndex(entry) >= 0 || !that.isValidEntry(entry)) {
+	    if (!that.isValidEntry(entry) || findIndex(entry) >= 0) {
 		return Promise.resolve(false);
 	    }
 
@@ -46,6 +46,10 @@
 	    });
 	},
 	rm (entry) {
+	    if (!that.isValidEntry(entry)) {
+		return Promise.resolve(false);
+	    }
+
 	    const i = findIndex(entry);
 	    if (i === -1) {
 		return Promise.resolve(false);
@@ -59,9 +63,13 @@
 	    });
 	},
 	replace (oldEntry, newEntry) {
+	    if (!that.isValidEntry(oldEntry) || !that.isValidEntry(newEntry)) {
+		return Promise.resolve(false);
+	    }
+
 	    const i = findIndex(oldEntry);
 	    const j = findIndex(newEntry);
-	    if (i === -1 || j >= 0 || !that.isValidEntry(newEntry)) {
+	    if (i === -1 || j >= 0) {
 		return Promise.resolve(false);
 	    }
 
