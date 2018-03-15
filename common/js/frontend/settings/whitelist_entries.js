@@ -99,6 +99,5 @@ OPTIONS.whitelist_entries = (function () {
 	    base.setType("Domain");
 	    return base.getPublic();
 	}
-
     });
 }());

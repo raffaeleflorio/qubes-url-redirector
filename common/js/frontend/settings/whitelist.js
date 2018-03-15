@@ -28,8 +28,7 @@ OPTIONS.whitelist = Object.freeze({
 	    spec: null
 	};
 
-	/* domain */
-	if (entrySpec.type === 2) {
+	if (entrySpec.type === OPTIONS.whitelist_entries.ENTRY_TYPE.DOMAIN) {
 	    entrySpec.spec = {};
 	    entrySpec.spec.domain = form.spec.value;
 	    entrySpec.spec.subdomain =  form.subdomain.checked;
