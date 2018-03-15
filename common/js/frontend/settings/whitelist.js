@@ -46,6 +46,14 @@ OPTIONS.whitelist = (function () {
 	    "Domain: www."
 	];
 	document.getElementById("type_label").firstChild.textContent = typeLabel[checkedType];
+
+	const subdomain = document.getElementById("whitelist").subdomain;
+	if (checkedType === OPTIONS.whitelist_entries.ENTRY_TYPE.DOMAIN) {
+	    subdomain.parentNode.style.display = "";
+	} else {
+	    subdomain.parentNode.style.display = "none";
+	    subdomain.checked = false;
+	}
     }));
 
     function formReset () {
