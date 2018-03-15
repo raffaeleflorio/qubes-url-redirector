@@ -17,87 +17,95 @@
  * along with qubes-url-redirector.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-function whitelistSubmit (ev) {
-    "use strict";
+OPTIONS.whitelist = Object.freeze({
+    submitHandler (ev) {
+	"use strict";
 
-    const form = ev.target;
+	const form = ev.target;
 
-    const entrySpec = {
-	type: Number(form.type.value),
-	spec: null
-    };
+	const entrySpec = {
+	    type: Number(form.type.value),
+	    spec: null
+	};
 
-    /* domain */
-    if (entrySpec.type === 2) {
-	entrySpec.spec = {};
-	entrySpec.spec.domain = form.spec.value;
-	entrySpec.spec.subdomain =  form.subdomain.checked;
-    } else {
-	entrySpec.spec = form.spec.value;
-    }
+	/* domain */
+	if (entrySpec.type === 2) {
+	    entrySpec.spec = {};
+	    entrySpec.spec.domain = form.spec.value;
+	    entrySpec.spec.subdomain =  form.subdomain.checked;
+	} else {
+	    entrySpec.spec = form.spec.value;
+	}
 
-    sendMessage({msg: MSG.ADD_TO_WHITELIST, options: entrySpec})
-	.then(function (response) {
-	    const {result, addedEntry} = response;
-	    if (result) {
-		alert("Entry added successfully");
-		addEntry(addedEntry);
-	    } else {
-		alert("Unable to add entry!");
-	    }
-	})
-	.catch((error) => fatal(error));
-
-    ev.preventDefault();
-}
-
-function addEntry (entry) {
-    const table = document.getElementById("whitelist_entries");
-
-    const row = document.createElement("tr");
-    const cells = [];
-    for (let i = 0; i < 5; ++i) {
-	cells[i] = document.createElement("td");
-    }
-
-    /* String that represent the entry type */
-    const typeString = [
-	"RegExp",
-	"Exact Match",
-	"Domain"
-    ];
-
-    cells[0].textContent = entry.simpleString;
-    cells[1].textContent = entry.detailedString;
-    cells[2].textContent = typeString[entry.type];
-    cells[3].textContent = "Modify Button";
-
-    const rmBtn = document.createElement("button");
-    rmBtn.textContent = "Remove";
-    rmBtn.addEventListener("click", function (ev) {
-	sendMessage({msg: MSG.RM_FROM_WHITELIST, options: entry.detailedString})
-	    .then(function (result) {
+	const MSG = OPTIONS.messaging.MSG;
+	const sendMessage = OPTIONS.messaging.sendMessage;
+	sendMessage({msg: MSG.ADD_TO_WHITELIST, options: entrySpec})
+	    .then(function (response) {
+		const {result, addedEntry} = response;
 		if (result) {
-		    table.removeChild(row);
-		    alert("Entry removed successfully!");
+		    alert("Entry added successfully");
+		    OPTIONS.whitelist.addEntry(addedEntry);
 		} else {
-		    alert("Unable to remove entry!");
+		    alert("Unable to add entry!");
 		}
 	    })
-	    .catch((error) => fatal(error));
-    });
-    cells[4].appendChild(rmBtn);
+	    .catch((error) => OPTIONS.fatal(error));
 
-    row.className = "entry";
-    cells.forEach((c) => row.appendChild(c));
-    table.appendChild(row);
-}
+	ev.preventDefault();
+    },
+    render (entries) {
+	"use strict";
 
-function renderWhitelist (whitelist) {
-    "use strict";
+	const that = OPTIONS.whitelist;
+	entries.forEach(that.addEntry);
+    },
+    addEntry (entry) {
+	"use strict";
 
-    whitelist.forEach(addEntry);
-}
+	const table = document.getElementById("whitelist_entries");
+
+	const row = document.createElement("tr");
+	const cells = [];
+	for (let i = 0; i < 5; ++i) {
+	    cells[i] = document.createElement("td");
+	}
+
+	/* String that represent the entry type */
+	const typeString = [
+	    "RegExp",
+	    "Exact Match",
+	    "Domain"
+	];
+
+	cells[0].textContent = entry.simpleString;
+	cells[1].textContent = entry.detailedString;
+	cells[2].textContent = typeString[entry.type];
+	cells[3].textContent = "Modify Button";
+
+	const MSG = OPTIONS.messaging.MSG;
+	const sendMessage = OPTIONS.messaging.sendMessage;
+
+	const rmBtn = document.createElement("button");
+	rmBtn.textContent = "Remove";
+	rmBtn.addEventListener("click", function (ev) {
+	    sendMessage({msg: MSG.RM_FROM_WHITELIST, options: entry.detailedString})
+		.then(function (result) {
+		    if (result) {
+			table.removeChild(row);
+			alert("Entry removed successfully!");
+		    } else {
+			alert("Unable to remove entry!");
+		    }
+		})
+		.catch((error) => OPTIONS.fatal(error));
+	});
+	cells[4].appendChild(rmBtn);
+
+	row.className = "entry";
+	cells.forEach((c) => row.appendChild(c));
+	table.appendChild(row);
+    }
+});
 
 (function () {
     "use strict";

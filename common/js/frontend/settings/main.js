@@ -17,24 +17,12 @@
  * along with qubes-url-redirector.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function () {
-    "use strict";
+/* namespace */
+const OPTIONS = {
+    fatal (error) {
+	"use strict";
 
-    function attachFormHandlers () {
-	document.getElementById("settings").addEventListener("submit", OPTIONS.settings.submitHandler);
-	document.getElementById("whitelist").addEventListener("submit", OPTIONS.whitelist.submitHandler);
+	console.error(error);
+	alert("A fatal error occurred. Reload the extension!");
     }
-
-    const MSG = OPTIONS.messaging.MSG;
-    const sendMessage = OPTIONS.messaging.sendMessage;
-
-    /* Initialization */
-    sendMessage({msg: MSG.GET_SETTINGS})
-	.then(OPTIONS.settings.render)
-	.then(() => sendMessage({msg: MSG.GET_WHITELIST}))
-	.then(OPTIONS.whitelist.render)
-	.then(attachFormHandlers)
-	.then(() => document.body.style.display = "")
-	.then(() => console.log("[INFO] Init done"))
-	.catch((error) => OPTIONS.fatal(error));
-}());
+};

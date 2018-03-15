@@ -17,32 +17,36 @@
  * along with qubes-url-redirector.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-function settingsSubmit (ev) {
-    "use strict";
+OPTIONS.settings = Object.freeze({
+    submitHandler (ev) {
+	"use strict";
 
-    const form = ev.target;
+	const form = ev.target;
 
-    const default_action = Number(form.default_action.value);
-    const default_vm = form.default_vm.value || null;
-    const newSettings = {default_action, default_vm};
+	const default_action = Number(form.default_action.value);
+	const default_vm = form.default_vm.value || null;
+	const newSettings = {default_action, default_vm};
 
-    sendMessage({msg: MSG.UPDATE_SETTINGS, options: newSettings})
-	.then(function (result) {
-	    if (result) {
-		alert("Settings saved successfully");
-	    } else {
-		alert("Unable to save settings!");
-	    }
-	})
-	.catch((error) => fatal(error));
+	const MSG = OPTIONS.messaging.MSG;
+	const sendMessage = OPTIONS.messaging.sendMessage;
+	sendMessage({msg: MSG.UPDATE_SETTINGS, options: newSettings})
+	    .then(function (result) {
+		if (result) {
+		    alert("Settings saved successfully");
+		} else {
+		    alert("Unable to save settings!");
+		}
+	    })
+	    .catch((error) => OPTIONS.fatal(error));
 
-    ev.preventDefault();
-}
+	ev.preventDefault();
+    },
+    render (settings) {
+	"use strict";
 
-function renderSettings (settings) {
-    "use strict";
+	const form = document.getElementById("settings");
+	form.default_action.value = settings.default_action;
+	form.default_vm.value = settings.default_vm;
 
-    const form = document.getElementById("settings");
-    form.default_action.value = settings.default_action;
-    form.default_vm.value = settings.default_vm;
-}
+    }
+});

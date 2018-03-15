@@ -17,30 +17,24 @@
  * along with qubes-url-redirector.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const MSG = Object.freeze({
-    UPDATE_SETTINGS: 0,
-    GET_SETTINGS: 1,
-    ADD_TO_WHITELIST: 2,
-    GET_WHITELIST: 3,
-    RM_FROM_WHITELIST: 4
+OPTIONS.messaging = Object.freeze({
+    MSG: Object.freeze({
+	UPDATE_SETTINGS: 0,
+	GET_SETTINGS: 1,
+	ADD_TO_WHITELIST: 2,
+	GET_WHITELIST: 3,
+	RM_FROM_WHITELIST: 4
+    }),
+    sendMessage (message) {
+	"use strict";
+
+	return browser.runtime.sendMessage(message)
+	    .then(function (response) {
+		if (response === null) {
+		    return Promise.reject("Communication error")
+		}
+
+		return response;
+	    });
+    }
 });
-
-function sendMessage (message) {
-    "use strict";
-
-    return browser.runtime.sendMessage(message)
-	.then(function (response) {
-	    if (response === null) {
-		return Promise.reject("Communication error")
-	    }
-
-	    return response;
-	});
-}
-
-function fatal (error) {
-    "use strict";
-
-    console.error(error);
-    alert("A fatal error occurred. Reload the extension!");
-}
