@@ -17,38 +17,37 @@
  * along with qubes-url-redirector.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-const QUR = (function () {
-    const dep = [
-	"settings",
-	"whitelist"
-    ];
-
-    let readyResolve = null;
-    let readyReject = null;
-    const ready = new Promise(function (resolve, reject) {
-	readyResolve = resolve;
-	readyReject = reject;
+QUR.ready.then(function () {
+    browser.contextMenus.create({
+	id: "open-in-dvm",
+	title: "Open in DVM",
+	contexts: ["link"],
+	enabled: true
     });
 
-    const _QUR = {
-	ready
-    };
-
-    const ret = new Proxy(_QUR, {
-	set (target, prop, value) {
-	    target[prop] = value;
-
-	    const i = dep.indexOf(prop);
-	    if (i >= 0) {
-		dep.splice(i, 1);
-	    }
-	    if (dep.length === 0) {
-		readyResolve(true);
-	    }
-
-	    return true;
-	},
+    const vm = QUR.settings.getDefaultVm();
+    browser.contextMenus.create({
+	id: "open-in-default-vm",
+	title: "Open in " + (vm === null ? "default" : vm) + " VM",
+	contexts: ["link"],
+	enabled: (vm !== null)
     });
 
-    return ret;
-}());
+    browser.contextMenus.create({
+	id: "open-here",
+	title: "Open here",
+	contexts: ["link"],
+	enabled: true
+    });
+
+    QUR.settings.onChanged.addListener(function () {
+	const vm = QUR.settings.getDefaultVm();
+
+	browser.contextMenus.update(
+	    "open-in-default-vm",
+	    {
+		title: "Open in " + (vm === null ? "default" : vm) + " VM",
+		enabled: (vm !== null)
+	    });
+    });
+});

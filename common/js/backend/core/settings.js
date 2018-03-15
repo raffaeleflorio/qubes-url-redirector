@@ -49,6 +49,17 @@
     }
 
     const persist = (settings) => browser.storage.local.set({"settings": settings});
+    const listeners = [];
+    const onChanged = Object.freeze({
+	addListener (listener) {
+	    if (typeof listener === "function") {
+		listeners.push(listener);
+		return true;
+	    }
+	    return false;
+	}
+    });
+
 
     const publicSettings = Object.freeze({
 	ACTION,
@@ -56,6 +67,7 @@
 	getDefaultVm: () => _settings.default_vm,
 	toString: () => JSON.stringify(_settings),
 	toJSON: () => Object.assign({}, _settings),
+	onChanged,
 	set (settings) {
 	    const {default_vm = _settings.default_vm} = settings;
 	    const {default_action = _settings.default_action} = settings;
@@ -68,6 +80,11 @@
 	    return persist(newSettings).then(function () {
 		_settings.default_vm = default_vm;
 		_settings.default_action = default_action;
+
+		window.setTimeout(function () {
+		    listeners.forEach((l) => l());
+		}, 0);
+
 		return Promise.resolve(true);
 	    });
 	}
@@ -79,7 +96,6 @@
 	    if (result.settings && isValidSettings(result.settings)) {
 		return result.settings;
 	    }
-
 	    return _settings;
 	})
 	.then(publicSettings.set)
