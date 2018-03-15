@@ -70,7 +70,7 @@ QUR.whitelist_entries = Object.freeze({
 
 	const MY_TYPE = that.ENTRY_TYPE.REGEXP;
 	const reObj = new RegExp(spec);
-	const json = {type: MY_TYPE, spec: spec};
+	const json = Object.freeze({type: MY_TYPE, spec: spec});
 	return Object.freeze({
 	    getType: () => MY_TYPE,
 	    test: (v) => reObj.test(v),
@@ -90,7 +90,7 @@ QUR.whitelist_entries = Object.freeze({
 	const MY_TYPE = that.ENTRY_TYPE.EXACT;
 	const reObj = new RegExp("^" + that.escapeRE(spec) + "$");
 	const simpleString = reObj.toString().slice(2, -2);
-	const json = {type: MY_TYPE, spec: spec};
+	const json = Object.freeze({type: MY_TYPE, spec: spec});
 	return Object.freeze({
 	    getType: () => MY_TYPE,
 	    test: (v) => reObj.test(v),
@@ -120,7 +120,10 @@ QUR.whitelist_entries = Object.freeze({
 	    return prefix + that.escapeRE(domain);
 	}());
 	const simpleString = (subdomain ? "*." : "") + domain;
-	const json = {type: MY_TYPE, spec: {domain, subdomain}}
+	const json = Object.freeze({
+	    type: MY_TYPE,
+	    spec: Object.freeze({domain, subdomain})
+	});
 	return Object.freeze({
 	    getType: () => MY_TYPE,
 	    test: (v) => reObj.test(v),
