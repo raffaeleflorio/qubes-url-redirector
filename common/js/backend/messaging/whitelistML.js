@@ -59,3 +59,23 @@ QUR.messaging.addListener({
 	    });
     }
 });
+
+QUR.messaging.addListener({
+    msg: QUR.messaging.MSG.REPLACE_IN_WHITELIST,
+    handler (details) {
+	"use strict";
+
+	const {sendResponse, options} = details;
+	const {oldEntrySpec, newEntrySpec} = options;
+
+	const oldEntry = QUR.whitelist_entries.makeEntry(oldEntrySpec);
+	const newEntry = QUR.whitelist_entries.makeEntry(newEntrySpec);
+
+	QUR.whitelist.replace(oldEntry, newEntry)
+	    .then(sendResponse)
+	    .catch(function (error) {
+		console.error(error);
+		sendResponse(null);
+	    });
+    }
+});

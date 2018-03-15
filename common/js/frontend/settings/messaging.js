@@ -23,7 +23,8 @@ OPTIONS.messaging = Object.freeze({
 	GET_SETTINGS: 1,
 	ADD_TO_WHITELIST: 2,
 	GET_WHITELIST: 3,
-	RM_FROM_WHITELIST: 4
+	RM_FROM_WHITELIST: 4,
+	REPLACE_IN_WHITELIST: 5
     }),
     sendMessage (message) {
 	"use strict";
