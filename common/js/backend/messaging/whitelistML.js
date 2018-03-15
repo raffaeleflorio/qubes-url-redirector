@@ -23,14 +23,7 @@ QUR.messaging.addListener({
 	"use strict";
 
 	const {sendResponse} = details;
-	const ret = [];
-	QUR.whitelist.forEach(function (entry) {
-	    ret.push({
-		type: entry.getType(),
-		simpleString: entry.toString(),
-		detailedString: entry.toString(true)
-	    });
-	});
+	const ret = QUR.whitelist.map((entry) => entry.toJSON());
 	sendResponse(ret);
     }
 });
@@ -43,18 +36,7 @@ QUR.messaging.addListener({
 	const entry = QUR.whitelist_entries.makeEntry(entrySpec);
 
 	QUR.whitelist.add(entry)
-	    .then(function (result) {
-		if (!result) {
-		    sendResponse({result});
-		} else {
-		    const addedEntry = {
-			type: entry.getType(),
-			simpleString: entry.toString(),
-			detailedString: entry.toString(true)
-		    };
-		    sendResponse({result, addedEntry});
-		}
-	    })
+	    .then(sendResponse)
 	    .catch(function (error) {
 		console.error(error);
 		sendResponse(null);
@@ -67,17 +49,13 @@ QUR.messaging.addListener({
     handler (details) {
 	"use strict";
 
-	const {sendResponse, options:id} = details;
-	const entry = QUR.whitelist.getFromString(id);
-	if (!entry) {
-	    sendResponse(false);
-	} else {
-	    QUR.whitelist.rm(entry)
-		.then(sendResponse)
-		.catch(function (error) {
-		    console.error(error);
-		    sendResponse(null);
-		});
-	}
+	const {sendResponse, options:entrySpec} = details;
+	const entry = QUR.whitelist_entries.makeEntry(entrySpec);
+	QUR.whitelist.rm(entry)
+	    .then(sendResponse)
+	    .catch(function (error) {
+		console.error(error);
+		sendResponse(null);
+	    });
     }
 });

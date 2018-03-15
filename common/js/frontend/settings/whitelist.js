@@ -40,11 +40,10 @@ OPTIONS.whitelist = Object.freeze({
 	const MSG = OPTIONS.messaging.MSG;
 	const sendMessage = OPTIONS.messaging.sendMessage;
 	sendMessage({msg: MSG.ADD_TO_WHITELIST, options: entrySpec})
-	    .then(function (response) {
-		const {result, addedEntry} = response;
+	    .then(function (result) {
 		if (result) {
 		    alert("Entry added successfully");
-		    OPTIONS.whitelist.addEntry(addedEntry);
+		    OPTIONS.whitelist.addEntry(entrySpec);
 		} else {
 		    alert("Unable to add entry!");
 		}
@@ -59,36 +58,20 @@ OPTIONS.whitelist = Object.freeze({
 	const that = OPTIONS.whitelist;
 	entries.forEach(that.addEntry);
     },
-    addEntry (entry) {
+    addEntry (entrySpec) {
 	"use strict";
 
 	const table = document.getElementById("whitelist_entries");
 
-	const row = document.createElement("tr");
-	const cells = [];
-	for (let i = 0; i < 5; ++i) {
-	    cells[i] = document.createElement("td");
-	}
-
-	/* String that represent the entry type */
-	const typeString = [
-	    "RegExp",
-	    "Exact Match",
-	    "Domain"
-	];
-
-	cells[0].textContent = entry.simpleString;
-	cells[1].textContent = entry.detailedString;
-	cells[2].textContent = typeString[entry.type];
-	cells[3].textContent = "Modify Button";
+	const entry = OPTIONS.whitelist_entries.makeEntry(entrySpec);
+	const row = entry.getHTMLRow();
 
 	const MSG = OPTIONS.messaging.MSG;
 	const sendMessage = OPTIONS.messaging.sendMessage;
 
-	const rmBtn = document.createElement("button");
-	rmBtn.textContent = "Remove";
+	const rmBtn = row.childNodes[4];
 	rmBtn.addEventListener("click", function (ev) {
-	    sendMessage({msg: MSG.RM_FROM_WHITELIST, options: entry.detailedString})
+	    sendMessage({msg: MSG.RM_FROM_WHITELIST, options: entrySpec})
 		.then(function (result) {
 		    if (result) {
 			table.removeChild(row);
@@ -99,10 +82,8 @@ OPTIONS.whitelist = Object.freeze({
 		})
 		.catch((error) => OPTIONS.fatal(error));
 	});
-	cells[4].appendChild(rmBtn);
 
 	row.className = "entry";
-	cells.forEach((c) => row.appendChild(c));
 	table.appendChild(row);
     }
 });

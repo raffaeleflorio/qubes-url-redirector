@@ -32,6 +32,7 @@
 	toString: () => _whitelist.toString(),
 	toJSON: () => _whitelist.slice(0),
 	forEach: (fn) => getCloned().forEach(fn),
+	map: (fn) => getCloned().map(fn),
 	test: (value) => _whitelist.some((x) => x.test(value)),
 	getFromString (s) {
 	    const i = findIndex({toString: () => s});
