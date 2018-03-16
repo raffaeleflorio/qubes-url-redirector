@@ -35,6 +35,6 @@
 	.then(OPTIONS.whitelist.render)
 	.then(attachFormHandlers)
 	.then(() => document.body.style.display = "")
-	.then(() => console.log("[INFO] Init done"))
+	.then(() => console.info("[frontend] Init done"))
 	.catch((error) => OPTIONS.fatal(error));
 }());

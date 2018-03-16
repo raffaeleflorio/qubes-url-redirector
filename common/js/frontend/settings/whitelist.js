@@ -43,7 +43,7 @@ OPTIONS.whitelist = (function () {
 	const typeLabel = [
 	    "JavaScript RegExp: ",
 	    "String: ",
-	    "Domain: www."
+	    "Domain: http(s)://www."
 	];
 	document.getElementById("type_label").firstChild.textContent = typeLabel[checkedType];
 
