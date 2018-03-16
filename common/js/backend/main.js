@@ -18,23 +18,23 @@
 */
 
 const QUR = (function () {
+    "use strict";
+
     const dep = [
 	"settings",
 	"whitelist"
     ];
 
     let readyResolve = null;
-    let readyReject = null;
-    const ready = new Promise(function (resolve, reject) {
+    const ready = new Promise(function (resolve) {
 	readyResolve = resolve;
-	readyReject = reject;
     });
 
     const _QUR = {
 	ready
     };
 
-    const ret = new Proxy(_QUR, {
+    return new Proxy(_QUR, {
 	set (target, prop, value) {
 	    target[prop] = value;
 
@@ -47,8 +47,6 @@ const QUR = (function () {
 	    }
 
 	    return true;
-	},
+	}
     });
-
-    return ret;
 }());

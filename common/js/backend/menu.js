@@ -18,6 +18,8 @@
 */
 
 QUR.ready.then(function () {
+    "use strict";
+
     browser.contextMenus.create({
 	id: "open-in-dvm",
 	title: "Open in DVM",
@@ -42,7 +44,6 @@ QUR.ready.then(function () {
 
     QUR.settings.onChanged.addListener(function () {
 	const vm = QUR.settings.getDefaultVm();
-
 	browser.contextMenus.update(
 	    "open-in-default-vm",
 	    {
