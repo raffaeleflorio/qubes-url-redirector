@@ -68,10 +68,11 @@ OPTIONS.whitelist = (function () {
 	form.type.value = entrySpec.type;
 	if (entrySpec.type === OPTIONS.whitelist_entries.ENTRY_TYPE.DOMAIN) {
 	    form.spec.value = entrySpec.spec.domain;
+	    form.subdomain.checked = entrySpec.spec.subdomain || false;
+	    form.subdomain.parentNode.style.display = "";
 	} else {
 	    form.spec.value = entrySpec.spec;
 	}
-	form.subdomain.checked = entrySpec.spec.subdomain || false;
 
 	const whitelistSubmit = document.getElementById("whitelistSubmit");
 	whitelistSubmit.textContent = "Modify";
