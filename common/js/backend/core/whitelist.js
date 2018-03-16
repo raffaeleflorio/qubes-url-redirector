@@ -110,7 +110,7 @@
 	.then(() => persist(_whitelist))
 	.then(function () {
 	    QUR.whitelist = publicWhitelist;
-	    console.log("[INFO] QUR.whitelist initialized");
+	    console.info("[QUR.whitelist] initialized");
 	})
 	.catch(function (error) {
 	    const msg = [

@@ -101,7 +101,7 @@
 	.then(publicSettings.set)
 	.then(function () {
 	    QUR.settings = publicSettings;
-	    console.log("[INFO] QUR.settings initialized");
+	    console.info("[QUR.settings] initialized");
 	})
 	.catch(function (error) {
 	    const msg = [
