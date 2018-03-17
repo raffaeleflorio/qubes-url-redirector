@@ -34,7 +34,7 @@ OPTIONS.whitelist = (function () {
 	const checkedType = Number(ev.target.value);
 
 	const typeInfo = [];
-	typeInfo[0] = "Remember to escape special RegExp characters with a backslash.";
+	typeInfo[0] = "Remember to escape special RegExp characters with a backslash. Escaping of slash is optional.";
 	typeInfo[1] = "Escaping of special characters is done automatically.";
 	typeInfo[2] = typeInfo[1];
 	document.getElementById("type_info").textContent = typeInfo[checkedType];
@@ -57,7 +57,10 @@ OPTIONS.whitelist = (function () {
     }));
 
     function formReset () {
-	document.getElementById("whitelist").reset()
+	const form = document.getElementById("whitelist");
+	form.reset();
+	form.subdomain.parentNode.style.display = "none";
+	form.subdomain.checked = false;
 	document.getElementById("whitelistSubmit").textContent = "Save";
     };
 
