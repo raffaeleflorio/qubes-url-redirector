@@ -103,26 +103,30 @@ QUR.whitelist_entries = Object.freeze({
 
 	const domain = spec.domain;
 	const subdomain = spec.subdomain || false;
+	const schemas = spec.schemas || ["http", "https"];
 
+
+	const isValidSchema = (v) => (/^[a-zA-Z]+[a-zA-Z0-9\+\.\-]*$/).test(v);
 	const isValidName = (v) => (/^([\w\-]+\.\w+)+$/).test(v);
-	if (!isValidName(domain) || typeof subdomain !== "boolean") {
+	if (!isValidName(domain) || typeof subdomain !== "boolean" || !schemas.every(isValidSchema)) {
 	    return null;
 	}
-
 
 	const that = QUR.whitelist_entries;
 
 	const MY_TYPE = that.ENTRY_TYPE.DOMAIN;
 	const reObj = new RegExp(function () {
 	    const subPrefix = "(?:[\\w\\-]+\\.)*";
-	    const prefix = "^(?:https?://)?(?:www\\.)?" + (subdomain ? subPrefix : "");
-	    
+	    const schemaPrefix =  schemas.join("|");
+
+	    const prefix = "^(?:" + schemaPrefix + ")://(?:www\\.)?" + (subdomain ? subPrefix : "");
+
 	    return prefix + that.escapeRE(domain);
 	}());
 	const simpleString = (subdomain ? "*." : "") + domain;
 	const json = Object.freeze({
 	    type: MY_TYPE,
-	    spec: Object.freeze({domain, subdomain})
+	    spec: Object.freeze({domain, subdomain, schemas: schemas.slice(0)})
 	});
 	return Object.freeze({
 	    getType: () => MY_TYPE,

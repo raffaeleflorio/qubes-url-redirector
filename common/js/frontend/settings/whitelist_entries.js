@@ -79,23 +79,22 @@ OPTIONS.whitelist_entries = (function () {
 	},
 	makeExact (spec) {
 	    const base = makeBaseEntry(spec);
-	    const s = escapeRE(spec);
-	    base.setSimple(s);
-	    base.setDetailed("/^" + s + "$/");
+	    base.setSimple(spec);
+	    base.setDetailed("/^" + escapeRE(spec) + "$/");
 	    base.setType("Exact Match");
 	    return base.getPublic();
 	},
 	makeDomain (spec) {
 	    const base = makeBaseEntry(spec);
-	    const {domain, subdomain} = spec;
+	    const {domain, subdomain, schemas} = spec;
 
-	    const d = escapeRE(domain);
-	    const simpleString = (subdomain ? "*." : "") + d;
+	    const simpleString = (subdomain ? "*." : "") + domain;
 	    const subPrefix = "(?:[\\w\\-]+\\.)*";
-	    const prefix = "^(?:https?://)?(?:www\\.)?" + (subdomain ? subPrefix : "");
+	    const schemaPrefix =  schemas.join("|");
+	    const prefix = "^(?:" + schemaPrefix + ")://?(?:www\\.)?" + (subdomain ? subPrefix : "");
 
-	    base.setSimple(simpleString);
-	    base.setDetailed(prefix + d);
+	    base.setSimple("(" + schemaPrefix + ")://" + simpleString);
+	    base.setDetailed(prefix + escapeRE(domain));
 	    base.setType("Domain");
 	    return base.getPublic();
 	}

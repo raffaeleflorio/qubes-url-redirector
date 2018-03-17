@@ -32,6 +32,10 @@ label.entrySpecDomain {
     color: #BD2727;
 }
 
+#spec, #schemasLabel {
+    margin-bottom: 1rem;
+}
+
 #whitelist_entries {
     width: 100%;
     margin-top: 2rem;

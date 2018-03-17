@@ -47,13 +47,21 @@
 	  <input type="radio" name="type" value="2"> Domain
 	</label>
 
-	<label class="entrySpecDomain" style="display: none">
+	<label class="entrySpecDomain" style="display: none;">
 	  <input type="checkbox" name="subdomain"> Whitelist subdomains too
 	</label>
 
-	<label id="type_label">
-	  JavaScript RegExp: <input type="text" name="spec" size="64" value="" required>
+	<label id="type_label" for="spec"> JavaScript RegExp: </label>
+
+	<label class="entrySpecDomain" id="schemasLabel" style="display: none;">
+	  <select name="schemas">
+	    <option value="http"> HTTP </option>
+	    <option value="https" selected> HTTPS </option>
+	    <option value="http|https"> HTTP and HTTPS </option>
+	  </select>
 	</label>
+
+	<input type="text" name="spec" id="spec" size="64" value="" required><br>
 
 	<button type="submit" id="whitelistSubmit"> Save </button>
 	<button type="button" id="whitelistReset"> Reset </button>

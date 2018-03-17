@@ -23,47 +23,108 @@ OPTIONS.whitelist = (function () {
     const MSG = OPTIONS.messaging.MSG;
     const sendMessage = OPTIONS.messaging.sendMessage;
 
-    /* used by submitHandler when an entry should be modified */
+    /* used by submitHandler when an entry should be replaced by another one */
     let replaceEntry = false;
     let entrySpecToReplace = null;
     let rowToReplace = null;
 
-    /* set the handler that will be called when the type radio change */
-    const entryTypeRadios = Array.from(document.getElementById("whitelist").type);
-    entryTypeRadios.forEach((e) => e.addEventListener("change", function (ev) {
-	const checkedType = Number(ev.target.value);
+    /*
+     * Update #type_label according the selected entry type
+     */
+    function updateTypeLabel (activeType) {
+	const typeLabel = [
+	    "JavaScript RegExp: ",
+	    "String: ",
+	    "Protocol and domain name: "
+	];
 
+	document.getElementById("type_label").firstChild.textContent = typeLabel[activeType];
+    }
+
+    /*
+     * Update #type_info according the selected entry type
+     */
+    function updateTypeInfo (activeType) {
 	const typeInfo = [];
 	typeInfo[0] = "Remember to escape special RegExp characters with a backslash. Escaping of slash is optional.";
 	typeInfo[1] = "Escaping of special characters is done automatically.";
 	typeInfo[2] = typeInfo[1];
-	document.getElementById("type_info").textContent = typeInfo[checkedType];
 
-	/* content of the label before the text input */
-	const typeLabel = [
-	    "JavaScript RegExp: ",
-	    "String: ",
-	    "Domain: http(s)://www."
-	];
-	document.getElementById("type_label").firstChild.textContent = typeLabel[checkedType];
+	document.getElementById("type_info").textContent = typeInfo[activeType];
+    }
 
-	const subdomain = document.getElementById("whitelist").subdomain;
-	if (checkedType === OPTIONS.whitelist_entries.ENTRY_TYPE.DOMAIN) {
-	    subdomain.parentNode.style.display = "";
-	} else {
-	    subdomain.parentNode.style.display = "none";
-	    subdomain.checked = false;
-	}
-    }));
-
-    function formReset () {
+    /*
+     * Show/Hide input in #whitelist according the selected entry type
+     */
+    function updateFormInput (activeType) {
 	const form = document.getElementById("whitelist");
-	form.reset();
-	form.subdomain.parentNode.style.display = "none";
-	form.subdomain.checked = false;
+
+	if (activeType === OPTIONS.whitelist_entries.ENTRY_TYPE.DOMAIN) {
+	    form.subdomain.parentNode.style.display = "";
+	    form.schemas.parentNode.style.display = "";
+	} else {
+	    form.schemas.parentNode.style.display = "none";
+	    form.subdomain.parentNode.style.display = "none";
+	    form.subdomain.checked = false;
+	}
+    }
+
+    /*
+     * Update the #whitelist form according the selected entry type
+     */
+    function updateWhitelist (activeType) {
+	updateTypeInfo(activeType);
+	updateTypeLabel(activeType);
+	updateFormInput(activeType);
+    }
+
+    /*
+     * Handle the change of the selected entry radio
+     */
+    Array.from(document.getElementById("whitelist").type).forEach(function (radioType) {
+	radioType.addEventListener("change", () => updateWhitelist(Number(radioType.value)));
+    });
+
+    /*
+     * #whitelist reset
+     */
+    function formReset () {
+	document.getElementById("whitelist").reset();
+
+	const defaultType = OPTIONS.whitelist_entries.ENTRY_TYPE.REGEXP;
+	updateWhitelist(defaultType);
+
+	replaceEntry = false;
+	entrySpecToReplace = null;
+	rowToReplace = null;
 	document.getElementById("whitelistSubmit").textContent = "Save";
     };
+    /* attach to the reset */
+    document.getElementById("whitelistReset").addEventListener("click", formReset);
 
+    /*
+     * Make the spec to build the whitelist entry
+     */
+    function buildEntrySpec (form) {
+	const entrySpec = {
+	    type: Number(form.type.value),
+	    spec: null
+	};
+
+	if (entrySpec.type === OPTIONS.whitelist_entries.ENTRY_TYPE.DOMAIN) {
+	    entrySpec.spec = {};
+	    entrySpec.spec.domain = form.spec.value;
+	    entrySpec.spec.subdomain =  form.subdomain.checked;
+	    entrySpec.spec.schemas = form.schemas.value.split("|");
+	} else {
+	    entrySpec.spec = form.spec.value;
+	}
+	return entrySpec;
+    }
+
+    /*
+     * ctx is the entrySpec and the related row
+     */
     function modifyButtonHandler (ctx) {
 	const form = document.getElementById("whitelist");
 	const {row, entrySpec} = ctx;
@@ -73,6 +134,7 @@ OPTIONS.whitelist = (function () {
 	    form.spec.value = entrySpec.spec.domain;
 	    form.subdomain.checked = entrySpec.spec.subdomain || false;
 	    form.subdomain.parentNode.style.display = "";
+	    form.schemas.parentNode.style.display = "";
 	} else {
 	    form.spec.value = entrySpec.spec;
 	}
@@ -84,6 +146,9 @@ OPTIONS.whitelist = (function () {
 	rowToReplace = row;
     }
 
+    /*
+     * ctx is the entrySpec and the related row
+     */
     function removeButtonHandler (ctx) {
 	const {row, entrySpec} = ctx;
 	const table = document.getElementById("whitelist_entries");
@@ -100,35 +165,19 @@ OPTIONS.whitelist = (function () {
 	    .catch((error) => OPTIONS.fatal(error));
     }
 
+    /*
+     * Attach to the row representing an entry the handler of the modify/remove buttons
+     */
     function attachHandlerToRow (ctx) {
 	ctx.row.childNodes[3].addEventListener("click", () => modifyButtonHandler(ctx));
 	ctx.row.childNodes[4].addEventListener("click", () => removeButtonHandler(ctx));
     }
 
-    /* Reset button handler */
-    document.getElementById("whitelistReset").addEventListener("click", formReset);
-
     return Object.freeze({
 	submitHandler (ev) {
 	    "use strict";
-
 	    const form = ev.target;
-
-	    const entrySpec = {
-		type: Number(form.type.value),
-		spec: null
-	    };
-
-	    if (entrySpec.type === OPTIONS.whitelist_entries.ENTRY_TYPE.DOMAIN) {
-		entrySpec.spec = {};
-		entrySpec.spec.domain = form.spec.value;
-		entrySpec.spec.subdomain =  form.subdomain.checked;
-	    } else {
-		entrySpec.spec = form.spec.value;
-	    }
-
-	    const MSG = OPTIONS.messaging.MSG;
-	    const sendMessage = OPTIONS.messaging.sendMessage;
+	    const entrySpec = buildEntrySpec(form);
 
 	    if (replaceEntry) {
 		sendMessage({msg: MSG.REPLACE_IN_WHITELIST, options: {oldEntrySpec: entrySpecToReplace, newEntrySpec: entrySpec}})
@@ -138,7 +187,6 @@ OPTIONS.whitelist = (function () {
 			    const newRow = OPTIONS.whitelist_entries.makeEntry(entrySpec).getHTMLRow();
 			    attachHandlerToRow({row: newRow, entrySpec});
 			    document.getElementById("whitelist_entries").replaceChild(newRow, rowToReplace);
-			    replaceEntry = false;
 			    formReset();
 			} else {
 			    alert("Unable to modify entry!");
