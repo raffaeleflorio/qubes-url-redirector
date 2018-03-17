@@ -71,9 +71,8 @@ OPTIONS.whitelist_entries = (function () {
 	},
 	makeRegexp (spec) {
 	    const base = makeBaseEntry(spec);
-	    const s = "/" + spec + "/";
-	    base.setSimple(s);
-	    base.setDetailed(s);
+	    base.setSimple("/" + spec + "/");
+	    base.setDetailed("/" + spec + "/");
 	    base.setType("RegExp");
 	    return base.getPublic();
 	},
@@ -88,12 +87,16 @@ OPTIONS.whitelist_entries = (function () {
 	    const base = makeBaseEntry(spec);
 	    const {domain, subdomain, schemas} = spec;
 
-	    const simpleString = (subdomain ? "*." : "") + domain;
-	    const subPrefix = "(?:[\\w\\-]+\\.)*";
 	    const schemaPrefix =  schemas.join("|");
+	    const subPrefix = "(?:[\\w\\-]+\\.)*";
 	    const prefix = "^(?:" + schemaPrefix + ")://?(?:www\\.)?" + (subdomain ? subPrefix : "");
 
-	    base.setSimple("(" + schemaPrefix + ")://" + simpleString);
+	    const simpleString = [
+		schemas.length > 1 ? "(" + schemaPrefix + ")" : schemaPrefix,
+		"://" + (subdomain ? "*." : "") + domain
+	    ].join("");
+
+	    base.setSimple(simpleString);
 	    base.setDetailed(prefix + escapeRE(domain));
 	    base.setType("Domain");
 	    return base.getPublic();
