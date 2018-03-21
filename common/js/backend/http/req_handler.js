@@ -49,7 +49,7 @@ QUR.ready.then(function () {
 		}
 	    },
 	    function firewall (details) {
-		if (!QUR.whitelist.test(details.url)) {
+		if (!QUR.whitelist.isWhitelisted(details.url)) {
 		    if (isValidRequestToRedirect(details)) {
 			const openInDvm = QUR.settings.getDefaultAction() === QUR.settings.ACTION.DVM;
 			const vmname = openInDvm ? "$dispvm" : QUR.settings.getDefaultVm();
