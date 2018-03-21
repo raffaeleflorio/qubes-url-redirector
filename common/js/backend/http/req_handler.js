@@ -28,10 +28,10 @@ QUR.ready.then(function () {
 	 * Chain of functions to estabilish if a request will be cancelled or redirected.
 	 * Each function could return one of these objects:
 	 *     *) An object with either cancel or redirectUrl property, but not both.
-	 *     *) An optional details object to be passed to the next function.
+	 *        In this case the handler make a decision.
+	 *     *) An **optional** details object to be passed to the next function.
 	 *        Details object could be modified by the functions.
-	 * If the functions don't make a decision (i.e. they never return the object with cancel or redirectUrl),
-	 * the request is permitted.
+	 * If the functions don't make a decision the request is permitted.
 	 *
 	 */
 	const fns = [
@@ -53,7 +53,7 @@ QUR.ready.then(function () {
 	    }
 	];
 
-	let finalResponse = {cancel: false};
+	let finalResponse = null;
 
 	let fnResponse = details;
 	fns.some(function (fn) {
@@ -75,9 +75,19 @@ QUR.ready.then(function () {
 	    }
 	});
 
-	if (finalResponse.cancel === false) {
-	    console.warn(console_prefix + details.url + " permitted");
+	/* no decision was made by the above handlers */
+	if (finalResponse === null) {
+	    console.warn(console_prefix + "the request to " + details.url + " is permitted");
 	}
+
+	/* only main frame url will be opened in another qube */
+	if (finalResponse && finalResponse.cancel === true && details.type === "main_frame") {
+	    const openInDvm = QUR.settings.getDefaultAction() === QUR.settings.ACTION.DVM;
+
+	    const vmname = openInDvm ? "$dispvm" : QUR.settings.getDefaultVm();
+	    QUR.native.openurl({vmname, url: details.url});
+	}
+
 	return finalResponse;
     }, {urls: ["<all_urls>"]}, ["blocking"]);
 
