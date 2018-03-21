@@ -22,6 +22,9 @@ QUR.ready.then(function () {
     browser.webRequest.onBeforeRequest.addListener(function (details) {
 	const console_prefix = "[req_handler] ";
 
+	/* only request related to a tab and to a main frame should be redirected to another qube */
+	const isValidRequestToRedirect = (details) => details.type === "main_frame" && details.tabId !== -1;
+
 	/*
 	 *
 	 * Chain of functions to estabilish if a request will be cancelled or redirected.
@@ -47,6 +50,11 @@ QUR.ready.then(function () {
 	    },
 	    function firewall (details) {
 		if (!QUR.whitelist.test(details.url)) {
+		    if (isValidRequestToRedirect(details)) {
+			const openInDvm = QUR.settings.getDefaultAction() === QUR.settings.ACTION.DVM;
+			const vmname = openInDvm ? "$dispvm" : QUR.settings.getDefaultVm();
+			QUR.native.openurl({vmname, url: details.url});
+		    }
 		    return {cancel: true};
 		}
 	    }
@@ -74,18 +82,10 @@ QUR.ready.then(function () {
 	    }
 	});
 
-	/* no decision was made by the above handlers */
+	/* no decision was made by the above handlers, so permit the request */
 	if (finalResponse === null) {
+	    finalResponse = {cancel: false};
 	    console.warn(console_prefix + "the request to " + details.url + " is permitted");
-	}
-
-	/* only url in main frame or related to a tab will be opened in another qube */
-	const isValidRequestToRedirect = (details) => details.type === "main_frame" && details.tabId !== -1;
-	if (finalResponse && finalResponse.cancel === true && isValidRequestToRedirect(details)) {
-	    const openInDvm = QUR.settings.getDefaultAction() === QUR.settings.ACTION.DVM;
-
-	    const vmname = openInDvm ? "$dispvm" : QUR.settings.getDefaultVm();
-	    QUR.native.openurl({vmname, url: details.url});
 	}
 
 	return finalResponse;
