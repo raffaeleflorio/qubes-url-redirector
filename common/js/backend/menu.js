@@ -42,6 +42,19 @@ QUR.ready.then(function () {
 	enabled: true
     });
 
+    browser.contextMenus.onClicked.addListener(function (info) {
+	const id = info.menuItemId;
+	const url = info.linkUrl;
+
+	if (id === "open-in-dvm") {
+	    QUR.native.openurl({vmname: "$dispvm", url});
+	} else if (id === "open-in-default-vm") {
+	    QUR.native.openurl({vmname: QUR.settings.getDefaultVm(), url});
+	} else if (id === "open-here") {
+	    browser.tabs.create({url});
+	}
+    });
+
     QUR.settings.onChanged.addListener(function () {
 	const vm = QUR.settings.getDefaultVm();
 	browser.contextMenus.update(

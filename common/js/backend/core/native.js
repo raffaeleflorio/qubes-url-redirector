@@ -18,8 +18,9 @@
 */
 
 QUR.native = Object.freeze({
-    openurl (vmname, url) {
+    openurl (details) {
 	"use strict";
+	const {vmname, url} = details;
 	browser.runtime.sendNativeMessage("qvm_open_in_vm", {vmname, url});
     }
 });

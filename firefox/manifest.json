@@ -39,6 +39,7 @@
 	    "common/js/backend/core/settings.js",
 	    "common/js/backend/core/whitelist_entries.js",
 	    "common/js/backend/core/whitelist.js",
+	    "common/js/backend/core/native.js",
 
 	    "common/js/backend/messaging/messaging.js",
 	    "common/js/backend/messaging/settingsML.js",
