@@ -18,9 +18,8 @@
  */
 
 QUR.ready.then(function () {
+    "use strict";
     browser.webRequest.onBeforeRequest.addListener(function (details) {
-	"use strict";
-
 	const console_prefix = "[req_handler] ";
 
 	/*
@@ -35,14 +34,14 @@ QUR.ready.then(function () {
 	 *
 	 */
 	const fns = [
-	    function isDisabled (details) {
+	    function isDisabled () {
 		if (QUR.settings.getDefaultAction() === QUR.settings.ACTION.OPEN_HERE) {
 		    return {cancel: false};
 		}
 	    },
 	    function chrome_fix (details) {
 		/* intercept only HTTP(S) request */
-		if (!/^https?:\/\//.test(details.url)) {
+		if (!(/^https?:\/\//).test(details.url)) {
 		    return {cancel: false};
 		}
 	    },
@@ -59,8 +58,8 @@ QUR.ready.then(function () {
 	fns.some(function (fn) {
 	    fnResponse = fn(fnResponse) || fnResponse;
 
-	    const cancelled = typeof fnResponse.cancel !== "undefined";
-	    const redirected = typeof fnResponse.redirectUrl !== "undefined";
+	    const cancelled = fnResponse.cancel !== undefined;
+	    const redirected = fnResponse.redirectUrl !== undefined;
 
 	    if (cancelled || redirected) {
 		const msg = [
