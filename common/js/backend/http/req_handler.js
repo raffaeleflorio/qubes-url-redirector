@@ -17,51 +17,54 @@
  * along with qubes-url-redirector.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-browser.webRequest.onBeforeRequest.addListener(function (details) {
-    "use strict";
+QUR.ready.then(function () {
+    browser.webRequest.onBeforeRequest.addListener(function (details) {
+	"use strict";
 
-    const console_prefix = "[req_handler] ";
+	const console_prefix = "[req_handler] ";
 
-    /*
-     *
-     * Chain of functions to estabilish if a request will be cancelled or redirected.
-     * Each function could return one of these objects:
-     *     *) An object with either cancel or redirectUrl property, but not both.
-     *     *) An optional details object to be passed to the next function.
-     *        Details object could be modified by the functions.
-     * If the functions don't make a decision (i.e. they never return the object with cancel or redirectUrl),
-     * the request is permitted.
-     *
-     */
-    const fns = [
-	chrome_fix,
-	firewall
-    ];
+	/*
+	 *
+	 * Chain of functions to estabilish if a request will be cancelled or redirected.
+	 * Each function could return one of these objects:
+	 *     *) An object with either cancel or redirectUrl property, but not both.
+	 *     *) An optional details object to be passed to the next function.
+	 *        Details object could be modified by the functions.
+	 * If the functions don't make a decision (i.e. they never return the object with cancel or redirectUrl),
+	 * the request is permitted.
+	 *
+	 */
+	const fns = [
+	    chrome_fix,
+	    firewall
+	];
 
-    let finalResponse = {cancel: false};
+	let finalResponse = {cancel: false};
 
-    let fnResponse = details;
-    fns.some(function (fn) {
-	fnResponse = fn(fnResponse) || fnResponse;
+	let fnResponse = details;
+	fns.some(function (fn) {
+	    fnResponse = fn(fnResponse) || fnResponse;
 
-	const cancelled = typeof fnResponse.cancel !== "undefined";
-	const redirected = typeof fnResponse.redirectUrl !== "undefined";
+	    const cancelled = typeof fnResponse.cancel !== "undefined";
+	    const redirected = typeof fnResponse.redirectUrl !== "undefined";
 
-	if (cancelled || redirected) {
-	    const msg = [
-		console_prefix + details.url,
-		(redirected ? "redirected" : (fnResponse.cancel === true ? "blocked" : "permitted")),
-		"by the handler: " + fn.name
-	    ].join(" ");
-	    console.warn(msg);
+	    if (cancelled || redirected) {
+		const msg = [
+		    console_prefix + details.url,
+		    (redirected ? "redirected" : (fnResponse.cancel === true ? "blocked" : "permitted")),
+		    "by the handler: " + fn.name
+		].join(" ");
+		console.warn(msg);
 
-	    finalResponse = fnResponse;
-	    return true;
+		finalResponse = fnResponse;
+		return true;
+	    }
+	});
+
+	if (finalResponse.cancel === false) {
+	    console.warn(console_prefix + details.url + " permitted");
 	}
-    });
+	return finalResponse;
+    }, {urls: ["<all_urls>"]}, ["blocking"]);
 
-    if (finalResponse.cancel === false) {
-	console.warn(console_prefix + details.url + " permitted");
-    }
-    return finalResponse;
-}, {urls: ["<all_urls>"]}, ["blocking"]);
+});
