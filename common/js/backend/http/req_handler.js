@@ -80,8 +80,9 @@ QUR.ready.then(function () {
 	    console.warn(console_prefix + "the request to " + details.url + " is permitted");
 	}
 
-	/* only main frame url will be opened in another qube */
-	if (finalResponse && finalResponse.cancel === true && details.type === "main_frame") {
+	/* only url in main frame or related to a tab will be opened in another qube */
+	const isValidRequestToRedirect = (details) => details.type === "main_frame" && details.tabId !== -1;
+	if (finalResponse && finalResponse.cancel === true && isValidRequestToRedirect(details)) {
 	    const openInDvm = QUR.settings.getDefaultAction() === QUR.settings.ACTION.DVM;
 
 	    const vmname = openInDvm ? "$dispvm" : QUR.settings.getDefaultVm();
@@ -90,5 +91,4 @@ QUR.ready.then(function () {
 
 	return finalResponse;
     }, {urls: ["<all_urls>"]}, ["blocking"]);
-
 });
