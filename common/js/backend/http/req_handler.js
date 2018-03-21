@@ -35,8 +35,22 @@ QUR.ready.then(function () {
 	 *
 	 */
 	const fns = [
-	    chrome_fix,
-	    firewall
+	    function isDisabled (details) {
+		if (QUR.settings.getDefaultAction() === QUR.settings.ACTION.OPEN_HERE) {
+		    return {cancel: false};
+		}
+	    },
+	    function chrome_fix (details) {
+		/* intercept only HTTP(S) request */
+		if (!/^https?:\/\//.test(details.url)) {
+		    return {cancel: false};
+		}
+	    },
+	    function firewall (details) {
+		if (!QUR.whitelist.test(details.url)) {
+		    return {cancel: true};
+		}
+	    }
 	];
 
 	let finalResponse = {cancel: false};
