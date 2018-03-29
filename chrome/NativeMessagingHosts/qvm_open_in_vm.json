@@ -1,9 +1,9 @@
 {
     "name": "qvm_open_in_vm",
-    "description": "Open URL in other VM",
+    "description": "Open in Qube - Native application",
     "allowed_origins": [
 	"chrome-extension://EXTENSION_ID_HERE/"
     ],
     "type": "stdio",
-    "path": "/usr/local/bin/qvm-open-in-vm-we.py"
+    "path": "/opt/qubes-url-redirector/qvm-open-in-vm-we.py"
 }
