@@ -45,6 +45,11 @@ QUR.ready.then(function () {
 		return {cancel: false};
 	    }
 	},
+	function tabIsWhitelisted (details) {
+	    if (browser.tabs.isWhitelisted(details.tabId)) {
+		return {cancel: false};
+	    }
+	},
 	function chrome_fix (details) {
 	    /* intercept only HTTP(S) request */
 	    if (!(/^https?:\/\//).test(details.url)) {
