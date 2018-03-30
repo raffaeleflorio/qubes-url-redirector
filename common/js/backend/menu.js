@@ -51,7 +51,7 @@ QUR.ready.then(function () {
 	} else if (id === "open-in-default-vm") {
 	    QUR.native.openurl({vmname: QUR.settings.getDefaultVm(), url});
 	} else if (id === "open-here") {
-	    browser.tabs.create({url. oneTimeWhitelisted: true});
+	    browser.tabs.create({url, oneTimeWhitelisted: true});
 	}
     });
 
