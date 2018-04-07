@@ -17,27 +17,28 @@
  * along with qubes-url-redirector.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function () {
+QUR.tabs = (function () {
     "use strict";
 
     const _whitelistedTabs = [];
-    const _create = browser.tabs.create;
 
-    browser.tabs.create = function (createProperties) {
-	const {oneTimeWhitelisted} = createProperties;
-	delete createProperties.oneTimeWhitelisted;
+    return Object.freeze({
+	create (createProperties) {
+	    const {oneTimeWhitelisted} = createProperties;
+	    delete createProperties.oneTimeWhitelisted;
 
-	return _create(createProperties).then(function (tab) {
-	    if (oneTimeWhitelisted === true) {
-		_whitelistedTabs[tab.id] = true;
-	    }
-	    return tab;
-	});
-    };
-    browser.tabs.isWhitelisted =  function (tabId) {
-	const ret = _whitelistedTabs[tabId] === true;
-	/* A tab is whitelisted for one time */
-	_whitelistedTabs.splice(tabId, 1);
-	return ret;
-    }
+	    return browser.tabs.create(createProperties).then(function (tab) {
+		if (oneTimeWhitelisted === true) {
+		    _whitelistedTabs[tab.id] = true;
+		}
+		return tab;
+	    });
+	},
+	isWhitelisted (tabId) {
+	    const ret = _whitelistedTabs[tabId] === true;
+	    /* A tab is whitelisted for one time */
+	    _whitelistedTabs.splice(tabId, 1);
+	    return ret;
+	}
+    });
 }());

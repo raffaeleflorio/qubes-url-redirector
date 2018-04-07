@@ -33,6 +33,7 @@
 	"scripts": [
 	    "webextension-browser-proxy/polyfill.js",
 	    "common/js/backend/main.js",
+	    "common/js/backend/tabs.js",
 
 	    "common/js/backend/core/settings.js",
 	    "common/js/backend/core/whitelist_entries.js",

@@ -46,7 +46,7 @@ QUR.ready.then(function () {
 	    }
 	},
 	function tabIsWhitelisted (details) {
-	    if (browser.tabs.isWhitelisted(details.tabId)) {
+	    if (QUR.tabs.isWhitelisted(details.tabId)) {
 		return {cancel: false};
 	    }
 	},
