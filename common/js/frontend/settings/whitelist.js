@@ -23,11 +23,6 @@ OPTIONS.whitelist = (function () {
     const MSG = OPTIONS.messaging.MSG;
     const sendMessage = OPTIONS.messaging.sendMessage;
 
-    /* used by submitHandler when an entry should be replaced by another one */
-    let replaceEntry = false;
-    let entrySpecToReplace = null;
-    let rowToReplace = null;
-
     /*
      * Update #type_label according the selected entry type
      */
@@ -86,23 +81,6 @@ OPTIONS.whitelist = (function () {
     });
 
     /*
-     * #whitelist reset
-     */
-    function formReset () {
-	document.getElementById("whitelist").reset();
-
-	const defaultType = OPTIONS.whitelist_entries.ENTRY_TYPE.REGEXP;
-	updateWhitelist(defaultType);
-
-	replaceEntry = false;
-	entrySpecToReplace = null;
-	rowToReplace = null;
-	document.getElementById("whitelistSubmit").textContent = "Save";
-    };
-    /* attach to the reset */
-    document.getElementById("whitelistReset").addEventListener("click", formReset);
-
-    /*
      * Make the spec to build the whitelist entry
      */
     function buildEntrySpec (form) {
@@ -123,76 +101,105 @@ OPTIONS.whitelist = (function () {
     }
 
     /*
-     * ctx is the entrySpec and the related row
+     * The reset function of the whitelistReset button
      */
-    function modifyButtonHandler (ctx) {
-	const form = document.getElementById("whitelist");
-	const {row, entrySpec} = ctx;
+    const formReset = (function () {
+	function _formReset (ev) {
+	    const form = ev && ev.target.parentNode || document.getElementById("whitelist");
+	    form.reset();
+	    form.setAttribute("data-mode", "insert");
 
-	form.type.value = entrySpec.type;
-	if (entrySpec.type === OPTIONS.whitelist_entries.ENTRY_TYPE.DOMAIN) {
-	    form.spec.value = entrySpec.spec.domain;
-	    form.subdomain.checked = entrySpec.spec.subdomain || false;
-	    form.subdomain.parentNode.style.display = "";
-	    form.schemas.parentNode.style.display = "";
-	} else {
-	    form.spec.value = entrySpec.spec;
+	    const defaultType = OPTIONS.whitelist_entries.ENTRY_TYPE.REGEXP;
+	    updateWhitelist(defaultType);
+
+	    document.getElementById("whitelistSubmit").textContent = "Save";
+	};
+
+	document.getElementById("whitelistReset").addEventListener("click", _formReset);
+	return _formReset;
+    }());
+
+    /*
+     * Button Handlers of the whitelist entries
+     */
+    const buttonHandler = {
+	modify (ev) {
+	    const row = ev.target.parentNode.parentNode;
+	    let entrySpec = row.getAttribute("data-entrySpec");
+
+	    const form = document.getElementById("whitelist");
+	    form.setAttribute("data-mode", "replace");
+	    form.setAttribute("data-entrySpecToReplace", entrySpec);
+
+	    entrySpec = JSON.parse(entrySpec);
+	    form.type.value = entrySpec.type;
+	    if (entrySpec.type === OPTIONS.whitelist_entries.ENTRY_TYPE.DOMAIN) {
+		form.spec.value = entrySpec.spec.domain;
+		form.subdomain.checked = entrySpec.spec.subdomain || false;
+		form.subdomain.parentNode.style.display = "";
+		form.schemas.parentNode.style.display = "";
+	    } else {
+		form.spec.value = entrySpec.spec;
+	    }
+
+	    const whitelistSubmit = document.getElementById("whitelistSubmit");
+	    whitelistSubmit.textContent = "Modify";
+	},
+	remove (ev) {
+	    const row = ev.target.parentNode.parentNode;
+	    const entrySpec = JSON.parse(row.getAttribute("data-entrySpec"));
+
+	    sendMessage({msg: MSG.RM_FROM_WHITELIST, options: entrySpec})
+		.then(function (result) {
+		    if (result) {
+			const table = document.getElementById("whitelist_entries");
+			table.removeChild(row);
+			alert("Entry removed successfully!");
+		    } else {
+			alert("Unable to remove entry!");
+		    }
+		})
+		.catch(OPTIONS.fatal);
 	}
+    };
 
-	const whitelistSubmit = document.getElementById("whitelistSubmit");
-	whitelistSubmit.textContent = "Modify";
-	replaceEntry = true;
-	entrySpecToReplace = entrySpec;
-	rowToReplace = row;
-    }
+    function mapEntrySpecToRow (entrySpec) {
+	const entry = OPTIONS.whitelist_entries.makeEntry(entrySpec);
+	const row = document.getElementById("whitelist_row_tpl").content.cloneNode(true);
 
-    /*
-     * ctx is the entrySpec and the related row
-     */
-    function removeButtonHandler (ctx) {
-	const {row, entrySpec} = ctx;
-	const table = document.getElementById("whitelist_entries");
+	row.querySelector(".simple").textContent = entry.getSimple();
+	row.querySelector(".detailed").textContent = entry.getDetailed();
+	row.querySelector(".type").textContent = entry.getType();
 
-	sendMessage({msg: MSG.RM_FROM_WHITELIST, options: entrySpec})
-	    .then(function (result) {
-		if (result) {
-		    table.removeChild(row);
-		    alert("Entry removed successfully!");
-		} else {
-		    alert("Unable to remove entry!");
-		}
-	    })
-	    .catch((error) => OPTIONS.fatal(error));
-    }
+	row.querySelector(".entry").setAttribute("data-entrySpec", JSON.stringify(entrySpec));
 
-    /*
-     * Attach to the row representing an entry the handler of the modify/remove buttons
-     */
-    function attachHandlerToRow (ctx) {
-	ctx.row.childNodes[3].addEventListener("click", () => modifyButtonHandler(ctx));
-	ctx.row.childNodes[4].addEventListener("click", () => removeButtonHandler(ctx));
+	row.querySelector(".modify").addEventListener("click", buttonHandler.modify);
+	row.querySelector(".remove").addEventListener("click", buttonHandler.remove);
+
+	return row;
     }
 
     return Object.freeze({
 	submitHandler (ev) {
-	    "use strict";
 	    const form = ev.target;
 	    const entrySpec = buildEntrySpec(form);
 
-	    if (replaceEntry) {
+	    const replaceMode = form.getAttribute("data-mode") === "replace";
+
+	    if (replaceMode) {
+		const entrySpecToReplace = JSON.parse(form.getAttribute("data-entrySpecToReplace"));
+
 		sendMessage({msg: MSG.REPLACE_IN_WHITELIST, options: {oldEntrySpec: entrySpecToReplace, newEntrySpec: entrySpec}})
 		    .then(function (result) {
 			if (result) {
 			    alert("Entry modified successfully");
-			    const newRow = OPTIONS.whitelist_entries.makeEntry(entrySpec).getHTMLRow();
-			    attachHandlerToRow({row: newRow, entrySpec});
-			    document.getElementById("whitelist_entries").replaceChild(newRow, rowToReplace);
+			    OPTIONS.whitelist.replaceEntry(entrySpecToReplace, entrySpec);
 			    formReset();
-			} else {
+			}else {
 			    alert("Unable to modify entry!");
 			}
 		    })
-		    .catch((error) => OPTIONS.fatal(error));
+		    .catch(OPTIONS.fatal);
 	    } else {
 		sendMessage({msg: MSG.ADD_TO_WHITELIST, options: entrySpec})
 		    .then(function (result) {
@@ -204,29 +211,22 @@ OPTIONS.whitelist = (function () {
 			    alert("Unable to add entry!");
 			}
 		    })
-		    .catch((error) => OPTIONS.fatal(error));
+		    .catch(OPTIONS.fatal);
 	    }
 
 	    ev.preventDefault();
 	},
-	render (entries) {
-	    "use strict";
-
-	    const that = OPTIONS.whitelist;
-	    entries.forEach(that.addEntry);
+	replaceEntry (entrySpecToReplace, newEntrySpec) {
+	    const table = document.getElementById("whitelist_entries");
+	    const oldRow = table.querySelector("tr[data-entrySpec='" + JSON.stringify(entrySpecToReplace) + "']");
+	    const newRow = mapEntrySpecToRow(newEntrySpec);
+	    table.replaceChild(newRow, oldRow);
 	},
 	addEntry (entrySpec) {
-	    "use strict";
-
 	    const table = document.getElementById("whitelist_entries");
-
-	    const entry = OPTIONS.whitelist_entries.makeEntry(entrySpec);
-	    const row = entry.getHTMLRow();
-
-	    attachHandlerToRow({row, entrySpec});
-
-	    row.className = "entry";
+	    const row = mapEntrySpecToRow(entrySpec);
 	    table.appendChild(row);
-	}
+	},
+	render: (entries) => entries.forEach(OPTIONS.whitelist.addEntry)
     });
 }());

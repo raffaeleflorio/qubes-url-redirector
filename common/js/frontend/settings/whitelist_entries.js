@@ -22,34 +22,6 @@ OPTIONS.whitelist_entries = (function () {
 
     const escapeRE = (v) => v.replace(/[|\\{}\[\]^$+*?.]/g, "\\$&");
 
-    function makeBaseEntry () {
-	const modifyButton = document.createElement("button");
-	modifyButton.textContent = "Modify";
-
-	const rmButton = document.createElement("button");
-	rmButton.textContent = "Remove";
-
-	/* SimpleString | DetailedString | EntryTypeString | ModifyBtn | RmBtn*/
-	const cells = [];
-	for (let i = 0; i < 5; ++i) {
-	    cells[i] = document.createElement("td");
-	}
-	cells[3].appendChild(modifyButton);
-	cells[4].appendChild(rmButton);
-
-	const row = document.createElement("tr");
-	cells.forEach((c) => row.appendChild(c));
-	const getHTMLRow = () => row;
-
-	return Object.freeze({
-	    setSimple: (simple) => cells[0].textContent = simple,
-	    setDetailed: (detailed) => cells[1].textContent = detailed,
-	    setType: (type) => cells[2].textContent = type,
-	    getHTMLRow,
-	    getPublic: () => Object.freeze({getHTMLRow})
-	});
-    }
-
     return Object.freeze({
 	ENTRY_TYPE: Object.freeze({
 	    REGEXP: 0,
@@ -70,21 +42,20 @@ OPTIONS.whitelist_entries = (function () {
 	    return ENTRY_FUNC[type](spec);
 	},
 	makeRegexp (spec) {
-	    const base = makeBaseEntry(spec);
-	    base.setSimple("/" + spec + "/");
-	    base.setDetailed("/" + spec + "/");
-	    base.setType("RegExp");
-	    return base.getPublic();
+	    return Object.freeze({
+		getSimple: () => "/" + spec + "/",
+		getDetailed: () => "/" + spec + "/",
+		getType: () => "RegExp"
+	    });
 	},
 	makeExact (spec) {
-	    const base = makeBaseEntry(spec);
-	    base.setSimple(spec);
-	    base.setDetailed("/^" + escapeRE(spec) + "$/");
-	    base.setType("Exact Match");
-	    return base.getPublic();
+	    return Object.freeze({
+		getSimple: () => spec,
+		getDetailed: () => "/^" + escapeRE(spec) + "$/",
+		getType: () => "Exact Match"
+	    });
 	},
 	makeDomain (spec) {
-	    const base = makeBaseEntry(spec);
 	    const {domain, subdomain, schemas} = spec;
 
 	    const schemaPrefix =  schemas.join("|");
@@ -96,10 +67,11 @@ OPTIONS.whitelist_entries = (function () {
 		"://" + (subdomain ? "*." : "") + domain
 	    ].join("");
 
-	    base.setSimple(simpleString);
-	    base.setDetailed(prefix + escapeRE(domain));
-	    base.setType("Domain");
-	    return base.getPublic();
+	    return Object.freeze({
+		getSimple: () => simpleString,
+		getDetailed: () => prefix + escapeRE(domain),
+		getType: () => "Domain"
+	    });
 	}
     });
 }());

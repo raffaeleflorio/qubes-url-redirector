@@ -36,5 +36,5 @@
 	.then(attachFormHandlers)
 	.then(() => document.body.style.display = "")
 	.then(() => console.info("[frontend] Init done"))
-	.catch((error) => OPTIONS.fatal(error));
+	.catch(OPTIONS.fatal);
 }());
