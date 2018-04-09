@@ -23,62 +23,52 @@ OPTIONS.whitelist = (function () {
     const MSG = OPTIONS.messaging.MSG;
     const sendMessage = OPTIONS.messaging.sendMessage;
 
-    /*
-     * Update #type_label according the selected entry type
-     */
-    function updateTypeLabel (activeType) {
-	const typeLabel = [
-	    "JavaScript RegExp: ",
-	    "String: ",
-	    "Protocol and domain name: "
-	];
+    const updateWhitelistForm = (function () {
+	/* #type_info update */
+	function updateTypeInfo (activeType) {
+	    const typeInfo = [];
+	    typeInfo[0] = "Remember to escape special RegExp characters with a backslash. Escaping of slash is optional.";
+	    typeInfo[1] = "Escaping of special characters is done automatically.";
+	    typeInfo[2] = typeInfo[1];
 
-	document.getElementById("type_label").firstChild.textContent = typeLabel[activeType];
-    }
-
-    /*
-     * Update #type_info according the selected entry type
-     */
-    function updateTypeInfo (activeType) {
-	const typeInfo = [];
-	typeInfo[0] = "Remember to escape special RegExp characters with a backslash. Escaping of slash is optional.";
-	typeInfo[1] = "Escaping of special characters is done automatically.";
-	typeInfo[2] = typeInfo[1];
-
-	document.getElementById("type_info").textContent = typeInfo[activeType];
-    }
-
-    /*
-     * Show/Hide input in #whitelist according the selected entry type
-     */
-    function updateFormInput (activeType) {
-	const form = document.getElementById("whitelist");
-
-	if (activeType === OPTIONS.whitelist_entries.ENTRY_TYPE.DOMAIN) {
-	    form.subdomain.parentNode.style.display = "";
-	    form.schemas.parentNode.style.display = "";
-	} else {
-	    form.schemas.parentNode.style.display = "none";
-	    form.subdomain.parentNode.style.display = "none";
-	    form.subdomain.checked = false;
+	    document.getElementById("type_info").textContent = typeInfo[activeType];
 	}
-    }
+	/* #type_label update */
+	function updateTypeLabel (activeType) {
+	    const typeLabel = [
+		"JavaScript RegExp: ",
+		"String: ",
+		"Host (IP or Domain Name): "
+	    ];
 
-    /*
-     * Update the #whitelist form according the selected entry type
-     */
-    function updateWhitelist (activeType) {
-	updateTypeInfo(activeType);
-	updateTypeLabel(activeType);
-	updateFormInput(activeType);
-    }
+	    document.getElementById("type_label").firstChild.textContent = typeLabel[activeType];
+	}
+	/* #whitelist update */
+	function updateFormInput (activeType) {
+	    const form = document.getElementById("whitelist");
 
-    /*
-     * Handle the change of the selected entry radio
-     */
-    Array.from(document.getElementById("whitelist").type).forEach(function (radioType) {
-	radioType.addEventListener("change", () => updateWhitelist(Number(radioType.value)));
-    });
+	    if (activeType === OPTIONS.whitelist_entries.ENTRY_TYPE.DOMAIN) {
+		const urlSpec = document.getElementsByClassName("entry_spec_url");
+		Array.from(urlSpec).forEach((e) => e.style.display = "block");
+	    } else {
+		const urlSpec = document.getElementsByClassName("entry_spec_url");
+		Array.from(urlSpec).forEach((e) => e.style.display = "none");
+		form.all_subdomain.checked = false;
+	    }
+	}
+	/* update everything according the active entry type */
+	function _updateWhitelist (activeType) {
+	    updateTypeInfo(activeType);
+	    updateTypeLabel(activeType);
+	    updateFormInput(activeType);
+	}
+
+	Array.from(document.getElementById("whitelist").type).forEach(function (radioType) {
+	    radioType.addEventListener("change", () => _updateWhitelist(Number(radioType.value)));
+	});
+
+	return _updateWhitelist;
+    }());
 
     /*
      * Make the spec to build the whitelist entry
@@ -92,7 +82,7 @@ OPTIONS.whitelist = (function () {
 	if (entrySpec.type === OPTIONS.whitelist_entries.ENTRY_TYPE.DOMAIN) {
 	    entrySpec.spec = {};
 	    entrySpec.spec.domain = form.spec.value;
-	    entrySpec.spec.subdomain =  form.subdomain.checked;
+	    entrySpec.spec.subdomain =  form.all_subdomain.checked;
 	    entrySpec.spec.schemas = form.schemas.value.split("|");
 	} else {
 	    entrySpec.spec = form.spec.value;
@@ -110,7 +100,7 @@ OPTIONS.whitelist = (function () {
 	    form.setAttribute("data-mode", "insert");
 
 	    const defaultType = OPTIONS.whitelist_entries.ENTRY_TYPE.REGEXP;
-	    updateWhitelist(defaultType);
+	    updateWhitelistForm(defaultType);
 
 	    document.getElementById("whitelistSubmit").textContent = "Save";
 	};
@@ -135,13 +125,12 @@ OPTIONS.whitelist = (function () {
 	    form.type.value = entrySpec.type;
 	    if (entrySpec.type === OPTIONS.whitelist_entries.ENTRY_TYPE.DOMAIN) {
 		form.spec.value = entrySpec.spec.domain;
-		form.subdomain.checked = entrySpec.spec.subdomain || false;
-		form.subdomain.parentNode.style.display = "";
-		form.schemas.parentNode.style.display = "";
+		form.all_subdomain.checked = entrySpec.spec.subdomain || false;
 	    } else {
 		form.spec.value = entrySpec.spec;
 	    }
 
+	    updateWhitelistForm(entrySpec.type);
 	    const whitelistSubmit = document.getElementById("whitelistSubmit");
 	    whitelistSubmit.textContent = "Modify";
 	},

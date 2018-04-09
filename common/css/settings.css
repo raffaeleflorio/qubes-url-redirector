@@ -20,20 +20,35 @@ section > form {
     padding-left: 1rem;
 }
 
+ol#entry_type_group {
+    margin-bottom: 0.5rem;
+}
+ol#entry_type_group li {
+    list-style-type: none;
+}
+
 label {
     display: block;
 }
-label.entrySpecDomain {
-    display: inline-block;
-    margin-right: 1rem;
+label.inline {
+    display: inline;
+}
+
+#entry_spec {
+    margin-bottom: 1rem;
+}
+#entry_spec div {
+    margin-bottom: 0.5rem;
+}
+.entry_spec_url {
+    display: none;
 }
 
 .dangerous {
     color: #BD2727;
 }
-
-#spec, #schemasLabel {
-    margin-bottom: 1rem;
+.warning {
+    color: #E79E27;
 }
 
 #whitelist_entries {

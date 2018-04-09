@@ -35,33 +35,67 @@
       <form id="whitelist" autocomplete="off">
 	<em id="type_info"> Remember to escape special RegExp characters with a backslash. Escaping of slash is optional. </em>
 	<h2> Type to add: </h2>
-	<label>
-	  <input type="radio" name="type" value="0" checked> RegExp
-	</label>
+	<ol id="entry_type_group">
+	  <li>
+	    <label>
+	      <input type="radio" name="type" value="0" checked> RegExp
+	    </label>
+	  </li>
+	  <li>
+	    <label>
+	      <input type="radio" name="type" value="1"> Exact match
+	    </label>
+	  </li>
+	  <li>
+	    <label>
+	      <input type="radio" name="type" value="2"> URL
+	    </label>
+	  </li>
+	</ol>
 
-	<label>
-	  <input type="radio" name="type" value="1"> Exact match
-	</label>
+	<div id="entry_spec">
+	  <div class="entry_spec_url">
+	    <label for="schemes"> Scheme(s): </label>
+	    <input type="text" id="schemes" name="schemes" size="64" value="" placeholder="e.g. http|https">
 
-	<label class="entrySpecDomain">
-	  <input type="radio" name="type" value="2"> Domain
-	</label>
+	    <label class="inline warning">
+	      <input type="checkbox" name="all_schemes"> Whitelist every schemes
+	    </label>
+	  </div>
 
-	<label class="entrySpecDomain" style="display: none;">
-	  <input type="checkbox" name="subdomain"> Whitelist subdomains too
-	</label>
+	  <div class="entry_spec_url">
+	    <label for="subdomain"> Subdomain(s): </label>
+	    <input type="text" id="subdomain" name="subdomain" size="64" value="" placeholder="e.g. www|sub">
 
-	<label id="type_label" for="spec"> JavaScript RegExp: </label>
+	    <label class="inline warning">
+	      <input type="checkbox" name="all_subdomain"> Whitelist every subdomains
+	    </label>
+	  </div>
 
-	<label class="entrySpecDomain" id="schemasLabel" style="display: none;">
-	  <select name="schemas">
-	    <option value="http"> HTTP </option>
-	    <option value="https" selected> HTTPS </option>
-	    <option value="http|https"> HTTP and HTTPS </option>
-	  </select>
-	</label>
+	  <div>
+	    <label id="type_label" for="spec"> JavaScript RegExp: </label>
+	    <input type="text" name="spec" id="spec" size="64" value="" required>
+	  </div>
 
-	<input type="text" name="spec" id="spec" size="64" value="" required><br>
+	  <div class="entry_spec_url">
+	    <label for="port"> Port: </label>
+	    <input type="text" name="port" id="port" size="5" value="">
+	  </div>
+
+	  <div class="entry_spec_url">
+	    <label for="path"> Path(s): </label>
+	    <input type="text" id="path" name="path" size="64" value="" placeholder="e.g. /some/path">
+
+	    <label class="inline">
+	      <input type="checkbox" name="path_regexp_mode"> Whitelist every paths
+	    </label>
+	  </div>
+
+	  <div>
+	    <label for="entry_label"> Label: </label>
+	    <input type="text" name="entry_label" id="entry_label" size="64" value="" placeholder="Default to the selected entry type">
+	  </div>
+	</div>
 
 	<button type="submit" id="whitelistSubmit"> Save </button>
 	<button type="button" id="whitelistReset"> Reset </button>

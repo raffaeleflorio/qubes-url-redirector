@@ -70,7 +70,7 @@ OPTIONS.whitelist_entries = (function () {
 	    return Object.freeze({
 		getSimple: () => simpleString,
 		getDetailed: () => prefix + escapeRE(domain),
-		getType: () => "Domain"
+		getType: () => "URL"
 	    });
 	}
     });
