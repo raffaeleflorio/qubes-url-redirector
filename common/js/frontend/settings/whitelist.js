@@ -76,17 +76,24 @@ OPTIONS.whitelist = (function () {
     function buildEntrySpec (form) {
 	const entrySpec = {
 	    type: Number(form.type.value),
-	    spec: null
+	    spec: {}
 	};
 
-	if (entrySpec.type === OPTIONS.whitelist_entries.ENTRY_TYPE.DOMAIN) {
-	    entrySpec.spec = {};
+	const that = OPTIONS.whitelist_entries.ENTRY_TYPE;
+	switch (entrySpec.type) {
+	case (that.DOMAIN):
 	    entrySpec.spec.domain = form.spec.value;
 	    entrySpec.spec.subdomain =  form.all_subdomain.checked;
 	    entrySpec.spec.schemas = form.schemas.value.split("|");
-	} else {
-	    entrySpec.spec = form.spec.value;
-	}
+	    break;
+	case (that.REGEXP):
+	    entrySpec.spec.regexp = form.spec.value;
+	    break;
+	case (that.EXACT):
+	    entrySpec.spec.exact = form.spec.value;
+	    break;
+	};
+	entrySpec.spec.label = form.entry_label.value;
 	return entrySpec;
     }
 
@@ -122,13 +129,21 @@ OPTIONS.whitelist = (function () {
 	    form.setAttribute("data-entrySpecToReplace", entrySpec);
 
 	    entrySpec = JSON.parse(entrySpec);
-	    form.type.value = entrySpec.type;
-	    if (entrySpec.type === OPTIONS.whitelist_entries.ENTRY_TYPE.DOMAIN) {
+	    const that = OPTIONS.whitelist_entries.ENTRY_TYPE;
+	    switch (entrySpec.type) {
+	    case (that.DOMAIN):
 		form.spec.value = entrySpec.spec.domain;
 		form.all_subdomain.checked = entrySpec.spec.subdomain || false;
-	    } else {
-		form.spec.value = entrySpec.spec;
-	    }
+		break;
+	    case (that.REGEXP):
+		form.spec.value = entrySpec.spec.regexp;
+		break;
+	    case (that.EXACT):
+		form.spec.value = entrySpec.spec.exact;
+		break;
+	    };
+	    form.entry_label.value = entrySpec.spec.label;
+	    form.type.value = entrySpec.type;
 
 	    updateWhitelistForm(entrySpec.type);
 	    const whitelistSubmit = document.getElementById("whitelistSubmit");
@@ -147,6 +162,7 @@ OPTIONS.whitelist = (function () {
 		    } else {
 			alert("Unable to remove entry!");
 		    }
+		    formReset();
 		})
 		.catch(OPTIONS.fatal);
 	}
@@ -159,6 +175,7 @@ OPTIONS.whitelist = (function () {
 	row.querySelector(".simple").textContent = entry.getSimple();
 	row.querySelector(".detailed").textContent = entry.getDetailed();
 	row.querySelector(".type").textContent = entry.getType();
+	row.querySelector(".label").textContent = entry.getLabel();
 
 	row.querySelector(".entry").setAttribute("data-entrySpec", JSON.stringify(entrySpec));
 
@@ -184,7 +201,7 @@ OPTIONS.whitelist = (function () {
 			    alert("Entry modified successfully");
 			    OPTIONS.whitelist.replaceEntry(entrySpecToReplace, entrySpec);
 			    formReset();
-			}else {
+			} else {
 			    alert("Unable to modify entry!");
 			}
 		    })

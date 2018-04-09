@@ -87,13 +87,13 @@
 	    <input type="text" id="path" name="path" size="64" value="" placeholder="e.g. /some/path">
 
 	    <label class="inline">
-	      <input type="checkbox" name="path_regexp_mode"> Whitelist every paths
+	      <input type="checkbox" name="all_paths"> Whitelist every paths
 	    </label>
 	  </div>
 
 	  <div>
 	    <label for="entry_label"> Label: </label>
-	    <input type="text" name="entry_label" id="entry_label" size="64" value="" placeholder="Default to the selected entry type">
+	    <input type="text" name="entry_label" id="entry_label" size="64" value="">
 	  </div>
 	</div>
 
@@ -107,6 +107,7 @@
 	  <th> Simple </th>
 	  <th> Detailed </th>
 	  <th> Type </th>
+	  <th> Label </th>
 	  <th> Modify </th>
 	  <th> Remove </th>
 	</thead>
@@ -115,6 +116,7 @@
 	    <td class="simple"></td>
 	    <td class="detailed"></td>
 	    <td class="type"></td>
+	    <td class="label"></td>
 	    <td><button class="modify"> Modify </button></td>
 	    <td><button class="remove"> Remove </button></td>
 	  </tr>

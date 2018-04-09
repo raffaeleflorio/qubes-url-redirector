@@ -46,8 +46,8 @@ QUR.whitelist_entries = Object.freeze({
 	const that = QUR.whitelist_entries;
 
 	const ENTRIES = [
-	    that.makeRegexp(""),
-	    that.makeExact(""),
+	    that.makeRegexp({regexp: ""}),
+	    that.makeExact({exact: ""}),
 	    that.makeDomain({domain: "example.org"})
 	];
 
@@ -62,15 +62,16 @@ QUR.whitelist_entries = Object.freeze({
     makeRegexp (spec) {
 	"use strict";
 
-	if (typeof spec !== "string") {
+	const {regexp, label=""} = spec;
+	if (typeof regexp !== "string" || typeof label !== "string") {
 	    return null;
 	}
 
 	const that = QUR.whitelist_entries;
 
 	const MY_TYPE = that.ENTRY_TYPE.REGEXP;
-	const reObj = new RegExp(spec);
-	const json = Object.freeze({type: MY_TYPE, spec: spec});
+	const reObj = new RegExp(regexp);
+	const json = Object.freeze({type: MY_TYPE, spec});
 	return Object.freeze({
 	    getType: () => MY_TYPE,
 	    test: (v) => reObj.test(v),
@@ -81,16 +82,17 @@ QUR.whitelist_entries = Object.freeze({
     makeExact (spec) {
 	"use strict";
 
-	if (typeof spec !== "string") {
+	const {exact, label=""} = spec;
+	if (typeof exact !== "string" || typeof label !== "string") {
 	    return null;
 	}
 
 	const that = QUR.whitelist_entries;
 
 	const MY_TYPE = that.ENTRY_TYPE.EXACT;
-	const reObj = new RegExp("^" + that.escapeRE(spec) + "$");
+	const reObj = new RegExp("^" + that.escapeRE(exact) + "$");
 	const simpleString = reObj.toString().slice(2, -2);
-	const json = Object.freeze({type: MY_TYPE, spec: spec});
+	const json = Object.freeze({type: MY_TYPE, spec});
 	return Object.freeze({
 	    getType: () => MY_TYPE,
 	    test: (v) => reObj.test(v),
@@ -104,11 +106,11 @@ QUR.whitelist_entries = Object.freeze({
 	const domain = spec.domain;
 	const subdomain = spec.subdomain || false;
 	const schemas = spec.schemas || ["http", "https"];
-
+	const label = spec.label || "";
 
 	const isValidSchema = (v) => (/^[a-zA-Z]+[a-zA-Z0-9\+\.\-]*$/).test(v);
 	const isValidName = (v) => (/^([\w\-]+\.\w+)+$/).test(v);
-	if (!isValidName(domain) || typeof subdomain !== "boolean" || !schemas.every(isValidSchema)) {
+	if (typeof label !== "string" || !isValidName(domain) || typeof subdomain !== "boolean" || !schemas.every(isValidSchema)) {
 	    return null;
 	}
 
@@ -126,7 +128,7 @@ QUR.whitelist_entries = Object.freeze({
 	const simpleString = (subdomain ? "*." : "") + domain;
 	const json = Object.freeze({
 	    type: MY_TYPE,
-	    spec: Object.freeze({domain, subdomain, schemas: schemas.slice(0)})
+	    spec: Object.freeze({domain, subdomain, schemas: schemas.slice(0), label})
 	});
 	return Object.freeze({
 	    getType: () => MY_TYPE,

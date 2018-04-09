@@ -42,21 +42,25 @@ OPTIONS.whitelist_entries = (function () {
 	    return ENTRY_FUNC[type](spec);
 	},
 	makeRegexp (spec) {
+	    const {regexp, label} = spec;
 	    return Object.freeze({
-		getSimple: () => "/" + spec + "/",
-		getDetailed: () => "/" + spec + "/",
-		getType: () => "RegExp"
+		getSimple: () => "/" + regexp + "/",
+		getDetailed: () => "/" + regexp + "/",
+		getType: () => "RegExp",
+		getLabel: () => label
 	    });
 	},
 	makeExact (spec) {
+	    const {exact, label} = spec;
 	    return Object.freeze({
-		getSimple: () => spec,
-		getDetailed: () => "/^" + escapeRE(spec) + "$/",
-		getType: () => "Exact Match"
+		getSimple: () => exact,
+		getDetailed: () => "/^" + escapeRE(exact) + "$/",
+		getType: () => "Exact Match",
+		getLabel: () => label
 	    });
 	},
 	makeDomain (spec) {
-	    const {domain, subdomain, schemas} = spec;
+	    const {domain, subdomain, schemas, label} = spec;
 
 	    const schemaPrefix =  schemas.join("|");
 	    const subPrefix = "(?:[\\w\\-]+\\.)*";
@@ -70,7 +74,8 @@ OPTIONS.whitelist_entries = (function () {
 	    return Object.freeze({
 		getSimple: () => simpleString,
 		getDetailed: () => prefix + escapeRE(domain),
-		getType: () => "URL"
+		getType: () => "URL",
+		getLabel: () => label
 	    });
 	}
     });
