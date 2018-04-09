@@ -78,7 +78,7 @@
 
 	    const i = findIndex(oldEntry);
 	    const j = findIndex(newEntry);
-	    if ((i === -1 || j >= 0) && i !== j) {
+	    if (i === -1 || (j >= 0 && i !== j)) {
 		return Promise.resolve(false);
 	    }
 
