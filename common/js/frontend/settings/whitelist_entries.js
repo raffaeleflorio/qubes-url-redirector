@@ -68,7 +68,7 @@ OPTIONS.whitelist_entries = (function () {
 
 	    return Object.freeze({
 		getSimple: () => simpleString,
-		getDetailed: () => "/^" + escapeRE(simpleString) + (pqf === "" ? "" : "$") + "/",
+		getDetailed: () => "/^" + escapeRE(simpleString) + pqf + "/",
 		getType: () => "URL",
 		getLabel: () => label
 	    });

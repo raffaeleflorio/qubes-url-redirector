@@ -207,8 +207,7 @@ QUR.whitelist_entries = Object.freeze({
 	const MY_TYPE = that.ENTRY_TYPE.URL;
 	const reObj = new RegExp(function () {
 	    const schemePrefix = "^" + scheme + "://";
-	    const pqfSuffix = pqf === "" ? "" : that.escapeRE(pqf) + "$";
-	    return schemePrefix + that.escapeRE(hostRepresentation) + portRepresentation + pqfSuffix;
+	    return schemePrefix + that.escapeRE(hostRepresentation) + portRepresentation + that.escapeRE(pqf);
 	}());
 	const simpleString = scheme + "://" + hostRepresentation + portRepresentation + pqf;
 	const json = Object.freeze({
