@@ -38,7 +38,7 @@ OPTIONS.whitelist = (function () {
 	    const typeLabel = [
 		"JavaScript RegExp: ",
 		"String: ",
-		"Host (IP or Domain Name): "
+		"Host (IPv4, IPv6 or Domain Name): "
 	    ];
 
 	    document.getElementById("type_label").firstChild.textContent = typeLabel[activeType];
