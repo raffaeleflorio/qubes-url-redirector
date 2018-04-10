@@ -21,7 +21,7 @@ QUR.whitelist_entries = Object.freeze({
     ENTRY_TYPE: Object.freeze({
 	REGEXP: 0,
 	EXACT: 1,
-	DOMAIN: 2
+	URL: 2
     }),
     makeEntry (entrySpec) {
 	"use strict";
@@ -31,7 +31,7 @@ QUR.whitelist_entries = Object.freeze({
 	const ENTRY_FUNC = [
 	    that.makeRegexp,
 	    that.makeExact,
-	    that.makeDomain
+	    that.makeURL
 	];
 
 	const {type, spec} = entrySpec;
@@ -48,7 +48,7 @@ QUR.whitelist_entries = Object.freeze({
 	const ENTRIES = [
 	    that.makeRegexp({regexp: ""}),
 	    that.makeExact({exact: ""}),
-	    that.makeDomain({domain: "example.org"})
+	    that.makeURL({host: "127.0.0.1"})
 	];
 
 	if (typeof obj !== "object" || obj === null || typeof obj.getType !== "function") {
@@ -100,35 +100,113 @@ QUR.whitelist_entries = Object.freeze({
 	    toJSON: () => json
 	});
     },
-    makeDomain (spec) {
+    makeURL (spec) {
 	"use strict";
 
-	const domain = spec.domain;
-	const subdomain = spec.subdomain || false;
-	const schemas = spec.schemas || ["http", "https"];
-	const label = spec.label || "";
+	const scheme = spec.scheme || "https";
+	const host = spec.host;
+	const port = Number(spec.port) || "";
+	const pqf = spec.path_query_fragment || "";
 
-	const isValidSchema = (v) => (/^[a-zA-Z]+[a-zA-Z0-9\+\.\-]*$/).test(v);
-	const isValidName = (v) => (/^([\w\-]+\.\w+)+$/).test(v);
-	if (typeof label !== "string" || !isValidName(domain) || typeof subdomain !== "boolean" || !schemas.every(isValidSchema)) {
+	const label = spec.label || "";
+	if (typeof label !== "string") {
+	    return null;
+	}
+
+	const isValidScheme = (v) => (/^[a-zA-Z]+[a-zA-Z0-9\+\.\-]*$/).test(v);
+
+	function isValidDomainName (v) {
+	    if (typeof v !== "string" || v.length > 253) {
+		return false;
+	    }
+
+	    const labels = v.split(".");
+	    /*
+	     * every label must be, at most, 63 characters long
+	     * The root label is the only one with a length of 0
+	     */
+	    if (labels.some((l) => l.length > 63 || l.length === 0)) {
+		return false;
+	    }
+
+	    const labelRE = /^[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]$/;
+	    return labels.every((l) => labelRE.test(l));
+	};
+
+	function isValidIP4 (v) {
+	    const parts = v.split(".");
+	    if (parts.length !== 4) {
+		return false;
+	    }
+
+	    return parts.every((p) => (/^(0|[1-9][0-9]?|1[0-9]?[0-9]?|2[0-5]?[0-5]?)$/).test(p));
+	};
+
+	/* between bracket */
+	function isValidIP6 (v) {
+	    /* check if an ipv6 hextet is valid*/
+	    const isValidHextet = (x) => (/^[0-9a-fA-F]{1,4}$/).test(x);
+
+	    /* ipv6 with double colon */
+	    const i = v.indexOf("::");
+	    if (i >= 0) {
+		const parts = v.split("::");
+		if (parts.length !== 2) {
+		    return false;
+		}
+
+		/* ipv4 {compatible,mapped} address */
+		if (i === 0 && parts[0] === "") {
+		    const ipv4 = (/^ffff:/).test(parts[1]) ? parts[1].split("ffff:")[1] : parts[1];
+		    return isValidIP4(ipv4);
+		}
+
+		if (i === 0) {
+		    parts.splice(0,1);
+		}
+
+		parts.forEach(function (p, i) {
+		    const subParts = p.split(":");
+		    parts.splice(i, 1, ...subParts);
+		});
+
+		return parts.every(isValidHextet);
+	    }
+
+	    /* complete ipv6 address */
+	    const parts = v.split(":");
+	    if (parts.length === 8) {
+		return parts.every(isValidHextet);
+	    }
+
+	    return false;
+	};
+	const isIP6 = isValidIP6(host);
+	const isValidHost = (v) => isValidDomainName(v) || isValidIP4(v) || isIP6;
+
+	const isValidPort = (v) => (v > 0 && v < 65536) || v === "";
+
+	const isValidPQF = (v) => (v !== "" && v.startsWith("/")) || v === "";
+
+	if (!isValidPQF(pqf) || !isValidPort(port) || !isValidScheme(scheme) || !isValidHost(host)) {
 	    return null;
 	}
 
 	const that = QUR.whitelist_entries;
 
-	const MY_TYPE = that.ENTRY_TYPE.DOMAIN;
+	const portRepresentation = port === "" ? "" : ":" + port;
+	const hostRepresentation = isIP6 ? "[" + host + "]" : host;
+
+	const MY_TYPE = that.ENTRY_TYPE.URL;
 	const reObj = new RegExp(function () {
-	    const subPrefix = "(?:[\\w\\-]+\\.)*";
-	    const schemaPrefix =  schemas.join("|");
-
-	    const prefix = "^(?:" + schemaPrefix + ")://(?:www\\.)?" + (subdomain ? subPrefix : "");
-
-	    return prefix + that.escapeRE(domain);
+	    const schemePrefix = "^" + scheme + "://";
+	    const pqfSuffix = pqf === "" ? "" : that.escapeRE(pqf) + "$";
+	    return schemePrefix + that.escapeRE(hostRepresentation) + portRepresentation + pqfSuffix;
 	}());
-	const simpleString = (subdomain ? "*." : "") + domain;
+	const simpleString = scheme + "://" + hostRepresentation + portRepresentation + pqf;
 	const json = Object.freeze({
 	    type: MY_TYPE,
-	    spec: Object.freeze({domain, subdomain, schemas: schemas.slice(0), label})
+	    spec: Object.freeze({scheme, host, port, path_query_fragment: pqf, label})
 	});
 	return Object.freeze({
 	    getType: () => MY_TYPE,

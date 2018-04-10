@@ -47,13 +47,12 @@ OPTIONS.whitelist = (function () {
 	function updateFormInput (activeType) {
 	    const form = document.getElementById("whitelist");
 
-	    if (activeType === OPTIONS.whitelist_entries.ENTRY_TYPE.DOMAIN) {
+	    if (activeType === OPTIONS.whitelist_entries.ENTRY_TYPE.URL) {
 		const urlSpec = document.getElementsByClassName("entry_spec_url");
 		Array.from(urlSpec).forEach((e) => e.style.display = "block");
 	    } else {
 		const urlSpec = document.getElementsByClassName("entry_spec_url");
 		Array.from(urlSpec).forEach((e) => e.style.display = "none");
-		form.all_subdomain.checked = false;
 	    }
 	}
 	/* update everything according the active entry type */
@@ -81,10 +80,11 @@ OPTIONS.whitelist = (function () {
 
 	const that = OPTIONS.whitelist_entries.ENTRY_TYPE;
 	switch (entrySpec.type) {
-	case (that.DOMAIN):
-	    entrySpec.spec.domain = form.spec.value;
-	    entrySpec.spec.subdomain =  form.all_subdomain.checked;
-	    entrySpec.spec.schemas = form.schemas.value.split("|");
+	case (that.URL):
+	    entrySpec.spec.scheme = form.scheme.value;
+	    entrySpec.spec.host = form.spec.value;
+	    entrySpec.spec.port = form.port.value;
+	    entrySpec.spec.path_query_fragment = form.path_query_fragment.value;
 	    break;
 	case (that.REGEXP):
 	    entrySpec.spec.regexp = form.spec.value;
@@ -131,9 +131,11 @@ OPTIONS.whitelist = (function () {
 	    entrySpec = JSON.parse(entrySpec);
 	    const that = OPTIONS.whitelist_entries.ENTRY_TYPE;
 	    switch (entrySpec.type) {
-	    case (that.DOMAIN):
-		form.spec.value = entrySpec.spec.domain;
-		form.all_subdomain.checked = entrySpec.spec.subdomain || false;
+	    case (that.URL):
+		form.scheme.value = entrySpec.spec.scheme;
+		form.spec.value = entrySpec.spec.host;
+		form.port.value = entrySpec.spec.port;
+		form.path_query_fragment.value = entrySpec.spec.path_query_fragment;
 		break;
 	    case (that.REGEXP):
 		form.spec.value = entrySpec.spec.regexp;

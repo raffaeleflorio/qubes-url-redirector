@@ -55,20 +55,11 @@
 
 	<div id="entry_spec">
 	  <div class="entry_spec_url">
-	    <label for="schemes"> Scheme(s): </label>
-	    <input type="text" id="schemes" name="schemes" size="64" value="" placeholder="e.g. http|https">
+	    <label for="scheme"> Scheme: </label>
+	    <input type="text" id="scheme" name="scheme" size="64" value="" placeholder="Default is https">
 
 	    <label class="inline warning">
 	      <input type="checkbox" name="all_schemes"> Whitelist every schemes
-	    </label>
-	  </div>
-
-	  <div class="entry_spec_url">
-	    <label for="subdomain"> Subdomain(s): </label>
-	    <input type="text" id="subdomain" name="subdomain" size="64" value="" placeholder="e.g. www|sub">
-
-	    <label class="inline warning">
-	      <input type="checkbox" name="all_subdomain"> Whitelist every subdomains
 	    </label>
 	  </div>
 
@@ -83,12 +74,8 @@
 	  </div>
 
 	  <div class="entry_spec_url">
-	    <label for="path"> Path(s): </label>
-	    <input type="text" id="path" name="path" size="64" value="" placeholder="e.g. /some/path">
-
-	    <label class="inline">
-	      <input type="checkbox" name="all_paths"> Whitelist every paths
-	    </label>
+	    <label for="url_remaining"> URL Remaining: </label>
+	    <input type="text" id="url_remaining" name="path_query_fragment" size="64" value="" placeholder="e.g. /some/path?x=y#z. If empty match every resources.">
 	  </div>
 
 	  <div>

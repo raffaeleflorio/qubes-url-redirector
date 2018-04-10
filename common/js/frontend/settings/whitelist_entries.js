@@ -26,7 +26,7 @@ OPTIONS.whitelist_entries = (function () {
 	ENTRY_TYPE: Object.freeze({
 	    REGEXP: 0,
 	    EXACT: 1,
-	    DOMAIN: 2
+	    URL: 2
 	}),
 	makeEntry (entrySpec) {
 	    const that = OPTIONS.whitelist_entries;
@@ -34,7 +34,7 @@ OPTIONS.whitelist_entries = (function () {
 	    const ENTRY_FUNC = [
 		that.makeRegexp,
 		that.makeExact,
-		that.makeDomain
+		that.makeURL
 	    ];
 
 	    const {type, spec} = entrySpec;
@@ -59,21 +59,16 @@ OPTIONS.whitelist_entries = (function () {
 		getLabel: () => label
 	    });
 	},
-	makeDomain (spec) {
-	    const {domain, subdomain, schemas, label} = spec;
+	makeURL (spec) {
+	    const {scheme, host, port, path_query_fragment:pqf, label} = spec;
 
-	    const schemaPrefix =  schemas.join("|");
-	    const subPrefix = "(?:[\\w\\-]+\\.)*";
-	    const prefix = "^(?:" + schemaPrefix + ")://?(?:www\\.)?" + (subdomain ? subPrefix : "");
-
-	    const simpleString = [
-		schemas.length > 1 ? "(" + schemaPrefix + ")" : schemaPrefix,
-		"://" + (subdomain ? "*." : "") + domain
-	    ].join("");
+	    const portRepresentation = port === "" ? "" : ":" + port;
+	    const hostRepresentation = host.indexOf(":") >= 0 ? "[" + host + "]" : host;
+	    const simpleString = scheme + "://" + hostRepresentation + portRepresentation + pqf;
 
 	    return Object.freeze({
 		getSimple: () => simpleString,
-		getDetailed: () => prefix + escapeRE(domain),
+		getDetailed: () => "/^" + escapeRE(simpleString) + (pqf === "" ? "" : "$") + "/",
 		getType: () => "URL",
 		getLabel: () => label
 	    });
