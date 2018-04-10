@@ -139,7 +139,14 @@ QUR.whitelist_entries = Object.freeze({
 		return false;
 	    }
 
-	    return parts.every((p) => (/^(0|1[0-9]?[0-9]?|[2-9]|2[0-5]?[0-5]?)$/).test(p));
+	    /*
+	     * 0 to 9
+	     * 10 to 99
+	     * 100 to 199
+	     * 200 to 249
+	     * 250 to 255
+	     */
+            return parts.every((p) => (/^([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$/).test(p));
 	};
 
 	/* between bracket */
