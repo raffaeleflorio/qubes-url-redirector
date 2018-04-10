@@ -46,7 +46,7 @@
 	    "common/js/backend/messaging/settingsML.js",
 	    "common/js/backend/messaging/whitelistML.js",
 
-	    "common/js/backend/http/req_handler.js",
+	    "common/js/backend/req_handler.js",
 
 	    "common/js/backend/menu.js"
 	]
