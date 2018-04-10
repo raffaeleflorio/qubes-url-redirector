@@ -81,7 +81,7 @@ OPTIONS.whitelist = (function () {
 	const that = OPTIONS.whitelist_entries.ENTRY_TYPE;
 	switch (entrySpec.type) {
 	case (that.URL):
-	    entrySpec.spec.scheme = form.scheme.value;
+	    entrySpec.spec.scheme = form.scheme.value || "https";
 	    entrySpec.spec.host = form.spec.value;
 	    entrySpec.spec.port = form.port.value;
 	    entrySpec.spec.path_query_fragment = form.path_query_fragment.value;
