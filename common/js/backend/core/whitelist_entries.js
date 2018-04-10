@@ -129,7 +129,7 @@ QUR.whitelist_entries = Object.freeze({
 		return false;
 	    }
 
-	    const labelRE = /^[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]$/;
+	    const labelRE = /^[a-zA-Z0-9]([a-zA-Z0-9-](?=[a-zA-Z0-9])|[a-zA-Z0-9])*$/;
 	    return labels.every((l) => labelRE.test(l));
 	};
 
