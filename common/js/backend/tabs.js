@@ -23,22 +23,22 @@ QUR.tabs = (function () {
     const _whitelistedTabs = [];
 
     return Object.freeze({
-	create (createProperties) {
-	    const {oneTimeWhitelisted} = createProperties;
-	    delete createProperties.oneTimeWhitelisted;
+        create (createProperties) {
+            const {oneTimeWhitelisted} = createProperties;
+            delete createProperties.oneTimeWhitelisted;
 
-	    return browser.tabs.create(createProperties).then(function (tab) {
-		if (oneTimeWhitelisted === true) {
-		    _whitelistedTabs[tab.id] = true;
-		}
-		return tab;
-	    });
-	},
-	isWhitelisted (tabId) {
-	    const ret = _whitelistedTabs[tabId] === true;
-	    /* A tab is whitelisted for one time */
-	    _whitelistedTabs.splice(tabId, 1);
-	    return ret;
-	}
+            return browser.tabs.create(createProperties).then(function (tab) {
+                if (oneTimeWhitelisted === true) {
+                    _whitelistedTabs[tab.id] = true;
+                }
+                return tab;
+            });
+        },
+        isWhitelisted (tabId) {
+            const ret = _whitelistedTabs[tabId] === true;
+            /* A tab is whitelisted for one time */
+            _whitelistedTabs.splice(tabId, 1);
+            return ret;
+        }
     });
 }());

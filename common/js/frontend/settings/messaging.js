@@ -19,23 +19,23 @@
 
 OPTIONS.messaging = Object.freeze({
     MSG: Object.freeze({
-	UPDATE_SETTINGS: 0,
-	GET_SETTINGS: 1,
-	ADD_TO_WHITELIST: 2,
-	GET_WHITELIST: 3,
-	RM_FROM_WHITELIST: 4,
-	REPLACE_IN_WHITELIST: 5
+        UPDATE_SETTINGS: 0,
+        GET_SETTINGS: 1,
+        ADD_TO_WHITELIST: 2,
+        GET_WHITELIST: 3,
+        RM_FROM_WHITELIST: 4,
+        REPLACE_IN_WHITELIST: 5
     }),
     sendMessage (message) {
-	"use strict";
+        "use strict";
 
-	return browser.runtime.sendMessage(message)
-	    .then(function (response) {
-		if (response === null) {
-		    return Promise.reject("Communication error")
-		}
+        return browser.runtime.sendMessage(message)
+            .then(function (response) {
+                if (response === null) {
+                    return Promise.reject("Communication error")
+                }
 
-		return response;
-	    });
+                return response;
+            });
     }
 });

@@ -21,12 +21,12 @@ QUR.messaging = (function () {
     "use strict";
 
     const MSG = Object.freeze({
-	UPDATE_SETTINGS: 0,
-	GET_SETTINGS: 1,
-	ADD_TO_WHITELIST: 2,
-	GET_WHITELIST: 3,
-	RM_FROM_WHITELIST: 4,
-	REPLACE_IN_WHITELIST: 5
+        UPDATE_SETTINGS: 0,
+        GET_SETTINGS: 1,
+        ADD_TO_WHITELIST: 2,
+        GET_WHITELIST: 3,
+        RM_FROM_WHITELIST: 4,
+        REPLACE_IN_WHITELIST: 5
     });
     /* single listener for each event */
     const listeners = [];
@@ -36,36 +36,36 @@ QUR.messaging = (function () {
 
     /* dispatcher */
     browser.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-	const {msg, options} = request;
-	if (!isValidMessage(msg)) {
-	    console.error("Invalid message: " + msg);
-	    sendResponse(null);
-	    return;
-	}
+        const {msg, options} = request;
+        if (!isValidMessage(msg)) {
+            console.error("Invalid message: " + msg);
+            sendResponse(null);
+            return;
+        }
 
-	const handler = listeners[msg];
-	if (!handler) {
-	    console.error("There isn't any listener for the message: " + msg.toString());
-	    sendResponse(null);
-	    return;
-	}
+        const handler = listeners[msg];
+        if (!handler) {
+            console.error("There isn't any listener for the message: " + msg.toString());
+            sendResponse(null);
+            return;
+        }
 
-	const details = {sendResponse, sender, options};
-	window.setTimeout(() => handler(details), 0);
-	return true; /* async response */
+        const details = {sendResponse, sender, options};
+        window.setTimeout(() => handler(details), 0);
+        return true; /* async response */
     });
 
     return Object.freeze({
-	MSG,
+        MSG,
 
-	addListener (spec) {
-	    const {msg, handler} = spec;
-	    if (!isValidMessage(msg) || !isValidListener(handler) || listeners[msg]) {
-		return false;
-	    }
+        addListener (spec) {
+            const {msg, handler} = spec;
+            if (!isValidMessage(msg) || !isValidListener(handler) || listeners[msg]) {
+                return false;
+            }
 
-	    listeners[msg] = handler;
-	    return true;
-	}
+            listeners[msg] = handler;
+            return true;
+        }
     });
 }());

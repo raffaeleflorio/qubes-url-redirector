@@ -15,53 +15,53 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with qubes-url-redirector.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 QUR.ready.then(function () {
     "use strict";
 
     browser.contextMenus.create({
-	id: "open-in-dvm",
-	title: "Open in DVM",
-	contexts: ["link"],
-	enabled: true
+        id: "open-in-dvm",
+        title: "Open in DVM",
+        contexts: ["link"],
+        enabled: true
     });
 
     const vm = QUR.settings.getDefaultVm();
     browser.contextMenus.create({
-	id: "open-in-default-vm",
-	title: "Open in " + (vm === null ? "default" : vm) + " VM",
-	contexts: ["link"],
-	enabled: (vm !== null)
+        id: "open-in-default-vm",
+        title: "Open in " + (vm === null ? "default" : vm) + " VM",
+        contexts: ["link"],
+        enabled: (vm !== null)
     });
 
     browser.contextMenus.create({
-	id: "open-here",
-	title: "Open here",
-	contexts: ["link"],
-	enabled: true
+        id: "open-here",
+        title: "Open here",
+        contexts: ["link"],
+        enabled: true
     });
 
     browser.contextMenus.onClicked.addListener(function (info) {
-	const id = info.menuItemId;
-	const url = info.linkUrl;
+        const id = info.menuItemId;
+        const url = info.linkUrl;
 
-	if (id === "open-in-dvm") {
-	    QUR.native.openurl({vmname: "$dispvm", url});
-	} else if (id === "open-in-default-vm") {
-	    QUR.native.openurl({vmname: QUR.settings.getDefaultVm(), url});
-	} else if (id === "open-here") {
-	    QUR.tabs.create({url, oneTimeWhitelisted: true});
-	}
+        if (id === "open-in-dvm") {
+            QUR.native.openurl({vmname: "$dispvm", url});
+        } else if (id === "open-in-default-vm") {
+            QUR.native.openurl({vmname: QUR.settings.getDefaultVm(), url});
+        } else if (id === "open-here") {
+            QUR.tabs.create({url, oneTimeWhitelisted: true});
+        }
     });
 
     QUR.settings.onChanged.addListener(function () {
-	const vm = QUR.settings.getDefaultVm();
-	browser.contextMenus.update(
-	    "open-in-default-vm",
-	    {
-		title: "Open in " + (vm === null ? "default" : vm) + " VM",
-		enabled: (vm !== null)
-	    });
+        const vm = QUR.settings.getDefaultVm();
+        browser.contextMenus.update(
+            "open-in-default-vm",
+            {
+                title: "Open in " + (vm === null ? "default" : vm) + " VM",
+                enabled: (vm !== null)
+            });
     });
 });

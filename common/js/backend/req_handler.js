@@ -40,115 +40,115 @@ QUR.ready.then(function () {
      *
      */
     const fns = [
-	function isDisabled () {
-	    if (QUR.settings.getDefaultAction() === QUR.settings.ACTION.OPEN_HERE) {
-		return {cancel: false};
-	    }
-	},
-	function tabIsWhitelisted (details) {
-	    if (QUR.tabs.isWhitelisted(details.tabId)) {
-		return {cancel: false};
-	    }
-	},
-	function chrome_fix (details) {
-	    /* intercept only HTTP(S) request */
-	    if (!(/^https?:\/\//).test(details.url)) {
-		return {cancel: false};
-	    }
-	},
-	function firewall (details) {
-	    if (!QUR.whitelist.isWhitelisted(details.url)) {
-		if (!isValidRequestToRedirect(details)) {
-		    return {cancel: true};
-		}
-		/* pass to the limitator the non whitelisted request */
-		return details;
-	    } else {
-		return {cancel: false};
-	    }
-	},
-	(function () {
-	    const MAX_REQ = 3; /* QUR.settings.getMaxReqPerThreshold() */
-	    const THRESHOLD = 1000; /* QUR.settings.getReqThreshold() */
+        function isDisabled () {
+            if (QUR.settings.getDefaultAction() === QUR.settings.ACTION.OPEN_HERE) {
+                return {cancel: false};
+            }
+        },
+        function tabIsWhitelisted (details) {
+            if (QUR.tabs.isWhitelisted(details.tabId)) {
+                return {cancel: false};
+            }
+        },
+        function chrome_fix (details) {
+            /* intercept only HTTP(S) request */
+            if (!(/^https?:\/\//).test(details.url)) {
+                return {cancel: false};
+            }
+        },
+        function firewall (details) {
+            if (!QUR.whitelist.isWhitelisted(details.url)) {
+                if (!isValidRequestToRedirect(details)) {
+                    return {cancel: true};
+                }
+                /* pass to the limitator the non whitelisted request */
+                return details;
+            } else {
+                return {cancel: false};
+            }
+        },
+        (function () {
+            const MAX_REQ = 3; /* QUR.settings.getMaxReqPerThreshold() */
+            const THRESHOLD = 1000; /* QUR.settings.getReqThreshold() */
 
-	    let currentRequestCount = 0;
-	    let lastTimeStamp = null;
+            let currentRequestCount = 0;
+            let lastTimeStamp = null;
 
-	    function openInQube (reqDetails) {
-		const openInDvm = QUR.settings.getDefaultAction() === QUR.settings.ACTION.DVM;
-		const vmname = openInDvm === true ? "$dispvm" : QUR.settings.getDefaultVm();
+            function openInQube (reqDetails) {
+                const openInDvm = QUR.settings.getDefaultAction() === QUR.settings.ACTION.DVM;
+                const vmname = openInDvm === true ? "$dispvm" : QUR.settings.getDefaultVm();
 
-		const {tabId, url} = reqDetails;
-		QUR.native.openurl({vmname, url});
-		browser.tabs.update(tabId, {url: FIREWALL_PAGE});
-	    }
+                const {tabId, url} = reqDetails;
+                QUR.native.openurl({vmname, url});
+                browser.tabs.update(tabId, {url: FIREWALL_PAGE});
+            }
 
-	    function setWaitTime () {
-		/*
-		 * min(WAIT_TIME) = THRESHOLD*2
-		 * max(WAIT_TIME) = min + 3000
-		 */
-		const WAIT_TIME = Math.round((Math.random() * 3000) + (THRESHOLD * 2));
-		const now = Date.now();
-		const base = lastTimeStamp > (now + WAIT_TIME) ? lastTimeStamp : now;
-		lastTimeStamp = base + WAIT_TIME;
-	    }
+            function setWaitTime () {
+                /*
+                 * min(WAIT_TIME) = THRESHOLD*2
+                 * max(WAIT_TIME) = min + 3000
+                 */
+                const WAIT_TIME = Math.round((Math.random() * 3000) + (THRESHOLD * 2));
+                const now = Date.now();
+                const base = lastTimeStamp > (now + WAIT_TIME) ? lastTimeStamp : now;
+                lastTimeStamp = base + WAIT_TIME;
+            }
 
 
-	    return function limitator (details) {
-		const currentTimeStamp = details.timeStamp;
-		const diff = currentTimeStamp - lastTimeStamp;
+            return function limitator (details) {
+                const currentTimeStamp = details.timeStamp;
+                const diff = currentTimeStamp - lastTimeStamp;
 
-		currentRequestCount += 1;
-		if (lastTimeStamp === null || diff > THRESHOLD) {
-		    lastTimeStamp = currentTimeStamp;
-		    currentRequestCount = 1;
+                currentRequestCount += 1;
+                if (lastTimeStamp === null || diff > THRESHOLD) {
+                    lastTimeStamp = currentTimeStamp;
+                    currentRequestCount = 1;
 
-		    openInQube(details);
-		} else if (diff <= THRESHOLD && currentRequestCount > MAX_REQ) {
-		    setWaitTime();
-		    browser.tabs.update(details.tabId, {url: LIMITATOR_PAGE});
-		} else if (diff <= THRESHOLD && currentRequestCount <= MAX_REQ) {
-		    openInQube(details);
-		    if (currentRequestCount === MAX_REQ) {
-			setWaitTime();
-		    }
-		}
+                    openInQube(details);
+                } else if (diff <= THRESHOLD && currentRequestCount > MAX_REQ) {
+                    setWaitTime();
+                    browser.tabs.update(details.tabId, {url: LIMITATOR_PAGE});
+                } else if (diff <= THRESHOLD && currentRequestCount <= MAX_REQ) {
+                    openInQube(details);
+                    if (currentRequestCount === MAX_REQ) {
+                        setWaitTime();
+                    }
+                }
 
-		return {cancel: true};
-	    }
-	}())
+                return {cancel: true};
+            }
+        }())
     ];
 
     browser.webRequest.onBeforeRequest.addListener(function (details) {
-	/* the response returned to the browser */
-	let finalResponse = null;
+        /* the response returned to the browser */
+        let finalResponse = null;
 
-	let fnResponse = details;
-	fns.some(function (fn) {
-	    fnResponse = fn(fnResponse) || fnResponse;
+        let fnResponse = details;
+        fns.some(function (fn) {
+            fnResponse = fn(fnResponse) || fnResponse;
 
-	    const cancelled = fnResponse.cancel !== undefined;
-	    const redirected = fnResponse.redirectUrl !== undefined;
-	    if (cancelled || redirected) {
-		const msg = [
-		    console_prefix + details.url,
-		    (redirected ? "redirected" : (fnResponse.cancel === true ? "blocked" : "permitted")),
-		    "by the handler: " + fn.name
-		].join(" ");
-		console.warn(msg);
+            const cancelled = fnResponse.cancel !== undefined;
+            const redirected = fnResponse.redirectUrl !== undefined;
+            if (cancelled || redirected) {
+                const msg = [
+                    console_prefix + details.url,
+                    (redirected ? "redirected" : (fnResponse.cancel === true ? "blocked" : "permitted")),
+                    "by the handler: " + fn.name
+                ].join(" ");
+                console.warn(msg);
 
-		finalResponse = fnResponse;
-		return true;
-	    }
-	});
+                finalResponse = fnResponse;
+                return true;
+            }
+        });
 
-	/* no decision was made by the above handlers, so permit the request */
-	if (finalResponse === null) {
-	    finalResponse = {cancel: false};
-	    console.warn(console_prefix + "the request to " + details.url + " is permitted");
-	}
+        /* no decision was made by the above handlers, so permit the request */
+        if (finalResponse === null) {
+            finalResponse = {cancel: false};
+            console.warn(console_prefix + "the request to " + details.url + " is permitted");
+        }
 
-	return finalResponse;
+        return finalResponse;
     }, {urls: ["<all_urls>"]}, ["blocking"]);
 });

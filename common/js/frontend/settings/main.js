@@ -20,9 +20,9 @@
 /* namespace */
 const OPTIONS = {
     fatal (error) {
-	"use strict";
+        "use strict";
 
-	console.error(error);
-	alert("A fatal error occurred. Reload the extension!");
+        console.error(error);
+        alert("A fatal error occurred. Reload the extension!");
     }
 };

@@ -20,24 +20,24 @@
 QUR.messaging.addListener({
     msg: QUR.messaging.MSG.GET_SETTINGS,
     handler (details) {
-	"use strict";
+        "use strict";
 
-	const {sendResponse} = details;
-	sendResponse(QUR.settings.toJSON());
+        const {sendResponse} = details;
+        sendResponse(QUR.settings.toJSON());
     }
 });
 
 QUR.messaging.addListener({
     msg: QUR.messaging.MSG.UPDATE_SETTINGS,
     handler (details) {
-	"use strict";
+        "use strict";
 
-	const {sendResponse, options:newSettings} = details;
-	QUR.settings.set(newSettings)
-	    .then(sendResponse)
-	    .catch(function (error) {
-		console.error(error);
-		sendResponse(null);
-	    });
+        const {sendResponse, options:newSettings} = details;
+        QUR.settings.set(newSettings)
+            .then(sendResponse)
+            .catch(function (error) {
+                console.error(error);
+                sendResponse(null);
+            });
     }
 });

@@ -15,12 +15,12 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with qubes-url-redirector.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 QUR.native = Object.freeze({
     openurl (details) {
-	"use strict";
-	const {vmname, url} = details;
-	browser.runtime.sendNativeMessage("qvm_open_in_vm", {vmname, url});
+        "use strict";
+        const {vmname, url} = details;
+        browser.runtime.sendNativeMessage("qvm_open_in_vm", {vmname, url});
     }
 });

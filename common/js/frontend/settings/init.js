@@ -21,8 +21,8 @@
     "use strict";
 
     function attachFormHandlers () {
-	document.getElementById("settings").addEventListener("submit", OPTIONS.settings.submitHandler);
-	document.getElementById("whitelist").addEventListener("submit", OPTIONS.whitelist.submitHandler);
+        document.getElementById("settings").addEventListener("submit", OPTIONS.settings.submitHandler);
+        document.getElementById("whitelist").addEventListener("submit", OPTIONS.whitelist.submitHandler);
     }
 
     const MSG = OPTIONS.messaging.MSG;
@@ -30,11 +30,11 @@
 
     /* Initialization */
     sendMessage({msg: MSG.GET_SETTINGS})
-	.then(OPTIONS.settings.render)
-	.then(() => sendMessage({msg: MSG.GET_WHITELIST}))
-	.then(OPTIONS.whitelist.render)
-	.then(attachFormHandlers)
-	.then(() => document.body.style.display = "")
-	.then(() => console.info("[frontend] Init done"))
-	.catch(OPTIONS.fatal);
+        .then(OPTIONS.settings.render)
+        .then(() => sendMessage({msg: MSG.GET_WHITELIST}))
+        .then(OPTIONS.whitelist.render)
+        .then(attachFormHandlers)
+        .then(() => document.body.style.display = "")
+        .then(() => console.info("[frontend] Init done"))
+        .catch(OPTIONS.fatal);
 }());

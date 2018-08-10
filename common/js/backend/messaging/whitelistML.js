@@ -20,62 +20,62 @@
 QUR.messaging.addListener({
     msg: QUR.messaging.MSG.GET_WHITELIST,
     handler (details) {
-	"use strict";
+        "use strict";
 
-	const {sendResponse} = details;
-	const ret = QUR.whitelist.map((entry) => entry.toJSON());
-	sendResponse(ret);
+        const {sendResponse} = details;
+        const ret = QUR.whitelist.map((entry) => entry.toJSON());
+        sendResponse(ret);
     }
 });
 
 QUR.messaging.addListener({
     msg: QUR.messaging.MSG.ADD_TO_WHITELIST,
     handler (details) {
-	"use strict";
-	const {sendResponse, options:entrySpec} = details;
-	const entry = QUR.whitelist_entries.makeEntry(entrySpec);
+        "use strict";
+        const {sendResponse, options:entrySpec} = details;
+        const entry = QUR.whitelist_entries.makeEntry(entrySpec);
 
-	QUR.whitelist.add(entry)
-	    .then(sendResponse)
-	    .catch(function (error) {
-		console.error(error);
-		sendResponse(null);
-	    });
+        QUR.whitelist.add(entry)
+            .then(sendResponse)
+            .catch(function (error) {
+                console.error(error);
+                sendResponse(null);
+            });
     }
 });
 
 QUR.messaging.addListener({
     msg: QUR.messaging.MSG.RM_FROM_WHITELIST,
     handler (details) {
-	"use strict";
+        "use strict";
 
-	const {sendResponse, options:entrySpec} = details;
-	const entry = QUR.whitelist_entries.makeEntry(entrySpec);
-	QUR.whitelist.rm(entry)
-	    .then(sendResponse)
-	    .catch(function (error) {
-		console.error(error);
-		sendResponse(null);
-	    });
+        const {sendResponse, options:entrySpec} = details;
+        const entry = QUR.whitelist_entries.makeEntry(entrySpec);
+        QUR.whitelist.rm(entry)
+            .then(sendResponse)
+            .catch(function (error) {
+                console.error(error);
+                sendResponse(null);
+            });
     }
 });
 
 QUR.messaging.addListener({
     msg: QUR.messaging.MSG.REPLACE_IN_WHITELIST,
     handler (details) {
-	"use strict";
+        "use strict";
 
-	const {sendResponse, options} = details;
-	const {oldEntrySpec, newEntrySpec} = options;
+        const {sendResponse, options} = details;
+        const {oldEntrySpec, newEntrySpec} = options;
 
-	const oldEntry = QUR.whitelist_entries.makeEntry(oldEntrySpec);
-	const newEntry = QUR.whitelist_entries.makeEntry(newEntrySpec);
+        const oldEntry = QUR.whitelist_entries.makeEntry(oldEntrySpec);
+        const newEntry = QUR.whitelist_entries.makeEntry(newEntrySpec);
 
-	QUR.whitelist.replace(oldEntry, newEntry)
-	    .then(sendResponse)
-	    .catch(function (error) {
-		console.error(error);
-		sendResponse(null);
-	    });
+        QUR.whitelist.replace(oldEntry, newEntry)
+            .then(sendResponse)
+            .catch(function (error) {
+                console.error(error);
+                sendResponse(null);
+            });
     }
 });

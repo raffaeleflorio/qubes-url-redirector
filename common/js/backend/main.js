@@ -15,39 +15,39 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with qubes-url-redirector.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 const QUR = (function () {
     "use strict";
 
     const dep = [
-	"settings",
-	"whitelist"
+        "settings",
+        "whitelist"
     ];
 
     let readyResolve = null;
     const ready = new Promise(function (resolve) {
-	readyResolve = resolve;
+        readyResolve = resolve;
     });
 
     const _QUR = {
-	ready
+        ready
     };
 
     return new Proxy(_QUR, {
-	set (target, prop, value) {
-	    target[prop] = value;
+        set (target, prop, value) {
+            target[prop] = value;
 
-	    const i = dep.indexOf(prop);
-	    if (i >= 0) {
-		dep.splice(i, 1);
-	    }
-	    if (dep.length === 0) {
-		readyResolve(true);
-	    }
+            const i = dep.indexOf(prop);
+            if (i >= 0) {
+                dep.splice(i, 1);
+            }
+            if (dep.length === 0) {
+                readyResolve(true);
+            }
 
-	    return true;
-	}
+            return true;
+        }
     });
 }());
 

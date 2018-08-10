@@ -23,55 +23,55 @@ OPTIONS.whitelist_entries = (function () {
     const escapeRE = (v) => v.replace(/[|\\{}\[\]^$+*?.]/g, "\\$&");
 
     return Object.freeze({
-	ENTRY_TYPE: Object.freeze({
-	    REGEXP: 0,
-	    EXACT: 1,
-	    URL: 2
-	}),
-	makeEntry (entrySpec) {
-	    const that = OPTIONS.whitelist_entries;
+        ENTRY_TYPE: Object.freeze({
+            REGEXP: 0,
+            EXACT: 1,
+            URL: 2
+        }),
+        makeEntry (entrySpec) {
+            const that = OPTIONS.whitelist_entries;
 
-	    const ENTRY_FUNC = [
-		that.makeRegexp,
-		that.makeExact,
-		that.makeURL
-	    ];
+            const ENTRY_FUNC = [
+                that.makeRegexp,
+                that.makeExact,
+                that.makeURL
+            ];
 
-	    const {type, spec} = entrySpec;
+            const {type, spec} = entrySpec;
 
-	    return ENTRY_FUNC[type](spec);
-	},
-	makeRegexp (spec) {
-	    const {regexp, label} = spec;
-	    return Object.freeze({
-		getSimple: () => "/" + regexp + "/",
-		getDetailed: () => "/" + regexp + "/",
-		getType: () => "RegExp",
-		getLabel: () => label
-	    });
-	},
-	makeExact (spec) {
-	    const {exact, label} = spec;
-	    return Object.freeze({
-		getSimple: () => exact,
-		getDetailed: () => "/^" + escapeRE(exact) + "$/",
-		getType: () => "Exact Match",
-		getLabel: () => label
-	    });
-	},
-	makeURL (spec) {
-	    const {scheme, host, port, path_query_fragment:pqf, label} = spec;
+            return ENTRY_FUNC[type](spec);
+        },
+        makeRegexp (spec) {
+            const {regexp, label} = spec;
+            return Object.freeze({
+                getSimple: () => "/" + regexp + "/",
+                getDetailed: () => "/" + regexp + "/",
+                getType: () => "RegExp",
+                getLabel: () => label
+            });
+        },
+        makeExact (spec) {
+            const {exact, label} = spec;
+            return Object.freeze({
+                getSimple: () => exact,
+                getDetailed: () => "/^" + escapeRE(exact) + "$/",
+                getType: () => "Exact Match",
+                getLabel: () => label
+            });
+        },
+        makeURL (spec) {
+            const {scheme, host, port, path_query_fragment:pqf, label} = spec;
 
-	    const portRepresentation = port === "" ? "" : ":" + port;
-	    const hostRepresentation = host.indexOf(":") >= 0 ? "[" + host + "]" : host;
-	    const simpleString = scheme + "://" + hostRepresentation + portRepresentation + pqf;
+            const portRepresentation = port === "" ? "" : ":" + port;
+            const hostRepresentation = host.indexOf(":") >= 0 ? "[" + host + "]" : host;
+            const simpleString = scheme + "://" + hostRepresentation + portRepresentation + pqf;
 
-	    return Object.freeze({
-		getSimple: () => simpleString,
-		getDetailed: () => "/^" + escapeRE(simpleString) + pqf + "/",
-		getType: () => "URL",
-		getLabel: () => label
-	    });
-	}
+            return Object.freeze({
+                getSimple: () => simpleString,
+                getDetailed: () => "/^" + escapeRE(simpleString) + pqf + "/",
+                getType: () => "URL",
+                getLabel: () => label
+            });
+        }
     });
 }());
