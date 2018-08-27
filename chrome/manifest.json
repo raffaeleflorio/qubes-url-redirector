@@ -26,7 +26,7 @@
     "browser_action": {
 	"chrome_style": true,
 	"default_title": "Open in Qube settings",
-	"default_icon": "common/logo.png"
+	"default_icon": "common/logo_disabled.png"
     },
 
     "background": {

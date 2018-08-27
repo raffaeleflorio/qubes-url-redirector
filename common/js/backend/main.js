@@ -31,7 +31,11 @@ const QUR = (function () {
     });
 
     const _QUR = {
-        ready
+        ready,
+        fatal (error) {
+            console.error(error);
+            browser.browserAction.setIcon({path: "common/logo_disabled.png"});
+        }
     };
 
     return new Proxy(_QUR, {
@@ -43,6 +47,7 @@ const QUR = (function () {
                 dep.splice(i, 1);
             }
             if (dep.length === 0) {
+                browser.browserAction.setIcon({path: "common/logo.png"});
                 readyResolve(true);
             }
 

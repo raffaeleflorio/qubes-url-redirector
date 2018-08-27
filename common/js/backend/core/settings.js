@@ -108,6 +108,6 @@
                 "Error during QUR.settings initialization: " + error.toString(),
                 "The extension will not work!"
             ].join("\n");
-            console.error(msg);
+            QUR.fatal(msg);
         });
 }());
