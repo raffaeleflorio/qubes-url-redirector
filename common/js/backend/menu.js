@@ -22,7 +22,7 @@ QUR.ready.then(function () {
 
     browser.contextMenus.create({
         id: "open-in-dvm",
-        title: "Open in DVM",
+        title: "Open in a disposable qube",
         contexts: ["link"],
         enabled: true
     });
@@ -30,7 +30,7 @@ QUR.ready.then(function () {
     const vm = QUR.settings.getDefaultVm();
     browser.contextMenus.create({
         id: "open-in-default-vm",
-        title: "Open in " + (vm === null ? "default" : vm) + " VM",
+        title: "Open in " + (vm === null ? "default" : vm) + " qube",
         contexts: ["link"],
         enabled: (vm !== null)
     });
@@ -60,7 +60,7 @@ QUR.ready.then(function () {
         browser.contextMenus.update(
             "open-in-default-vm",
             {
-                title: "Open in " + (vm === null ? "default" : vm) + " VM",
+                title: "Open in " + (vm === null ? "default" : vm) + " qube",
                 enabled: (vm !== null)
             });
     });
