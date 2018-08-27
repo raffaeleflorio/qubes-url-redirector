@@ -53,7 +53,7 @@ article#settings img#default_action, article#whitelist img.entry {
     box-shadow: 0px 0px 8px #333;
 }
 
-article#whitelist ul {
+ul {
     padding-left: 2.5rem;
 }
 
