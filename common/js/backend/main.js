@@ -59,3 +59,7 @@ const QUR = (function () {
 browser.runtime.onInstalled.addListener(function () {
     browser.tabs.create({url: browser.runtime.getURL("/common/html/welcome.html")});
 });
+
+browser.browserAction.onClicked.addListener(function () {
+    browser.runtime.openOptionsPage();
+});
