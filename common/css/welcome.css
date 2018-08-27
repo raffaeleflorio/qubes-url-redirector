@@ -61,3 +61,7 @@ footer {
     padding-top: 2rem;
     text-align: center;
 }
+
+.dangerous {
+    color: #BD2727;
+}
