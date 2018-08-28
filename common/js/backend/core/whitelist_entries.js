@@ -204,7 +204,7 @@ QUR.whitelist_entries = (function () {
 
             const isValidPort = (v) => (v > 0 && v < 65536) || v === "";
 
-            const isValidPQF = (v) => (v !== "" && v.startsWith("/")) || v === "";
+            const isValidPQF = (v) => v.startsWith("/") || v === "";
 
             if (!isValidPQF(pqf) || !isValidPort(port) || !isValidScheme(scheme) || !isValidHost(host)) {
                 return null;
