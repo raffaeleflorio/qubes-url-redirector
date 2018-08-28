@@ -66,9 +66,11 @@ OPTIONS.whitelist_entries = (function () {
             const hostRepresentation = host.indexOf(":") >= 0 ? "[" + host + "]" : host;
             const simpleString = scheme + "://" + hostRepresentation + portRepresentation + pqf;
 
+            const pqfSuffix = (pqf === "" || pqf.slice(-1) === "/") ? "" : "$";
+
             return Object.freeze({
                 getSimple: () => simpleString,
-                getDetailed: () => "/^" + escapeRE(simpleString) + pqf + "/",
+                getDetailed: () => "/^" + escapeRE(simpleString) + pqfSuffix + "/",
                 getType: () => "URL",
                 getLabel: () => label
             });

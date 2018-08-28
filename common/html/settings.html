@@ -75,7 +75,8 @@
 
 	  <div class="entry_spec_url">
 	    <label for="url_remaining"> URL Remaining: </label>
-	    <input type="text" id="url_remaining" name="path_query_fragment" size="64" value="" placeholder="e.g. /some/path?x=y#z. If empty match every resources.">
+            <em> If it terminates with a /, it matches every resource in that directory (including subdir). If empty every resource. Otherwise it matches the exact resource. </em>
+	    <input type="text" id="url_remaining" name="path_query_fragment" size="64" value="" placeholder="e.g. /some/path?x=y#z.">
 	  </div>
 
 	  <div>
