@@ -222,7 +222,7 @@ QUR.whitelist_entries = (function () {
                 const escapedPqf = that.escapeRE(pqf);
                 const pqfSuffix = (pqf === "" || pqf.slice(-1) === "/") ? "" : escapedPqf + "$";
 
-                return schemePrefix + that.escapeRE(hostRepresentation) + portRepresentation + pqfSuffix;
+                return schemePrefix + that.escapeRE(hostRepresentation) + portRepresentation + "(?![^/])" + pqfSuffix;
             }());
 
             const simpleString = scheme + "://" + hostRepresentation + portRepresentation + pqf;
