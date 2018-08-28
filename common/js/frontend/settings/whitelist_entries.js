@@ -74,7 +74,7 @@ OPTIONS.whitelist_entries = (function () {
             });
         },
         makeURL (spec) {
-            const {scheme, host, port, path_query_fragment:pqf, label, trust} = spec;
+            const {scheme, host, port, path_query_fragment:pqf} = spec;
 
             const portRepresentation = port === "" ? "" : ":" + port;
             const hostRepresentation = host.indexOf(":") >= 0 ? "[" + host + "]" : host;
