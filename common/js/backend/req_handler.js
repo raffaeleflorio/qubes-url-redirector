@@ -64,6 +64,7 @@ QUR.ready.then(function () {
 
                     const {tabId, url} = details;
                     QUR.native.openurl({vmname, url});
+                    return {cancel: true};
                     // browser.tabs.update(tabId, {url: FIREWALL_PAGE});
                 }
 
