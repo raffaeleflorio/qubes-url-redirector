@@ -58,9 +58,9 @@
 	    <label for="scheme"> Scheme: </label>
 	    <input type="text" id="scheme" name="scheme" size="64" value="" placeholder="Default is https">
 
-	    <label class="inline warning">
-	      <input type="checkbox" name="all_schemes"> Whitelist every schemes
-	    </label>
+	    <!-- <label class="inline warning"> -->
+	    <!--   <input type="checkbox" name="all_schemes"> Whitelist every schemes -->
+	    <!-- </label> -->
 	  </div>
 
 	  <div>
@@ -83,7 +83,14 @@
 	    <label for="entry_label"> Label: </label>
 	    <input type="text" name="entry_label" id="entry_label" size="64" value="">
 	  </div>
-	</div>
+
+          <div>
+            <label class="warning">
+              <input type="checkbox" name="origin_url_trust" value="0">
+              Trust every resources loaded by <strong>this</strong> whitelisted entry.
+            </label>
+          </div>
+        </div>
 
 	<button type="submit" id="whitelistSubmit"> Save </button>
 	<button type="button" id="whitelistReset"> Reset </button>
@@ -94,6 +101,7 @@
 	<thead>
 	  <th> Simple </th>
 	  <th> Detailed </th>
+          <th> Trust </th>
 	  <th> Type </th>
 	  <th> Label </th>
 	  <th> Modify </th>
@@ -103,6 +111,7 @@
 	  <tr class="entry" data-entrySpec="">
 	    <td class="simple"></td>
 	    <td class="detailed"></td>
+	    <td class="trust"></td>
 	    <td class="type"></td>
 	    <td class="label"></td>
 	    <td><button class="modify"> Modify </button></td>

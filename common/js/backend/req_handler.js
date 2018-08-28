@@ -66,6 +66,13 @@ QUR.ready.then(function () {
                     QUR.native.openurl({vmname, url});
                     // browser.tabs.update(tabId, {url: FIREWALL_PAGE});
                 }
+
+                const isOriginTrusted = QUR.whitelist.isWhitelisted(details.originUrl);
+                const originEntry = QUR.whitelist.getMatchedEntry(details.originUrl) || {};
+                if (isOriginTrusted && originEntry.trust === QUR.whitelist_entries.TRUST.MAX) {
+                    return {cancel: false};
+                }
+
                 return {cancel: true};
             } else {
                 return {cancel: false};

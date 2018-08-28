@@ -22,11 +22,25 @@ OPTIONS.whitelist_entries = (function () {
 
     const escapeRE = (v) => v.replace(/[|\\{}\[\]^$+*?.]/g, "\\$&");
 
+    function makeBaseEntry(spec) {
+        const that = OPTIONS.whitelist_entries;
+
+        const {label, trust} = spec;
+        return Object.freeze({
+            getLabel: () => label,
+            getTrust: () => (trust === that.TRUST.MAX) ? "Yes" : "No"
+        });
+    }
+
     return Object.freeze({
         ENTRY_TYPE: Object.freeze({
             REGEXP: 0,
             EXACT: 1,
             URL: 2
+        }),
+        TRUST: Object.freeze({
+            MIN: 0,
+            MAX: 1
         }),
         makeEntry (entrySpec) {
             const that = OPTIONS.whitelist_entries;
@@ -42,25 +56,25 @@ OPTIONS.whitelist_entries = (function () {
             return ENTRY_FUNC[type](spec);
         },
         makeRegexp (spec) {
-            const {regexp, label} = spec;
+            const {regexp} = spec;
             return Object.freeze({
+                ...makeBaseEntry(spec),
                 getSimple: () => "/" + regexp + "/",
                 getDetailed: () => "/" + regexp + "/",
-                getType: () => "RegExp",
-                getLabel: () => label
+                getType: () => "RegExp"
             });
         },
         makeExact (spec) {
-            const {exact, label} = spec;
+            const {exact} = spec;
             return Object.freeze({
+                ...makeBaseEntry(spec),
                 getSimple: () => exact,
                 getDetailed: () => "/^" + escapeRE(exact) + "$/",
-                getType: () => "Exact Match",
-                getLabel: () => label
+                getType: () => "Exact Match"
             });
         },
         makeURL (spec) {
-            const {scheme, host, port, path_query_fragment:pqf, label} = spec;
+            const {scheme, host, port, path_query_fragment:pqf, label, trust} = spec;
 
             const portRepresentation = port === "" ? "" : ":" + port;
             const hostRepresentation = host.indexOf(":") >= 0 ? "[" + host + "]" : host;
@@ -69,10 +83,10 @@ OPTIONS.whitelist_entries = (function () {
             const pqfSuffix = (pqf === "" || pqf.slice(-1) === "/") ? "" : "$";
 
             return Object.freeze({
+                ...makeBaseEntry(spec),
                 getSimple: () => simpleString,
                 getDetailed: () => "/^" + escapeRE(simpleString) + pqfSuffix + "/",
-                getType: () => "URL",
-                getLabel: () => label
+                getType: () => "URL"
             });
         }
     });

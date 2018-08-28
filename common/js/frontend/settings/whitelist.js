@@ -78,21 +78,22 @@ OPTIONS.whitelist = (function () {
             spec: {}
         };
 
-        const that = OPTIONS.whitelist_entries.ENTRY_TYPE;
+        const that = OPTIONS.whitelist_entries;
         switch (entrySpec.type) {
-        case (that.URL):
+        case (that.ENTRY_TYPE.URL):
             entrySpec.spec.scheme = form.scheme.value || "https";
             entrySpec.spec.host = form.spec.value;
             entrySpec.spec.port = form.port.value;
             entrySpec.spec.path_query_fragment = form.path_query_fragment.value;
             break;
-        case (that.REGEXP):
+        case (that.ENTRY_TYPE.REGEXP):
             entrySpec.spec.regexp = form.spec.value;
             break;
-        case (that.EXACT):
+        case (that.ENTRY_TYPE.EXACT):
             entrySpec.spec.exact = form.spec.value;
             break;
         };
+        entrySpec.spec.trust = form.origin_url_trust.checked ? that.TRUST.MAX : that.TRUST.MIN;
         entrySpec.spec.label = form.entry_label.value;
         return entrySpec;
     }
@@ -129,21 +130,23 @@ OPTIONS.whitelist = (function () {
             form.setAttribute("data-entrySpecToReplace", entrySpec);
 
             entrySpec = JSON.parse(entrySpec);
-            const that = OPTIONS.whitelist_entries.ENTRY_TYPE;
+            const that = OPTIONS.whitelist_entries;
+
             switch (entrySpec.type) {
-            case (that.URL):
+            case (that.ENTRY_TYPE.URL):
                 form.scheme.value = entrySpec.spec.scheme;
                 form.spec.value = entrySpec.spec.host;
                 form.port.value = entrySpec.spec.port;
                 form.path_query_fragment.value = entrySpec.spec.path_query_fragment;
                 break;
-            case (that.REGEXP):
+            case (that.ENTRY_TYPE.REGEXP):
                 form.spec.value = entrySpec.spec.regexp;
                 break;
-            case (that.EXACT):
+            case (that.ENTRY_TYPE.EXACT):
                 form.spec.value = entrySpec.spec.exact;
                 break;
             };
+            form.origin_url_trust.checked = entrySpec.spec.trust === that.TRUST.MAX;
             form.entry_label.value = entrySpec.spec.label;
             form.type.value = entrySpec.type;
 
@@ -178,6 +181,7 @@ OPTIONS.whitelist = (function () {
         row.querySelector(".detailed").textContent = entry.getDetailed();
         row.querySelector(".type").textContent = entry.getType();
         row.querySelector(".label").textContent = entry.getLabel();
+        row.querySelector(".trust").textContent = entry.getTrust();
 
         row.querySelector(".entry").setAttribute("data-entrySpec", JSON.stringify(entrySpec));
 

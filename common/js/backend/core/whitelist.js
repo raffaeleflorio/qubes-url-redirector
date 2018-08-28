@@ -34,6 +34,10 @@
         forEach: (fn) => getCloned().forEach(fn),
         map: (fn) => getCloned().map(fn),
         isWhitelisted: (value) => _whitelist.some((x) => x.test(value)),
+        getMatchedEntry (value) {
+            const entry = _whitelist.find((e) => e.test(value));
+            return entry !== undefined ? entry : null;
+        },
         getFromString (s) {
             const i = findIndex({toString: () => s});
             if (i === -1) {
