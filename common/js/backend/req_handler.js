@@ -22,8 +22,7 @@ QUR.ready.then(function () {
 
     const console_prefix = "[req_handler] ";
 
-    // const FIREWALL_PAGE = browser.runtime.getURL("/common/html/firewall.html");
-    // const LIMITATOR_PAGE = browser.runtime.getURL("/common/html/limitator.html");
+    const FIREWALL_PAGE = browser.runtime.getURL("/common/html/firewall.html");
 
     /* only request related to a tab and to a main frame should be redirected to another qube */
     const isValidRequestToRedirect = (details) => details.type === "main_frame" && details.tabId !== -1;
@@ -64,8 +63,9 @@ QUR.ready.then(function () {
 
                     const {tabId, url} = details;
                     QUR.native.openurl({vmname, url});
+                    const firewall_page = FIREWALL_PAGE + "?url=" + encodeURIComponent(url);
+                    browser.tabs.update(tabId, {url: firewall_page});
                     return {cancel: true};
-                    // browser.tabs.update(tabId, {url: FIREWALL_PAGE});
                 }
 
                 const isOriginTrusted = QUR.whitelist.isWhitelisted(details.originUrl);
