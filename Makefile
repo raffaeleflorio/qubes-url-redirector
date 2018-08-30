@@ -1,5 +1,8 @@
 .PHONY: help setup chrome chromium firefox clean
 
+NATIVE_PATH=/opt/qubes-url-redirector
+NATIVE_NAME=qvm-open-in-vm-we.py
+
 help:
 	@echo make help to show this help
 	@echo make chrome to install in Chrome
@@ -8,8 +11,9 @@ help:
 	@echo make clean to remove file on disk
 
 setup:
-	sudo cp common/qvm-open-in-vm-we.py /usr/local/bin/
-	sudo chmod u+x /usr/local/bin/qvm-open-in-vm-we.py
+	sudo mkdir -p ${NATIVE_PATH}
+	sudo cp common/${NATIVE_NAME} ${NATIVE_PATH}/
+	sudo chmod u+x ${NATIVE_PATH}/${NATIVE_NAME}
 
 chrome: setup
 	mkdir -p ~/.config/google-chrome/NativeMessagingHosts
@@ -28,4 +32,4 @@ clean:
 	rm -f ~/.mozilla/native-messaging-hosts/qvm_open_in_vm.json
 	rm -f ~/.config/google-chrome/NativeMessagingHosts/qvm_open_in_vm.json
 	rm -f ~/.config/chromium/NativeMessagingHosts/qvm_open_in_vm.json
-	sudo rm -f /usr/local/bin/qvm-open-in-vm-we.py
+	sudo rm -rf ${NATIVE_PATH}
