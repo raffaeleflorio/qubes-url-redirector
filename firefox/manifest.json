@@ -2,13 +2,13 @@
     "manifest_version": 2,
 
     "name": "Open in Qube",
-    "version": "2.1",
+    "version": "2.1.1",
     "applications": {
 	"gecko": {
 	    "id": "qubes-url-redirector@raffaeleflorio.github.io"
 	}
     },
-    "description": "Redirect untrusted URLs to other VM while you surf the web!",
+    "description": "Redirect untrusted URLs to another qube while you surf the web!",
 
     "icons": {
 	"16": "common/logo.png",

@@ -2,9 +2,9 @@
     "manifest_version": 2,
 
     "name": "Open in Qube",
-    "version": "2.1",
+    "version": "2.1.1",
 
-    "description": "Redirect untrusted URLs to other VM while you surf the web!",
+    "description": "Redirect untrusted URLs to another qube while you surf the web!",
 
     "icons": {
 	"16": "common/logo.png",
@@ -50,14 +50,6 @@
 	]
     },
     
-    // "content_scripts": [{
-    // 	"js": [
-    // 	    "content_scripts/aHandler.js"
-    // 	],
-    // 	"matches": ["<all_urls>"],
-    // 	"run_at": "document_end"
-    // }],
-
     "permissions": [
 	"contextMenus",
 	"storage",
