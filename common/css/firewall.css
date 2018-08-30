@@ -1,0 +1,11 @@
+main {
+    text-align: center;
+}
+
+div#blocked_url_wrapper {
+    word-wrap: break-word;
+    border: 1px solid #333;
+    background-color: #EEE;
+    border-radius: 5px;
+    padding: 0.5rem;
+}
