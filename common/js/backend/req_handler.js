@@ -70,7 +70,7 @@ QUR.ready.then(function () {
 
                 const isOriginTrusted = QUR.whitelist.isWhitelisted(details.originUrl);
                 const originEntry = QUR.whitelist.getMatchedEntry(details.originUrl) || {};
-                if (isOriginTrusted && originEntry.trust === QUR.whitelist_entries.TRUST.MAX) {
+                if (isOriginTrusted && originEntry.getTrust() === QUR.whitelist_entries.TRUST.MAX) {
                     return {cancel: false};
                 }
 

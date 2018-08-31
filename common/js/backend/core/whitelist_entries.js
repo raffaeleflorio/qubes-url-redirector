@@ -22,7 +22,7 @@ QUR.whitelist_entries = (function () {
 
     function _normalizeSpec (spec) {
         const {label="", trust=QUR.whitelist_entries.TRUST.MIN} = spec;
-        return {...spec, label, trust};
+        return Object.freeze({...spec, label, trust});
     }
 
     function _isValidCommonSpec (spec) {
@@ -87,9 +87,11 @@ QUR.whitelist_entries = (function () {
 
             const MY_TYPE = that.ENTRY_TYPE.REGEXP;
             const reObj = new RegExp(regexp);
-            const json = Object.freeze({type: MY_TYPE, spec: _normalizeSpec(spec)});
+            const nspec = _normalizeSpec(spec);
+            const json = Object.freeze({type: MY_TYPE, spec: nspec});
             return Object.freeze({
                 getType: () => MY_TYPE,
+                getTrust: () => nspec.trust,
                 test: (v) => reObj.test(v),
                 toString: () => reObj.toString(),
                 toJSON: () => json
@@ -106,9 +108,11 @@ QUR.whitelist_entries = (function () {
             const MY_TYPE = that.ENTRY_TYPE.EXACT;
             const reObj = new RegExp("^" + that.escapeRE(exact) + "$");
             const simpleString = reObj.toString().slice(2, -2);
-            const json = Object.freeze({type: MY_TYPE, spec: _normalizeSpec(spec)});
+            const nspec = _normalizeSpec(spec);
+            const json = Object.freeze({type: MY_TYPE, spec: nspec});
             return Object.freeze({
                 getType: () => MY_TYPE,
+                getTrust: () => nspec.trust,
                 test: (v) => reObj.test(v),
                 toString: (detailed = false) => detailed ? reObj.toString() : simpleString,
                 toJSON: () => json
@@ -234,6 +238,7 @@ QUR.whitelist_entries = (function () {
             });
             return Object.freeze({
                 getType: () => MY_TYPE,
+                getTrust: () => nspec.trust,
                 test: (v) => reObj.test(v),
                 toString: (detailed = false) => detailed ? reObj.toString() : simpleString,
                 toJSON: () => json
