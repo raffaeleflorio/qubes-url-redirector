@@ -64,7 +64,21 @@ QUR.ready.then(function () {
                 return {cancel: false};
             }
         },
-        function anti_rdr () {
+        function anti_rdr (details) {
+            const antis = [
+                {
+                    /* google rwt */
+                    urlRegexp: /^(?:https:?\/\/)?(?:www\.)?google\.\w+\/url\?/,
+                    parameter: "url"
+                }
+            ];
+
+            const {url, tabId} = details;
+            const i = antis.findIndex((a) => a.urlRegexp.test(url));
+            if (i > -1 && _isTopRequest(details)) {
+                const anti = antis[i];
+                return {redirectUrl: new URL(url).searchParams.get(anti.parameter)};
+            }
         },
         function tabIsWhitelisted (details) {
             if (QUR.tabs.isWhitelisted(details.tabId)) {
