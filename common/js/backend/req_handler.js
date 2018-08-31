@@ -24,8 +24,27 @@ QUR.ready.then(function () {
 
     const FIREWALL_PAGE = browser.runtime.getURL("/common/html/firewall.html");
 
+    function _isNativeRequired (action) {
+        return action === QUR.settings.ACTION.DVM || QUR.settings.ACTION.DEFAULT_VM;
+    }
+
     /* only request related to a tab and to a main frame should be redirected to another qube */
-    const isValidRequestToRedirect = (details) => details.type === "main_frame" && details.tabId !== -1;
+    const _isValidRequestToRedirect = (details) => details.type === "main_frame" && details.tabId !== -1;
+
+    function _isRequestPermitted (details) {
+        const isWhitelisted = QUR.whitelist.isWhitelisted(details.url);
+        if (isWhitelisted) {
+            return true;
+        }
+
+        const isOriginTrusted = QUR.whitelist.isWhitelisted(details.originUrl);
+        const originEntry = QUR.whitelist.getMatchedEntry(details.originUrl) || {};
+        if (isOriginTrusted && originEntry.getTrust() === QUR.whitelist_entries.TRUST.MAX) {
+            return true;
+        }
+
+        return false;
+    }
 
     /*
      *
@@ -44,6 +63,8 @@ QUR.ready.then(function () {
                 return {cancel: false};
             }
         },
+        function anti_rdr () {
+        },
         function tabIsWhitelisted (details) {
             if (QUR.tabs.isWhitelisted(details.tabId)) {
                 return {cancel: false};
@@ -56,28 +77,25 @@ QUR.ready.then(function () {
             }
         },
         function firewall (details) {
-            if (!QUR.whitelist.isWhitelisted(details.url)) {
-                if (isValidRequestToRedirect(details)) {
+            if (_isRequestPermitted(details.url)) {
+                return {cancel: false};
+            }
+
+            const defaultAction = QUR.settings.getDefaultAction();
+            if (_isValidRequestToRedirect(details)) {
+                if (_isNativeRequired) {
                     const openInDvm = QUR.settings.getDefaultAction() === QUR.settings.ACTION.DVM;
                     const vmname = openInDvm === true ? "$dispvm" : QUR.settings.getDefaultVm();
 
                     const {tabId, url} = details;
                     QUR.native.openurl({vmname, url});
-                    const firewall_page = FIREWALL_PAGE + "?url=" + encodeURIComponent(url);
-                    browser.tabs.update(tabId, {url: firewall_page});
-                    return {cancel: true};
                 }
 
-                const isOriginTrusted = QUR.whitelist.isWhitelisted(details.originUrl);
-                const originEntry = QUR.whitelist.getMatchedEntry(details.originUrl) || {};
-                if (isOriginTrusted && originEntry.getTrust() === QUR.whitelist_entries.TRUST.MAX) {
-                    return {cancel: false};
-                }
-
-                return {cancel: true};
-            } else {
-                return {cancel: false};
+                const firewall_page = FIREWALL_PAGE + "?url=" + encodeURIComponent(url);
+                browser.tabs.update(tabId, {url: firewall_page});
             }
+
+            return {cancel: true};
         }
     ];
 

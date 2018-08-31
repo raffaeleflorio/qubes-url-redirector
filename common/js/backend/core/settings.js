@@ -23,7 +23,8 @@
     const ACTION = Object.freeze({
         DVM: 0,
         DEFAULT_VM: 1,
-        OPEN_HERE: 2
+        OPEN_HERE: 2,
+        BLOCK_ONLY: 3
     });
 
     const _settings = {
