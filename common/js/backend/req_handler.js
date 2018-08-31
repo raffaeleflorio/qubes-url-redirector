@@ -85,7 +85,7 @@ QUR.ready.then(function () {
             if (_isValidRequestToRedirect(details)) {
                 const {tabId, url} = details;
 
-                if (_isNativeRequired) {
+                if (_isNativeRequired(defaultAction)) {
                     const openInDvm = QUR.settings.getDefaultAction() === QUR.settings.ACTION.DVM;
                     const vmname = openInDvm === true ? "$dispvm" : QUR.settings.getDefaultVm();
 
