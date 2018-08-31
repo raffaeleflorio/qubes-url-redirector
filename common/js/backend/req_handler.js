@@ -28,8 +28,9 @@ QUR.ready.then(function () {
         return action === QUR.settings.ACTION.DVM || action === QUR.settings.ACTION.DEFAULT_VM;
     }
 
+    const _isTopRequest = (details) => details.type === "main_frame";
     /* only request related to a tab and to a main frame should be redirected to another qube */
-    const _isValidRequestToRedirect = (details) => details.type === "main_frame" && details.tabId !== -1;
+    const _isValidRequestToRedirect = (details) => _isTopRequest(details) && details.tabId !== -1;
 
     function _isRequestPermitted (details) {
         const isWhitelisted = QUR.whitelist.isWhitelisted(details.url);
@@ -39,7 +40,7 @@ QUR.ready.then(function () {
 
         const isOriginTrusted = QUR.whitelist.isWhitelisted(details.originUrl);
         const originEntry = QUR.whitelist.getMatchedEntry(details.originUrl) || {};
-        if (isOriginTrusted && originEntry.getTrust() === QUR.whitelist_entries.TRUST.MAX) {
+        if (!_isTopRequest(details) && isOriginTrusted && originEntry.getTrust() === QUR.whitelist_entries.TRUST.MAX) {
             return true;
         }
 
