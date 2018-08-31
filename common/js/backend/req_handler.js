@@ -25,7 +25,7 @@ QUR.ready.then(function () {
     const FIREWALL_PAGE = browser.runtime.getURL("/common/html/firewall.html");
 
     function _isNativeRequired (action) {
-        return action === QUR.settings.ACTION.DVM || QUR.settings.ACTION.DEFAULT_VM;
+        return action === QUR.settings.ACTION.DVM || action === QUR.settings.ACTION.DEFAULT_VM;
     }
 
     /* only request related to a tab and to a main frame should be redirected to another qube */
@@ -77,17 +77,18 @@ QUR.ready.then(function () {
             }
         },
         function firewall (details) {
-            if (_isRequestPermitted(details.url)) {
+            if (_isRequestPermitted(details)) {
                 return {cancel: false};
             }
 
             const defaultAction = QUR.settings.getDefaultAction();
             if (_isValidRequestToRedirect(details)) {
+                const {tabId, url} = details;
+
                 if (_isNativeRequired) {
                     const openInDvm = QUR.settings.getDefaultAction() === QUR.settings.ACTION.DVM;
                     const vmname = openInDvm === true ? "$dispvm" : QUR.settings.getDefaultVm();
 
-                    const {tabId, url} = details;
                     QUR.native.openurl({vmname, url});
                 }
 
