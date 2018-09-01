@@ -121,7 +121,7 @@ QUR.whitelist_entries = (function () {
         makeURL (spec) {
             const scheme = spec.scheme || "https";
             const host = spec.host;
-            const port = Number(spec.port) || "";
+            const port = spec.port ? Number(spec.port) : "";
             const pqf = spec.path_query_fragment || "";
 
             if (!_isValidCommonSpec(spec)) {
