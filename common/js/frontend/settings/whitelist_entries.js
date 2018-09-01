@@ -80,7 +80,7 @@ OPTIONS.whitelist_entries = (function () {
             const hostRepresentation = host.indexOf(":") >= 0 ? "[" + host + "]" : host;
             const commonString = scheme + "://" + hostRepresentation + portRepresentation;
 
-            const pqfSuffix = escapeRE(pqf) + (pqf === "" || pqf.slice(-1) === "/") ? "" : "$";
+            const pqfSuffix = escapeRE(pqf) + ((pqf === "" || pqf.slice(-1) === "/") ? "" : "$");
 
             return Object.freeze({
                 ...makeBaseEntry(spec),
