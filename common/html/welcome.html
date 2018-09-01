@@ -14,7 +14,7 @@
     <main>
       <h1> Welcome! </h1>
       Hi, and thanks for installing <b>Open in Qube</b>! This page will help you to use this extension effectively. <br>
-      "Open in Qube" is a browser extension that <em>block and redirect to another Qube, URL that doesn't match against a <a href="#whitelist">whitelist</a> entry</em>.
+      "Open in Qube" is a browser extension that <em>block and eventually redirect to another qube, URLs that doesn't match against a <a href="#whitelist">whitelist</a> entry</em>.
 
       <article id="toolbar_button">
 	<h2> Usage: Toolbar button </h2>
@@ -26,16 +26,16 @@
 
       <article id="settings">
 	<h2> Usage: Settings </h2>
-	Through the settings page you can customize the default responsible Qube. It could be a disposable Qube or a specific Qube. Furthermore it's possible to disable the extension entirely. The default is a disposable Qube. <br>
+	Through the settings page you can customize how the extension handle non whitelisted URLs. By default it blocks the request without redirection. However you could customize this behavior. Indeed it could redirect to a disposable qube or to a specific one. Furthermore it could be disabled completely. <br>
 	Here a screenshot of the settings section that rule with this behavior:
-	<img id="default_action" src="../screenshots/default_action.png" alt="The settings page has a &quot;default action&quot; section where you can customize the default responsible Qube"> <br>
+	<img id="default_action" src="../screenshots/default_action.png" alt="The settings page has a &quot;default action&quot; section where you can customize how the extension handle non whitelsited URLs"> <br>
       </article>
 
       <article id="whitelist">
 	<h2> Usage: Whitelist </h2>
-	The whitelist is the most critical part of the extension. It allows you to specify if an URL will be opened in the <em>current Qube</em>. Every whitelist entries could be associated with a descriptive label. <br>
-	Initially the whitelist is empty. So <em>every</em> URL will be blocked and redirected. For this reason before you start to surf the web you should start to populate the whitelist. <br>
-	The whitelist is accessible through the settings page and its entries are of three types. Furthermore you can specify if every linked resource with a permitted URL will be permitted. <br>
+	The whitelist is the most critical part of the extension. It allows you to specify if an URL will be opened in the <em>current qube</em>. Furthermore you can assign a descriptive label and a trust level to the whitelist entries. <br>
+	Initially the whitelist is empty. So <em>every</em> URL will be blocked. For this reason before you start to surf the web you should start to populate the whitelist. <br>
+	The whitelist is accessible through the settings page and its entries are of three types. <br>
 	The three types of entries are:
 	<ul>
 	  <li> RegExp </li>
@@ -63,10 +63,10 @@
 	  <h3> The "URL" type </h3>
 	  This type allows you to add an entry specifying URL's componenent. Specifically:
 	  <ul>
-	    <li> Scheme, it can also be ignored. So every scheme will match </li>
+	    <li> Scheme, http or https. It's optional. </li>
 	    <li> Host, it supports: IPv4, IPv6 and DNS name </li>
-	    <li> Port </li>
-	    <li> Pathname, query string and fragment </li>
+	    <li> Port. It's optional </li>
+	    <li> Pathname, query string and fragment. It's optional </li>
 	  </ul>
 	  <br>
 	  Here a screenshot of the input fields:

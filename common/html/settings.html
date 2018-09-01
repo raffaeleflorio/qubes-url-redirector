@@ -10,7 +10,7 @@
       <h1> Default Action </h1>
       <form id="settings" autocomplete="off">
 	<label>
-	  <input type="radio" name="default_action" value="0" checked> Open in a disposable qube
+	  <input type="radio" name="default_action" value="0"> Open in a disposable qube
 	</label>
 
 	<label>
@@ -18,7 +18,7 @@
 	</label>
 
 	<label>
-	  <input type="radio" name="default_action" value="3"> Block only
+	  <input type="radio" name="default_action" value="3" checked> Block only
 	</label>
 
 	<label class="dangerous">
@@ -60,10 +60,11 @@
 	<div id="entry_spec">
 	  <div class="entry_spec_url">
 	    <label for="scheme"> Scheme: </label>
-	    <input type="text" id="scheme" name="scheme" size="64" value="" placeholder="Default is https">
+            <em> http or https </em>
+	    <input type="text" id="scheme" name="scheme" size="64" value="" placeholder="Default is https.">
 
 	    <!-- <label class="inline warning"> -->
-	    <!--   <input type="checkbox" name="all_schemes"> Whitelist every schemes -->
+	    <!--   <input type="checkbox" name="all_schemes"> Whitelist every scheme -->
 	    <!-- </label> -->
 	  </div>
 
@@ -79,7 +80,7 @@
 
 	  <div class="entry_spec_url">
 	    <label for="url_remaining"> URL Remaining: </label>
-            <em> If it terminates with a /, it matches every resource in that directory (including subdir). If empty every resource. Otherwise it matches the exact resource. </em>
+            <em> If it terminates with a /, it matches every resource in that directory (including subdir). If empty it matches every resource. Otherwise it matches the exact resource. </em>
 	    <input type="text" id="url_remaining" name="path_query_fragment" size="64" value="" placeholder="e.g. /some/path?x=y#z.">
 	  </div>
 
@@ -91,7 +92,7 @@
           <div>
             <label class="warning">
               <input type="checkbox" name="origin_url_trust" value="0">
-              Trust every resources loaded in the document whose URL matches <strong>this</strong> entry.
+              Trust every resource loaded in the document whose URL matches against <strong>this</strong> entry.
             </label>
           </div>
         </div>

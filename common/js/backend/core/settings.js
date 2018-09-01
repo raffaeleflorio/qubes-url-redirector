@@ -28,7 +28,7 @@
     });
 
     const _settings = {
-        default_action: ACTION.DVM,
+        default_action: ACTION.BLOCK_ONLY,
         default_vm: null
     };
 
