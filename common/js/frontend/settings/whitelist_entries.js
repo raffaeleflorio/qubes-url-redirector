@@ -78,14 +78,14 @@ OPTIONS.whitelist_entries = (function () {
 
             const portRepresentation = port === "" ? "" : ":" + port;
             const hostRepresentation = host.indexOf(":") >= 0 ? "[" + host + "]" : host;
-            const simpleString = scheme + "://" + hostRepresentation + portRepresentation + pqf;
+            const commonString = scheme + "://" + hostRepresentation + portRepresentation;
 
-            const pqfSuffix = (pqf === "" || pqf.slice(-1) === "/") ? "" : "$";
+            const pqfSuffix = escapeRE(pqf) + (pqf === "" || pqf.slice(-1) === "/") ? "" : "$";
 
             return Object.freeze({
                 ...makeBaseEntry(spec),
-                getSimple: () => simpleString,
-                getDetailed: () => "/^" + escapeRE(simpleString) + pqfSuffix + "/",
+                getSimple: () => commonString + pqf,
+                getDetailed: () => "/^" + escapeRE(commonString) + "(?![^/])" + pqfSuffix + "/",
                 getType: () => "URL"
             });
         }
