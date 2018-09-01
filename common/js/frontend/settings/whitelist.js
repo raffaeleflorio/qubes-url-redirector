@@ -230,7 +230,9 @@ OPTIONS.whitelist = (function () {
         },
         replaceEntry (entrySpecToReplace, newEntrySpec) {
             const table = document.getElementById("whitelist_entries");
-            const oldRow = table.querySelector("tr[data-entrySpec='" + JSON.stringify(entrySpecToReplace) + "']");
+            const oldRow =  Array.from(document.getElementsByClassName("entry")).find(function (x) {
+                return x.getAttribute("data-entrySpec") === JSON.stringify(entrySpecToReplace);
+            });
             const newRow = mapEntrySpecToRow(newEntrySpec);
             table.replaceChild(newRow, oldRow);
         },
