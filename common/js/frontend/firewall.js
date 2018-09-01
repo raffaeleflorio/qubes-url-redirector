@@ -21,6 +21,6 @@
     "use strict";
 
     const blocked_url = document.getElementById("blocked_url");
-    blocked_url.href = url;
+    blocked_url.setAttribute("href", url);
     blocked_url.textContent = url;
 }(new URL(window.location.href).searchParams.get("url")))
