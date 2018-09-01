@@ -24,13 +24,13 @@ QUR.ready.then(function () {
 
     const FIREWALL_PAGE = browser.runtime.getURL("/common/html/firewall.html");
 
-    function _isNativeRequired (action) {
-        return action === QUR.settings.ACTION.DVM || action === QUR.settings.ACTION.DEFAULT_VM;
-    }
-
     const _isTopRequest = (details) => details.type === "main_frame";
     /* only request related to a tab and to a main frame should be redirected to another qube */
     const _isValidRequestToRedirect = (details) => _isTopRequest(details) && details.tabId !== -1;
+
+    function _isNativeRequired (action) {
+        return action === QUR.settings.ACTION.DVM || action === QUR.settings.ACTION.DEFAULT_VM;
+    }
 
     function _isRequestPermitted (details) {
         const isWhitelisted = QUR.whitelist.isWhitelisted(details.url);
