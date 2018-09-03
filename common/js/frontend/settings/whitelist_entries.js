@@ -26,9 +26,15 @@ OPTIONS.whitelist_entries = (function () {
         const that = OPTIONS.whitelist_entries;
 
         const {label, trust} = spec;
+
+        const trustRepresentation = (function (i) {
+            const t = Object.keys(that.TRUST)[i];
+            return t.charAt(0).toUpperCase() + t.substr(1).toLowerCase();
+        }(trust));
+
         return Object.freeze({
             getLabel: () => label,
-            getTrust: () => (trust === that.TRUST.MAX) ? "Yes" : "No"
+            getTrust: () => trustRepresentation
         });
     }
 
@@ -40,7 +46,8 @@ OPTIONS.whitelist_entries = (function () {
         }),
         TRUST: Object.freeze({
             MIN: 0,
-            MAX: 1
+            MID: 1,
+            MAX: 2
         }),
         makeEntry (entrySpec) {
             const that = OPTIONS.whitelist_entries;

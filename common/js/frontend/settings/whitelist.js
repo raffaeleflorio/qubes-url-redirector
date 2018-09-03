@@ -93,8 +93,8 @@ OPTIONS.whitelist = (function () {
             entrySpec.spec.exact = form.spec.value;
             break;
         };
-        entrySpec.spec.trust = form.origin_url_trust.checked ? that.TRUST.MAX : that.TRUST.MIN;
         entrySpec.spec.label = form.entry_label.value;
+        entrySpec.spec.trust = form.whitelist_entry_trust.value;
         return entrySpec;
     }
 
@@ -146,9 +146,9 @@ OPTIONS.whitelist = (function () {
                 form.spec.value = entrySpec.spec.exact;
                 break;
             };
-            form.origin_url_trust.checked = entrySpec.spec.trust === that.TRUST.MAX;
             form.entry_label.value = entrySpec.spec.label;
             form.type.value = entrySpec.type;
+            form.whitelist_entry_trust.value = entrySpec.spec.trust;
 
             updateWhitelistForm(entrySpec.type);
             const whitelistSubmit = document.getElementById("whitelistSubmit");

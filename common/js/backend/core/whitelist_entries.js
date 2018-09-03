@@ -22,11 +22,11 @@ QUR.whitelist_entries = (function () {
 
     function _normalizeSpec (spec) {
         const {label="", trust=QUR.whitelist_entries.TRUST.MIN} = spec;
-        return Object.freeze({...spec, label, trust});
+        return Object.freeze({...spec, label, trust: Number(trust)});
     }
 
     function _isValidCommonSpec (spec) {
-        const {label="", trust=QUR.whitelist_entries.TRUST.MIN} = spec;
+        const {label, trust} = _normalizeSpec(spec);
         if (typeof label !== "string" || typeof trust !== "number") {
             return false;
         }
@@ -41,7 +41,8 @@ QUR.whitelist_entries = (function () {
         }),
         TRUST: Object.freeze({
             MIN: 0,
-            MAX: 1
+            MID: 1,
+            MAX: 2
         }),
         makeEntry (entrySpec) {
             const that = QUR.whitelist_entries;

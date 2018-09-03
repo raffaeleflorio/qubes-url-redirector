@@ -85,10 +85,25 @@
 	  </div>
 
           <div>
-            <label class="warning">
-              <input type="checkbox" name="origin_url_trust" value="0">
-              Trust every resource loaded in the document whose URL matches against <strong>this</strong> entry.
-            </label>
+            <h3> Linked resource trust level: </h3>
+            <em>
+              This policy applies only to resources linked directly in the allowed document (e.g. stylesheets, scripts, images and so on), but on different host.
+              This policy isn't applied to resource loaded by you from the document.
+            </em>
+	    <label>
+	      <input type="radio" name="whitelist_entry_trust" value="0" checked>
+              Load resources already whitelisted. Nothing more.
+	    </label>
+
+	    <label class="warning">
+	      <input type="radio" name="whitelist_entry_trust" value="1">
+              Load <strong>every</strong> linked resource hosted on <strong>every</strong> subdomain.
+	    </label>
+
+	    <label class="dangerous">
+	      <input type="radio" name="whitelist_entry_trust" value="2">
+              Load <strong>every</strong> linked resource.
+	    </label>
           </div>
         </div>
 
