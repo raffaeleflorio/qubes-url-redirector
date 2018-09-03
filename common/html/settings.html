@@ -37,7 +37,7 @@
     <section>
       <h1> Whitelist </h1>
       <form id="whitelist" autocomplete="off">
-	<em id="type_info"> Remember to escape special RegExp characters with a backslash. Escaping of slash is optional. </em>
+	<em id="type_info"> Remember to escape special RegExp characters with a backslash. Escaping of slash is optional. </em> <br>
 	<h2> Type to add: </h2>
 	<ol id="entry_type_group">
 	  <li>
@@ -61,10 +61,6 @@
 	  <div class="entry_spec_url">
 	    <label for="scheme"> Scheme (http or https): </label>
 	    <input type="text" id="scheme" name="scheme" size="64" value="" placeholder="Default is https.">
-
-	    <!-- <label class="inline warning"> -->
-	    <!--   <input type="checkbox" name="all_schemes"> Whitelist every scheme -->
-	    <!-- </label> -->
 	  </div>
 
 	  <div>
@@ -79,7 +75,7 @@
 
 	  <div class="entry_spec_url">
 	    <label for="url_remaining"> URL Remaining: </label>
-            <em> If it terminates with a /, it matches every resource in that directory (including subdir). If empty it matches every resource. Otherwise it matches the exact resource. </em>
+            <em> If it terminates with a /, it matches every resource in that directory (including subdir). If empty it matches every resource. Otherwise it matches the exact resource. </em> <br>
 	    <input type="text" id="url_remaining" name="path_query_fragment" size="64" value="" placeholder="e.g. /some/path?x=y#z.">
 	  </div>
 
