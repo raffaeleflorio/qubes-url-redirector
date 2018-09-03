@@ -129,89 +129,18 @@ QUR.whitelist_entries = (function () {
                 return null;
             }
 
-            const isValidScheme = (v) => (/^[a-zA-Z]+[a-zA-Z0-9\+\.\-]*$/).test(v);
+            const net_utils = QUR.net_utils;
 
-            function isValidDomainName (v) {
-                if (typeof v !== "string" || v.length > 253) {
-                    return false;
-                }
+            const isIP6 = net_utils.isValidIP6(host);
+            const isIP4 = net_utils.isValidIP4(host);
+            const isDNS = net_utils.isValidDomainName(host);
+            const isValidHost = isIP6 || isIP4 || isDNS;
 
-                const labels = v.split(".");
-                /*
-                 * every label must be, at most, 63 characters long
-                 * The root label is the only one with a length of 0
-                 */
-                if (labels.some((l) => l.length > 63 || l.length === 0)) {
-                    return false;
-                }
+            const isValidPQF = net_utils.isValidPQF(pqf);
+            const isValidPort = net_utils.isValidPort(port);
+            const isValidScheme = net_utils.isValidScheme(scheme);
 
-                const labelRE = /^[a-zA-Z0-9]([a-zA-Z0-9-](?=[a-zA-Z0-9])|[a-zA-Z0-9])*$/;
-                return labels.every((l) => labelRE.test(l));
-            };
-
-            function isValidIP4 (v) {
-                const parts = v.split(".");
-                if (parts.length !== 4) {
-                    return false;
-                }
-
-                /*
-                 * 0 to 9
-                 * 10 to 99
-                 * 100 to 199
-                 * 200 to 249
-                 * 250 to 255
-                 */
-                return parts.every((p) => (/^([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$/).test(p));
-            };
-
-            /* between bracket */
-            function isValidIP6 (v) {
-                /* check if an ipv6 hextet is valid*/
-                const isValidHextet = (x) => (/^[0-9a-fA-F]{1,4}$/).test(x);
-
-                /* ipv6 with double colon */
-                const i = v.indexOf("::");
-                if (i >= 0) {
-                    const parts = v.split("::");
-                    if (parts.length !== 2) {
-                        return false;
-                    }
-
-                    /* ipv4 {compatible,mapped} address */
-                    if (i === 0 && parts[0] === "") {
-                        const ipv4 = (/^ffff:/).test(parts[1]) ? parts[1].split("ffff:")[1] : parts[1];
-                        return isValidIP4(ipv4);
-                    }
-
-                    if (i === 0) {
-                        parts.splice(0,1);
-                    }
-
-                    parts.forEach(function (p, i) {
-                        const subParts = p.split(":");
-                        parts.splice(i, 1, ...subParts);
-                    });
-
-                    return parts.every(isValidHextet);
-                }
-
-                /* complete ipv6 address */
-                const parts = v.split(":");
-                if (parts.length === 8) {
-                    return parts.every(isValidHextet);
-                }
-
-                return false;
-            };
-            const isIP6 = isValidIP6(host);
-            const isValidHost = (v) => isValidDomainName(v) || isValidIP4(v) || isIP6;
-
-            const isValidPort = (v) => (v > 0 && v < 65536) || v === "";
-
-            const isValidPQF = (v) => v.startsWith("/") || v === "";
-
-            if (!isValidPQF(pqf) || !isValidPort(port) || !isValidScheme(scheme) || !isValidHost(host)) {
+            if (!isValidHost || !isValidPQF || !isValidPort || !isValidScheme) {
                 return null;
             }
 
