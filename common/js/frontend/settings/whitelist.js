@@ -94,7 +94,7 @@ OPTIONS.whitelist = (function () {
             break;
         };
         entrySpec.spec.label = form.entry_label.value;
-        entrySpec.spec.trust = form.whitelist_entry_trust.value;
+        entrySpec.spec.trust = Number(form.whitelist_entry_trust.value);
         return entrySpec;
     }
 

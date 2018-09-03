@@ -27,10 +27,17 @@ OPTIONS.whitelist_entries = (function () {
 
         const {label, trust} = spec;
 
-        const trustRepresentation = (function (i) {
-            const t = Object.keys(that.TRUST)[i];
-            return t.charAt(0).toUpperCase() + t.substr(1).toLowerCase();
-        }(trust));
+        const trustRepresentation = (function () {
+            if (trust === that.TRUST.MID) {
+                return "Every subdomain";
+            }
+
+            if (trust === that.TRUST.MAX) {
+                return "Every resource";
+            }
+
+            return "Block if not whitelisted";
+        }());
 
         return Object.freeze({
             getLabel: () => label,
