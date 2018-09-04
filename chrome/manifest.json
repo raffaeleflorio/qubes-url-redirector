@@ -45,6 +45,7 @@
 	    "common/js/backend/messaging/messaging.js",
 	    "common/js/backend/messaging/settingsML.js",
 	    "common/js/backend/messaging/whitelistML.js",
+	    "common/js/backend/messaging/tabsML.js",
 
 	    "common/js/backend/req_handler.js",
 

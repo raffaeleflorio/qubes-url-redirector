@@ -26,15 +26,21 @@ QUR.messaging = (function () {
         ADD_TO_WHITELIST: 2,
         GET_WHITELIST: 3,
         RM_FROM_WHITELIST: 4,
-        REPLACE_IN_WHITELIST: 5
+        REPLACE_IN_WHITELIST: 5,
+        GET_BLOCKED_RES: 6
     });
-    /* single listener for each event */
+    /* single listener for each message */
     const listeners = [];
 
     const isValidMessage = (x) => Object.values(MSG).some((m) => m === x);
     const isValidListener = (x) => typeof x === "function";
 
-    /* dispatcher */
+    /*
+     * DISPATCHER
+     * it expects an object with:
+     * - a mandatory "msg" property (value from one MSG above)
+     * - an optional "options", specific for each message
+     */
     browser.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         const {msg, options} = request;
         if (!isValidMessage(msg)) {
