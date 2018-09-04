@@ -44,31 +44,9 @@ label.inline {
     display: none;
 }
 
-.dangerous {
-    color: #BD2727;
-}
-.warning {
-    color: #E79E27;
-}
-
 #whitelist_entries {
-    width: 100%;
     margin-top: 2rem;
-    border-collapse: collapse;
-    border: 1px solid #333;
 }
 #whitelist_entries caption {
-    text-align: center;
     font-size: 150%;
-}
-#whitelist_entries thead {
-    background-color: #d2d2d2;
-}
-#whitelist_entries td, th {
-    padding: 5px;
-    text-align: center;
-    border-bottom: 1px solid #000;
-}
-#whitelist_entries tr.entry:hover {
-    background-color: #f2f2f2;
 }

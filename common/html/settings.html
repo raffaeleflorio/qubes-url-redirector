@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <title> Open in Qube Settings </title>
+    <link rel="stylesheet" href="/common/css/common.css">
     <link rel="stylesheet" href="/common/css/settings.css">
   </head>
   <body style="display: none">
@@ -87,26 +88,30 @@
 	  <button type="button" id="whitelistReset"> Reset </button>
       </form>
 
-      <table id="whitelist_entries">
+      <table class="full" id="whitelist_entries">
 	<caption><b> Whitelist entries </b></caption>
 	<thead>
-	  <th> Simple </th>
-	  <th> Detailed </th>
-	  <th> Type </th>
-	  <th> Label </th>
-	  <th> Modify </th>
-	  <th> Remove </th>
+          <tr>
+	    <th> Simple </th>
+	    <th> Detailed </th>
+	    <th> Type </th>
+	    <th> Label </th>
+	    <th> Modify </th>
+	    <th> Remove </th>
+          </tr>
 	</thead>
-	<template id="whitelist_row_tpl">
-	  <tr class="entry" data-entrySpec="">
-	    <td class="simple"></td>
-	    <td class="detailed"></td>
-	    <td class="type"></td>
-	    <td class="label"></td>
-	    <td><button class="modify"> Modify </button></td>
-	    <td><button class="remove"> Remove </button></td>
-	  </tr>
-	</template>
+        <tbody>
+	  <template id="whitelist_row_tpl">
+	    <tr class="entry" data-entrySpec="">
+	      <td class="simple"></td>
+	      <td class="detailed"></td>
+	      <td class="type"></td>
+	      <td class="label"></td>
+	      <td><button class="modify"> Modify </button></td>
+	      <td><button class="remove"> Remove </button></td>
+	    </tr>
+	  </template>
+        </tbody>
       </table>
     </section>
 
