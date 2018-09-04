@@ -25,7 +25,8 @@
 
     "browser_action": {
 	"chrome_style": true,
-	"default_title": "Open in Qube settings",
+        "default_popup": "common/html/req_popup.html",
+	"default_title": "Blocked resources in this tab",
 	"default_icon": "common/logo_disabled.png"
     },
 

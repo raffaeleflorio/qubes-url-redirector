@@ -1,0 +1,14 @@
+html, body {
+    min-width: 350px;
+    overflow-x: hidden;
+}
+
+main {
+    padding: 0px;
+}
+
+.url {
+    display: inline-block;
+    max-width: 98%;
+    word-break: break-all;
+}
