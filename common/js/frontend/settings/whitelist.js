@@ -159,8 +159,8 @@ OPTIONS.whitelist = (function () {
             sendMessage({msg: MSG.RM_FROM_WHITELIST, options: entrySpec})
                 .then(function (result) {
                     if (result) {
-                        const table = document.getElementById("whitelist_entries");
-                        table.removeChild(row);
+                        const tbody = document.getElementById("whitelist_entries").tBodies[0];
+                        tbody.removeChild(row);
                         alert("Entry removed successfully!");
                     } else {
                         alert("Unable to remove entry!");
@@ -226,17 +226,17 @@ OPTIONS.whitelist = (function () {
             ev.preventDefault();
         },
         replaceEntry (entrySpecToReplace, newEntrySpec) {
-            const table = document.getElementById("whitelist_entries");
+            const tbody = document.getElementById("whitelist_entries").tBodies[0];
             const oldRow =  Array.from(document.getElementsByClassName("entry")).find(function (x) {
                 return x.getAttribute("data-entrySpec") === JSON.stringify(entrySpecToReplace);
             });
             const newRow = mapEntrySpecToRow(newEntrySpec);
-            table.replaceChild(newRow, oldRow);
+            tbody.replaceChild(newRow, oldRow);
         },
         addEntry (entrySpec) {
-            const table = document.getElementById("whitelist_entries");
+            const tbody = document.getElementById("whitelist_entries").tBodies[0];
             const row = mapEntrySpecToRow(entrySpec);
-            table.appendChild(row);
+            tbody.appendChild(row);
         },
         render: (entries) => entries.forEach(OPTIONS.whitelist.addEntry)
     });
