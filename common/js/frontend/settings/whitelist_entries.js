@@ -25,23 +25,10 @@ OPTIONS.whitelist_entries = (function () {
     function makeBaseEntry(spec) {
         const that = OPTIONS.whitelist_entries;
 
-        const {label, trust} = spec;
-
-        const trustRepresentation = (function () {
-            if (trust === that.TRUST.MID) {
-                return "Every subdomain";
-            }
-
-            if (trust === that.TRUST.MAX) {
-                return "Every resource";
-            }
-
-            return "Block if not whitelisted";
-        }());
+        const {label} = spec;
 
         return Object.freeze({
-            getLabel: () => label,
-            getTrust: () => trustRepresentation
+            getLabel: () => label
         });
     }
 
@@ -50,11 +37,6 @@ OPTIONS.whitelist_entries = (function () {
             REGEXP: 0,
             EXACT: 1,
             URL: 2
-        }),
-        TRUST: Object.freeze({
-            MIN: 0,
-            MID: 1,
-            MAX: 2
         }),
         makeEntry (entrySpec) {
             const that = OPTIONS.whitelist_entries;

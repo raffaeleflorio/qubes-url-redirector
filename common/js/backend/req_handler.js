@@ -32,21 +32,6 @@ QUR.ready.then(function () {
         return action === QUR.settings.ACTION.DVM || action === QUR.settings.ACTION.DEFAULT_VM;
     }
 
-    function _isRequestPermitted (details) {
-        const isWhitelisted = QUR.whitelist.isWhitelisted(details.url);
-        if (isWhitelisted) {
-            return true;
-        }
-
-        const isOriginTrusted = QUR.whitelist.isWhitelisted(details.originUrl);
-        const originEntry = QUR.whitelist.getMatchedEntry(details.originUrl) || {};
-        if (!_isTopRequest(details) && isOriginTrusted && originEntry.getTrust() === QUR.whitelist_entries.TRUST.MAX) {
-            return true;
-        }
-
-        return false;
-    }
-
     /*
      *
      * Chain of functions to estabilish if a request will be cancelled or redirected.
@@ -92,7 +77,7 @@ QUR.ready.then(function () {
             }
         },
         function firewall (details) {
-            if (_isRequestPermitted(details)) {
+            if (QUR.whitelist.isWhitelisted(details.url)) {
                 return {cancel: false};
             }
 

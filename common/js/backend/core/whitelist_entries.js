@@ -21,13 +21,13 @@ QUR.whitelist_entries = (function () {
     "use strict";
 
     function _normalizeSpec (spec) {
-        const {label="", trust=QUR.whitelist_entries.TRUST.MIN} = spec;
-        return Object.freeze({...spec, label, trust: Number(trust)});
+        const {label=""} = spec;
+        return Object.freeze({...spec, label});
     }
 
     function _isValidCommonSpec (spec) {
-        const {label, trust} = _normalizeSpec(spec);
-        if (typeof label !== "string" || typeof trust !== "number") {
+        const {label} = _normalizeSpec(spec);
+        if (typeof label !== "string") {
             return false;
         }
         return true;
@@ -38,11 +38,6 @@ QUR.whitelist_entries = (function () {
             REGEXP: 0,
             EXACT: 1,
             URL: 2
-        }),
-        TRUST: Object.freeze({
-            MIN: 0,
-            MID: 1,
-            MAX: 2
         }),
         makeEntry (entrySpec) {
             const that = QUR.whitelist_entries;
@@ -92,7 +87,6 @@ QUR.whitelist_entries = (function () {
             const json = Object.freeze({type: MY_TYPE, spec: nspec});
             return Object.freeze({
                 getType: () => MY_TYPE,
-                getTrust: () => nspec.trust,
                 test: (v) => reObj.test(v),
                 toString: () => reObj.toString(),
                 toJSON: () => json
@@ -113,7 +107,6 @@ QUR.whitelist_entries = (function () {
             const json = Object.freeze({type: MY_TYPE, spec: nspec});
             return Object.freeze({
                 getType: () => MY_TYPE,
-                getTrust: () => nspec.trust,
                 test: (v) => reObj.test(v),
                 toString: (detailed = false) => detailed ? reObj.toString() : simpleString,
                 toJSON: () => json
@@ -168,7 +161,6 @@ QUR.whitelist_entries = (function () {
             });
             return Object.freeze({
                 getType: () => MY_TYPE,
-                getTrust: () => nspec.trust,
                 test: (v) => reObj.test(v),
                 toString: (detailed = false) => detailed ? reObj.toString() : simpleString,
                 toJSON: () => json

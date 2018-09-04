@@ -94,7 +94,6 @@ OPTIONS.whitelist = (function () {
             break;
         };
         entrySpec.spec.label = form.entry_label.value;
-        entrySpec.spec.trust = Number(form.whitelist_entry_trust.value);
         return entrySpec;
     }
 
@@ -148,7 +147,6 @@ OPTIONS.whitelist = (function () {
             };
             form.entry_label.value = entrySpec.spec.label;
             form.type.value = entrySpec.type;
-            form.whitelist_entry_trust.value = entrySpec.spec.trust;
 
             updateWhitelistForm(entrySpec.type);
             const whitelistSubmit = document.getElementById("whitelistSubmit");
@@ -181,7 +179,6 @@ OPTIONS.whitelist = (function () {
         row.querySelector(".detailed").textContent = entry.getDetailed();
         row.querySelector(".type").textContent = entry.getType();
         row.querySelector(".label").textContent = entry.getLabel();
-        row.querySelector(".trust").textContent = entry.getTrust();
 
         row.querySelector(".entry").setAttribute("data-entrySpec", JSON.stringify(entrySpec));
 
