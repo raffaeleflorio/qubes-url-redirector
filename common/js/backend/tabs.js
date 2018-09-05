@@ -60,6 +60,10 @@ QUR.tabs = (function () {
         });
     }
 
+    browser.tabs.onRemoved.addListener(function (tabId) {
+        delete _tabs[tabId];
+    });
+
     return Object.freeze({
         create (createProperties) {
             const {oneTimeWhitelisted=false} = createProperties;
