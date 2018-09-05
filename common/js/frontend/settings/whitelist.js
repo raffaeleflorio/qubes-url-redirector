@@ -161,7 +161,6 @@ OPTIONS.whitelist = (function () {
                     if (result) {
                         const tbody = document.getElementById("whitelist_entries").tBodies[0];
                         tbody.removeChild(row);
-                        alert("Entry removed successfully!");
                     } else {
                         alert("Unable to remove entry!");
                     }
@@ -201,7 +200,6 @@ OPTIONS.whitelist = (function () {
                 sendMessage({msg: MSG.REPLACE_IN_WHITELIST, options: {oldEntrySpec: entrySpecToReplace, newEntrySpec: entrySpec}})
                     .then(function (result) {
                         if (result) {
-                            alert("Entry modified successfully");
                             OPTIONS.whitelist.replaceEntry(entrySpecToReplace, entrySpec);
                             formReset();
                         } else {
@@ -213,7 +211,6 @@ OPTIONS.whitelist = (function () {
                 sendMessage({msg: MSG.ADD_TO_WHITELIST, options: entrySpec})
                     .then(function (result) {
                         if (result) {
-                            alert("Entry added successfully");
                             OPTIONS.whitelist.addEntry(entrySpec);
                             formReset();
                         } else {
