@@ -2,7 +2,7 @@ main > article {
     padding-top: 1rem;
 }
 
-article#settings img#default_action, article#whitelist img.entry {
+ article img {
     display: block;
     max-width: 60%;
     margin: 1rem auto;
