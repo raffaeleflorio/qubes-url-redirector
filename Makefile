@@ -20,7 +20,7 @@ chrome: setup
 	cp chrome/NativeMessagingHosts/qvm_open_in_vm.json ~/.config/google-chrome/NativeMessagingHosts/
 
 chromium: setup
-	mkdir -p ~/.config/chromium
+	mkdir -p ~/.config/chromium/NativeMessagingHosts
 	cp chrome/NativeMessagingHosts/qvm_open_in_vm.json ~/.config/chromium/NativeMessagingHosts/
 
 firefox: setup
