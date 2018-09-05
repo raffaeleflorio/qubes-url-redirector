@@ -17,7 +17,18 @@
  * along with qubes-url-redirector.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+const REQ_POPUP = {
+    fatal (error) {
+        "use strict";
+
+        console.error(error);
+        alert("A fatal error occurred. Reload the extension!");
+    }
+};
+
 (function () {
+    "use strict";
+
     const a = document.getElementById("open_settings");
     a.setAttribute("href", browser.runtime.getURL("/common/html/settings.html"));
     a.addEventListener("click", function (ev) {
@@ -27,39 +38,60 @@
     });
 }());
 
-browser.tabs.query({active: true, currentWindow: true})
-    .then(function (tab) {
-        "use strict";
+(function () {
+    "use strict";
 
-        const MSG_BLOCKED_RES = {msg: 6};
-        return browser.runtime.sendMessage({...MSG_BLOCKED_RES, options: tab[0].id})
-            .then((resources) => Object.freeze({tabId: tab[0].id, resources}))
-    })
-    .then(function (details) {
-        "use strict";
-
-        const {tabId, resources} = details;
-
-        resources.forEach(function (res) {
-            const row = document.getElementById("req_row_tpl").content.cloneNode(true);
-            row.querySelector(".url").setAttribute("href", res.url);
-            row.querySelector(".url").textContent = res.url;
-            row.querySelector(".type").textContent = res.type;
-
-            row.querySelector(".allow").addEventListener("click", function (ev) {
-                const MSG_ADD_TO_WHITELIST = {msg: 2};
-                const EXACT = 1;
-                const options = {type: EXACT, spec: {exact: res.url, label: "Added from the popup"}};
-                browser.runtime.sendMessage({...MSG_ADD_TO_WHITELIST, options})
-                    .then(function () {
-                        if (res.type === "main_frame") {
-                            browser.tabs.update(tabId, {url: res.url});
-                        } else {
-                            browser.tabs.reload(tabId);
-                        }
-                    });
-            });
-
-            document.getElementById("blocked_resources").appendChild(row);
+    function render (resources) {
+        Array.from(document.getElementsByClassName("res")).forEach(function (r) {
+            document.getElementById("blocked_resources").removeChild(r);
         });
-    });
+
+        resources.forEach(addRes);
+    }
+
+    function addRes (res) {
+        const row = document.getElementById("req_row_tpl").content.cloneNode(true);
+        row.querySelector(".url").setAttribute("href", res.url);
+        row.querySelector(".url").textContent = res.url;
+        row.querySelector(".type").textContent = res.type;
+
+        row.querySelector(".allow").addEventListener("click", function (ev) {
+            const EXACT = 1;
+            const MSG_ADD_TO_WHITELIST = {msg: 2};
+            const options = {
+                type: EXACT,
+                spec: {exact: res.url, label: "Added from the popup"}
+            };
+
+            browser.runtime.sendMessage({...MSG_ADD_TO_WHITELIST, options}).then(function () {
+                const tabId = REQ_POPUP.TAB_ID;
+
+                if (res.type === "main_frame") {
+                    browser.tabs.update(tabId, {url: res.url});
+                } else {
+                    browser.tabs.reload(tabId);
+                }
+
+                browser.tabs.onUpdated.addListener(function (tabId) {
+                    getBlockedRes(tabId).then(render);
+                },{
+                    properties: ["status"],
+                    tabId
+                });
+            }).catch(REQ_POPUP.fatal);
+        });
+
+        document.getElementById("blocked_resources").appendChild(row);
+    }
+
+    function getBlockedRes () {
+        const MSG_BLOCKED_RES = {msg: 6};
+        return browser.runtime.sendMessage({...MSG_BLOCKED_RES, options: REQ_POPUP.tabId});
+    }
+
+    browser.tabs.query({active: true, currentWindow: true})
+        .then((tab) => REQ_POPUP.tabId = tab[0].id)
+        .then(getBlockedRes)
+        .then(render)
+        .catch(REQ_POPUP.fatal);
+}());
