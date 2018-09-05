@@ -83,7 +83,7 @@ QUR.tabs = (function () {
             delete createProperties.oneTimeWhitelisted;
             return browser.tabs.create(createProperties).then(function (wTab) {
                 _tabs[wTab.id] = qurTab;
-                return tab;
+                return wTab;
             });
         },
         addBlockedRes (details) {
