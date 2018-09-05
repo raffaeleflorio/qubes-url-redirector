@@ -24,7 +24,8 @@ qubes-url-redirector/cloned/repo $ git submodule init
 qubes-url-redirector/cloned/repo $ git submodule update
 ```
 
-Every commit is signed. You can get my key through https://pgp.mit.edu or through https://raffaeleflorio.github.io. The **fingerprint** is: _6F1B 35D5 4A43 864C 62D3  ACC3 0DEF F00A 47CF 317F_.
+
+Every commit is signed. You can get my key [from raffaeleflorio.github.io](https://raffaeleflorio.github.io/resources/pgp.asc) or [from pgp.mit.edu](https://pgp.mit.edu/pks/lookup?op=get&search=0x0deff00a47cf317f). The **fingerprint** is: _6F1B 35D5 4A43 864C 62D3  ACC3 0DEF F00A 47CF 317F_.
 
 ## Firefox
 `qubes-url-redirector/cloned/repo $ make firefox`
