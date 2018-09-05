@@ -9,7 +9,7 @@ It has a settings page embedded in browser where you customize default behavior 
 **Menus with a default qube setted**
 ![menus](https://raw.githubusercontent.com/raffaeleflorio/qubes-url-redirector/master/common/screenshots/menus.png)
 
-You can see more screenshots in the `common/screenshot` directory.
+You can see more screenshots in the `common/screenshots` directory.
 
 # How to install
 Soon there will be a signed rpm package. Now you need to clone this repo.
