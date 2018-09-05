@@ -96,6 +96,7 @@ QUR.ready.then(function () {
                 browser.tabs.update(tabId, {url: firewall_page});
             }
 
+            QUR.tabs.addBlockedRes(details);
             return {cancel: true};
         }
     ];

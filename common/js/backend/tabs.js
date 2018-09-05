@@ -20,25 +20,71 @@
 QUR.tabs = (function () {
     "use strict";
 
-    const _whitelistedTabs = [];
+    /* tabId: {_makeTab object} */
+    const _tabs = {};
+
+    function _makeTab(whitelisted) {
+        if (typeof whitelisted !== "boolean") {
+            return null;
+        }
+
+        /* {url: string, type: string} */
+        let _blockedRes = [];
+        let _whitelisted = whitelisted;
+
+        return Object.freeze({
+            isWhitelisted () {
+                const ret = _whitelisted;
+                _whitelisted = false;
+                return ret;
+            },
+            addBlockedRes (details) {
+                const {url, type} = details;
+                if (typeof url !== "string" || typeof type !== "string") {
+                    return;
+                }
+
+                if (type === "main_frame") {
+                    _blockedRes = [];
+                }
+
+                const i = _blockedRes.findIndex((d) => d.url === url);
+                const newRes = Object.freeze({url, type});
+                if (i !== -1) {
+                    _blockedRes[i] = newRes;
+                } else {
+                    _blockedRes.push(newRes);
+                }
+            },
+            getBlockedRes: () => _blockedRes.slice(0)
+        });
+    }
 
     return Object.freeze({
         create (createProperties) {
-            const {oneTimeWhitelisted} = createProperties;
-            delete createProperties.oneTimeWhitelisted;
+            const {oneTimeWhitelisted=false} = createProperties;
 
-            return browser.tabs.create(createProperties).then(function (tab) {
-                if (oneTimeWhitelisted === true) {
-                    _whitelistedTabs[tab.id] = true;
-                }
+            const qurTab = _makeTab(oneTimeWhitelisted);
+            if (!qurTab) {
+                return Promise.reject(null);
+            }
+
+            delete createProperties.oneTimeWhitelisted;
+            return browser.tabs.create(createProperties).then(function (wTab) {
+                _tabs[wTab.id] = qurTab;
                 return tab;
             });
         },
-        isWhitelisted (tabId) {
-            const ret = _whitelistedTabs[tabId] === true;
-            /* A tab is whitelisted for one time */
-            _whitelistedTabs.splice(tabId, 1);
-            return ret;
-        }
+        addBlockedRes (details) {
+            let qurTab = _tabs[details.tabId];
+            if (!qurTab) {
+                qurTab = _makeTab(false);
+                _tabs[details.tabId] = qurTab;
+            }
+
+            qurTab.addBlockedRes(details);
+        },
+        getBlockedRes: (tabId) => _tabs[tabId] ? _tabs[tabId].getBlockedRes() : [],
+        isWhitelisted: (tabId) => _tabs[tabId] ? _tabs[tabId].isWhitelisted() : false
     });
 }());
