@@ -100,7 +100,7 @@ QUR.tabs = (function () {
             if (qurTab) {
                 qurTab.rmBlockedRes(details);
             }
-        }
+        },
         getBlockedRes: (tabId) => _tabs[tabId] ? _tabs[tabId].getBlockedRes() : [],
         isWhitelisted: (tabId) => _tabs[tabId] ? _tabs[tabId].isWhitelisted() : false
     });
