@@ -17,6 +17,16 @@
  * along with qubes-url-redirector.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+(function () {
+    const a = document.getElementById("open_settings");
+    a.setAttribute("href", browser.runtime.getURL("/common/html/settings.html"));
+    a.addEventListener("click", function (ev) {
+        browser.runtime.openOptionsPage();
+        ev.preventDefault();
+        window.close();
+    });
+}());
+
 browser.tabs.query({active: true, currentWindow: true})
     .then(function (tab) {
         "use strict";
