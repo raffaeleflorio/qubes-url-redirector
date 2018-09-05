@@ -56,6 +56,13 @@ QUR.tabs = (function () {
                     _blockedRes.push(newRes);
                 }
             },
+            rmBlockedRes (details) {
+                const {url, type} = details;
+                const i = _blockedRes.findIndex((d) => d.url === url && d.type === type);
+                if (i !== -1) {
+                    _blockedRes.splice(i, 1);
+                }
+            },
             getBlockedRes: () => _blockedRes.slice(0)
         });
     }
@@ -88,6 +95,12 @@ QUR.tabs = (function () {
 
             qurTab.addBlockedRes(details);
         },
+        rmBlockedRes (details) {
+            const qurTab = _tabs[details.tabId];
+            if (qurTab) {
+                qurTab.rmBlockedRes(details);
+            }
+        }
         getBlockedRes: (tabId) => _tabs[tabId] ? _tabs[tabId].getBlockedRes() : [],
         isWhitelisted: (tabId) => _tabs[tabId] ? _tabs[tabId].isWhitelisted() : false
     });

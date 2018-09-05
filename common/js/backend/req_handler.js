@@ -78,6 +78,7 @@ QUR.ready.then(function () {
         },
         function firewall (details) {
             if (QUR.whitelist.isWhitelisted(details.url)) {
+                QUR.tabs.rmBlockedRes(details);
                 return {cancel: false};
             }
 
