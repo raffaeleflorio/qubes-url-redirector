@@ -30,7 +30,7 @@ QUR.ready.then(function () {
     const vm = QUR.settings.getDefaultVm();
     browser.contextMenus.create({
         id: "open-in-default-vm",
-        title: "Open in " + (vm === null ? "default" : vm) + " qube",
+        title: "Open in " + (vm === null ? "default qube" : vm),
         contexts: ["link"],
         enabled: (vm !== null)
     });
@@ -60,7 +60,7 @@ QUR.ready.then(function () {
         browser.contextMenus.update(
             "open-in-default-vm",
             {
-                title: "Open in " + (vm === null ? "default" : vm) + " qube",
+                title: "Open in " + (vm === null ? "default qube" : vm),
                 enabled: (vm !== null)
             });
     });
