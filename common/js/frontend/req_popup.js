@@ -90,7 +90,7 @@ const REQ_POPUP = {
     }
 
     browser.tabs.query({active: true, currentWindow: true})
-        .then((tab) => REQ_POPUP.tabId = tab[0].id)
+        .then((tab) => REQ_POPUP.TAB_ID = tab[0].id)
         .then(getBlockedRes)
         .then(render)
         .catch(REQ_POPUP.fatal);
