@@ -72,11 +72,10 @@ const REQ_POPUP = {
                     browser.tabs.reload(tabId);
                 }
 
-                browser.tabs.onUpdated.addListener(function (tabId) {
-                    getBlockedRes(tabId).then(render);
-                },{
-                    properties: ["status"],
-                    tabId
+                browser.tabs.onUpdated.addListener(function (tabId, changeInfo) {
+                    if (tabId === REQ_POPUP.TAB_ID && changeInfo.status === "complete") {
+                        getBlockedRes(tabId).then(render);
+                    }
                 });
             }).catch(REQ_POPUP.fatal);
         });
@@ -86,7 +85,7 @@ const REQ_POPUP = {
 
     function getBlockedRes () {
         const MSG_BLOCKED_RES = {msg: 6};
-        return browser.runtime.sendMessage({...MSG_BLOCKED_RES, options: REQ_POPUP.tabId});
+        return browser.runtime.sendMessage({...MSG_BLOCKED_RES, options: REQ_POPUP.TAB_ID});
     }
 
     browser.tabs.query({active: true, currentWindow: true})
