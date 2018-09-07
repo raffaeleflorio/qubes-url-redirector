@@ -20,7 +20,7 @@
 OPTIONS.whitelist_entries = (function () {
     "use strict";
 
-    const escapeRE = (v) => v.replace(/[|\\{}\[\]^$+*?.]/g, "\\$&");
+    const escapeRE = (v) => v.replace(/[|\\{}\[\]^$+*?\(\).]/g, "\\$&");
 
     function makeBaseEntry(spec) {
         const that = OPTIONS.whitelist_entries;

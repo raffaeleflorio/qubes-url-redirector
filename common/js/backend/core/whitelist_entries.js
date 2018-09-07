@@ -166,6 +166,6 @@ QUR.whitelist_entries = (function () {
                 toJSON: () => json
             });
         },
-        escapeRE: (v) => v.replace(/[|\\{}\[\]^$+*?.]/g, "\\$&")
+        escapeRE: (v) => v.replace(/[|\\{}\[\]^$+*?\(\).]/g, "\\$&")
     });
 }());
