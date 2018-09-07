@@ -50,7 +50,7 @@ If you encounter some problems, don't hesitate to contact me!
 | https | supported | supported |
 | ws | supported | supported since v58 |
 | wss | supported | supported since v58|
-| ftp | not supported (see [below](#firefox-1) | supported |
+| ftp | not supported (see [below](#firefox-1)) | supported |
 | file | not supported | supported |
 
 ## Firefox
