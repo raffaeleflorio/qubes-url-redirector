@@ -63,6 +63,7 @@ QUR.tabs = (function () {
                     _blockedRes.splice(i, 1);
                 }
             },
+            clearBlockedRes: () => _blockedRes = [],
             getBlockedRes: () => _blockedRes.slice(0)
         });
     }
@@ -101,6 +102,7 @@ QUR.tabs = (function () {
                 qurTab.rmBlockedRes(details);
             }
         },
+        clearBlockedRes: (tabId) => _tabs[tabId] ? _tabs[tabId].clearBlockedRes() : undefined,
         getBlockedRes: (tabId) => _tabs[tabId] ? _tabs[tabId].getBlockedRes() : [],
         isWhitelisted: (tabId) => _tabs[tabId] ? _tabs[tabId].isWhitelisted() : false
     });

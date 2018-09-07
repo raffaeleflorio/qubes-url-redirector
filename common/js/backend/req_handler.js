@@ -81,14 +81,18 @@ QUR.ready.then(function () {
             }
         },
         function firewall (details) {
-            if (QUR.whitelist.isWhitelisted(details.url)) {
-                QUR.tabs.rmBlockedRes(details);
+            const {tabId, url} = details;
+            if (QUR.whitelist.isWhitelisted(url)) {
+                if (_isTopRequest(details)) {
+                    QUR.tabs.clearBlockedRes(tabId);
+                } else {
+                    QUR.tabs.rmBlockedRes(details);
+                }
                 return {cancel: false};
             }
 
             const defaultAction = QUR.settings.getDefaultAction();
             if (_isValidRequestToRedirect(details)) {
-                const {tabId, url} = details;
 
                 if (_isNativeRequired(defaultAction)) {
                     const openInDvm = QUR.settings.getDefaultAction() === QUR.settings.ACTION.DVM;
