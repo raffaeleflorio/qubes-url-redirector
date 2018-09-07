@@ -71,7 +71,7 @@ QUR.ready.then(function () {
             }
         },
         function chrome_fix (details) {
-            if (/^chrome-extension:\/\//).test(details.url)) {
+            if ((/^chrome-extension:\/\//).test(details.url)) {
                 return {cancel: false};
             }
         },
