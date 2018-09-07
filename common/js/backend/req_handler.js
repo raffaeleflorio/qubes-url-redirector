@@ -44,8 +44,9 @@ QUR.ready.then(function () {
      *
      */
     const fns = [
-        function isDisabled () {
+        function isDisabled (details) {
             if (QUR.settings.getDefaultAction() === QUR.settings.ACTION.OPEN_HERE) {
+                QUR.tabs.clearBlockedRes(details.tabId);
                 return {cancel: false};
             }
         },
