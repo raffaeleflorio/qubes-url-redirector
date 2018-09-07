@@ -75,6 +75,11 @@ QUR.ready.then(function () {
                 return {cancel: false};
             }
         },
+        function data_fix (details) {
+            if ((/^data:/).test(details.url)) {
+                return {cancel: false};
+            }
+        },
         function firewall (details) {
             if (QUR.whitelist.isWhitelisted(details.url)) {
                 QUR.tabs.rmBlockedRes(details);
