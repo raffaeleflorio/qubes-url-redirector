@@ -39,6 +39,19 @@ Every commit is signed. You can get my key [from raffaeleflorio.github.io](https
 That's all! :D
 If you encounter some problems, don't hesitate to contact me!
 
-# Additional infos
+# Supported browser
+- Firefox 52 onwards (according the API's reference). Firefox 60 strongly recommended (see [below](#firefox-1)).
+- Chromium 42 onwards (according the API's reference).
+
+## Schemes compatibility table
+| scheme | Firefox | Chrome/ium |
+|---|---|---|
+| http | supported | supported |
+| https | supported | supported |
+| ws | supported | supported since v58 |
+| wss | supported | supported since v58|
+| ftp | not supported (see [below](#firefox-1) | supported |
+| file | not supported | supported |
+
 ## Firefox
-It's strongly advisable to disable ftp support in Firefox, because the API doesn't permit the extension to intercept this type of request. Nonetheless the browser supports the protocol. From Firefox 60 onwards you can disable ftp by setting to `false` `network.ftp.enabled` in `about:config` page.
+It's strongly recommended to disable ftp support in Firefox, because the API doesn't permit the extension to intercept this type of request. Nonetheless the browser supports the protocol. Since Firefox 60 onwards you can disable ftp by setting to `false` `network.ftp.enabled` in `about:config` page.
