@@ -71,8 +71,7 @@ QUR.ready.then(function () {
             }
         },
         function chrome_fix (details) {
-            /* intercept only HTTP(S) request */
-            if (!(/^https?:\/\//).test(details.url)) {
+            if (/^chrome-extension:\/\//).test(details.url)) {
                 return {cancel: false};
             }
         },
