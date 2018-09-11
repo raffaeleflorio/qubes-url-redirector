@@ -74,7 +74,11 @@ QUR.tabs = (function () {
 
     return Object.freeze({
         create (createProperties) {
-            const {oneTimeWhitelisted=false} = createProperties;
+            const {oneTimeWhitelisted=false, targetUrl=""} = createProperties;
+
+            if (typeof targetUrl !== "string") {
+                return Promise.reject(null);
+            }
 
             const qurTab = _makeTab(oneTimeWhitelisted);
             if (!qurTab) {
@@ -82,8 +86,10 @@ QUR.tabs = (function () {
             }
 
             delete createProperties.oneTimeWhitelisted;
+            delete createProperties.targetUrl;
             return browser.tabs.create(createProperties).then(function (wTab) {
                 _tabs[wTab.id] = qurTab;
+                browser.tabs.update(wTab.id, targetUrl ? {url: targetUrl} : {});
                 return wTab;
             });
         },
