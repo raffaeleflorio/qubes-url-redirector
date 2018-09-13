@@ -9,6 +9,8 @@ CHROME_NATIVE_D=~/.config/google-chrome/NativeMessagingHosts
 CHROMIUM_NATIVE_D=~/.config/chromium/NativeMessagingHosts
 FIREFOX_NATIVE_D=~/.mozilla/native-messaging-hosts
 
+ZIP_D=packages/zip
+
 help:
 	@echo make help to show this help
 	@echo make chrome to install in Chrome
@@ -40,7 +42,7 @@ clean:
 	sudo rm -rf ${BIN_NATIVE_D}
 
 zip:
-	rm -f packages/chrome-latest.zip
-	rm -f packages/firefox-latest.zip
-	cd chrome && zip -x @../packages/exclude.lst -qr ../packages/chrome-latest.zip -9 -X .
-	cd firefox && zip -x @../packages/exclude.lst -qr ../packages/firefox-latest.zip -9 -X .
+	rm -f ${ZIP_D}/chrome-latest.zip
+	rm -f ${ZIP_D}/firefox-latest.zip
+	cd chrome && zip -x @../${ZIP_D}/exclude.lst -qr ../${ZIP_D}/chrome-latest.zip -9 -X .
+	cd firefox && zip -x @../${ZIP_D}/exclude.lst -qr ../${ZIP_D}/firefox-latest.zip -9 -X .
