@@ -42,5 +42,5 @@ clean:
 zip:
 	rm -f packages/chrome-latest.zip
 	rm -f packages/firefox-latest.zip
-	zip -x @packages/exclude.lst -qr packages/chrome-latest.zip -9 -X chrome/
-	zip -x @packages/exclude.lst -qr packages/firefox-latest.zip -9 -X firefox/
+	cd chrome && zip -x @../packages/exclude.lst -qr ../packages/chrome-latest.zip -9 -X .
+	cd firefox && zip -x @../packages/exclude.lst -qr ../packages/firefox-latest.zip -9 -X .
