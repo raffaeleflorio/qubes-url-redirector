@@ -36,6 +36,8 @@ Every commit is signed. You can get my key [from raffaeleflorio.github.io](https
 ## Chromium
 `qubes-url-redirector/cloned/repo $ make chromium`
 
+---
+
 That's all! :D
 If you encounter some problems, don't hesitate to contact me!
 
