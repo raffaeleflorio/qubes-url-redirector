@@ -63,10 +63,10 @@ clean:
 	rm -f ${FIREFOX_NATIVE_D}/${NATIVE_MANIFEST}
 
 	rm -f ${CHROME_NATIVE_D}${NATIVE_MANIFEST}
-	sudo rm -rf ${CHROME_EXT_D}/${CHROME_ID}.json
+	sudo rm -f ${CHROME_EXT_D}/${CHROME_ID}.json
 
 	rm -f ${CHROMIUM_NATIVE_D}/${NATIVE_MANIFEST}
-	sudo rm -rf ${CHROMIUM_EXT_D}/${CHROME_ID}.json
+	sudo rm -f ${CHROMIUM_EXT_D}/${CHROME_ID}.json
 
 zip:
 	rm -f ${ZIP_D}/chrome-latest.zip
