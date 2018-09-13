@@ -2,7 +2,7 @@
     "name": "qvm_open_in_vm",
     "description": "Open in Qube - Native application",
     "allowed_origins": [
-	"chrome-extension://EXTENSION_ID_HERE/"
+	"chrome-extension://mbjoigpcjapkbnnlagpalecjoonaeoab/"
     ],
     "type": "stdio",
     "path": "/opt/qubes-url-redirector/qvm-open-in-vm-we.py"

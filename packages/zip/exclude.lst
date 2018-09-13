@@ -3,3 +3,4 @@
 *.py
 NativeMessagingHosts/*
 native-messaging-hosts/*
+*.json

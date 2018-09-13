@@ -1,15 +1,29 @@
 .PHONY: help setup chrome chromium firefox clean zip
 
-BIN_NATIVE_D=/opt/qubes-url-redirector
-BIN_NATIVE=qvm-open-in-vm-we.py
+# local stuff
+VERSION=3.0_beta
 
 NATIVE_MANIFEST=qvm_open_in_vm.json
+NATIVE_BIN=qvm-open-in-vm-we.py
+
+PACKAGES_D=packages
+ZIP_D=${PACKAGES_D}/zip
+
+CHROME_ID=mbjoigpcjapkbnnlagpalecjoonaeoab
+
+CHROME_CRX=${PACKAGES_D}/chrome-${VERSION}.crx
+FIREFOX_XPI=${PACKAGES_D}/firefox-${VERSION}.xpi
+
+# installation dir
+QUR_D=/opt/qubes-url-redirector
 
 CHROME_NATIVE_D=~/.config/google-chrome/NativeMessagingHosts
-CHROMIUM_NATIVE_D=~/.config/chromium/NativeMessagingHosts
-FIREFOX_NATIVE_D=~/.mozilla/native-messaging-hosts
+CHROME_EXT_D=/usr/share/google-chrome/extensions
 
-ZIP_D=packages/zip
+CHROMIUM_NATIVE_D=~/.config/chromium/NativeMessagingHosts
+CHROMIUM_EXT_D=/usr/share/chromium/extensions
+
+FIREFOX_NATIVE_D=~/.mozilla/native-messaging-hosts
 
 help:
 	@echo make help to show this help
@@ -19,27 +33,40 @@ help:
 	@echo make clean to remove file on disk
 
 setup:
-	sudo mkdir -p ${BIN_NATIVE_D}
-	sudo cp common/${BIN_NATIVE} ${BIN_NATIVE_D}/
-	sudo chmod u+x ${BIN_NATIVE_D}/${BIN_NATIVE}
+	sudo mkdir -p ${QUR_D}
+	sudo cp common/${NATIVE_BIN} ${QUR_D}/
+	sudo chmod u+x ${QUR_D}/${NATIVE_BIN}
 
 chrome: setup
 	mkdir -p ${CHROME_NATIVE_D}
 	cp chrome/NativeMessagingHosts/${NATIVE_MANIFEST} ${CHROME_NATIVE_D}/
 
+	sudo cp ${CHROME_CRX} ${QUR_D}/
+	sudo mkdir -p ${CHROME_EXT_D}
+	sudo cp chrome/${CHROME_ID}.json ${CHROME_EXT_D}/
+
 chromium: setup
 	mkdir -p ${CHROMIUM_NATIVE_D}
-	cp chrome/NativeMessagingHosts/${NATIVE_MANIFEST} ${CHROMIUM_NATIVE_D}
+	cp chrome/NativeMessagingHosts/${NATIVE_MANIFEST} ${CHROMIUM_NATIVE_D}/
+
+	sudo cp ${CHROME_CRX} ${QUR_D}/
+	sudo mkdir -p ${CHROMIUM_EXT_D}
+	sudo cp chrome/${CHROME_ID}.json ${CHROMIUM_EXT_D}/
 
 firefox: setup
 	mkdir -p ${FIREFOX_NATIVE_D}
 	cp firefox/native-messaging-hosts/${NATIVE_MANIFEST} ${FIREFOX_NATIVE_D}/
 
 clean:
+	sudo rm -rf ${QUR_D}
+
 	rm -f ${FIREFOX_NATIVE_D}/${NATIVE_MANIFEST}
+
 	rm -f ${CHROME_NATIVE_D}${NATIVE_MANIFEST}
-	rm -f ${CHROMIUM_NATIV_D}/${NATIVE_MANIFEST}
-	sudo rm -rf ${BIN_NATIVE_D}
+	sudo rm -rf ${CHROME_EXT_D}/${CHROME_ID}.json
+
+	rm -f ${CHROMIUM_NATIVE_D}/${NATIVE_MANIFEST}
+	sudo rm -rf ${CHROMIUM_EXT_D}/${CHROME_ID}.json
 
 zip:
 	rm -f ${ZIP_D}/chrome-latest.zip
