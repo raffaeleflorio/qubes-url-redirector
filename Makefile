@@ -1,7 +1,7 @@
 .PHONY: help setup chrome chromium firefox clean zip
 
 # local stuff
-VERSION=3.0_beta
+VERSION=v3.0_beta
 
 NATIVE_MANIFEST=qvm_open_in_vm.json
 NATIVE_BIN=qvm-open-in-vm-we.py
