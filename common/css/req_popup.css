@@ -1,0 +1,35 @@
+html, body {
+    min-width: 500px;
+    overflow-x: hidden;
+}
+
+body > * {
+    padding: 10px;
+}
+
+nav {
+    display: flex;
+    flex: column wrap;
+    justify-content: space-between;
+}
+
+nav div img {
+    vertical-align: middle;
+    max-width: 40px;
+}
+
+nav div span {
+    font-size: 120%;
+}
+
+#open_settings {
+    font-size: 150%;
+    text-decoration: none;
+}
+
+.url {
+    color: #3874D8;
+    display: inline-block;
+    max-width: 98%;
+    word-break: break-all;
+}

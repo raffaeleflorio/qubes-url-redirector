@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title> Welcome in Open in Qube </title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/welcome.css">
+  </head>
+  <body class="flex">
+    <div id="logo">
+      <img src="../logo.png">
+      <span> Open in Qube </span>
+    </div>
+    <main>
+      <h1> Welcome! </h1>
+      Hi, and thanks for installing <b>Open in Qube</b>! This page will help you to use this extension effectively. <br>
+      "Open in Qube" is a browser extension that <em>block and eventually redirect to another qube, URLs that doesn't match against a <a href="#whitelist">whitelist</a> entry</em>.
+
+      <article id="toolbar_button">
+	<h2> Usage: Toolbar button </h2>
+        The browser toolbar button has two functions:
+        <ul>
+          <li> It warns you, with a <span class="dangerous">red icon</span>, if the extension is not ready or some fatal error occurs. In the latter case reload the extension. </li>
+          <li> It allows you to access the <a href="#settings">settings</a> page with a click. </li>
+          <li> It shows you blocked URLs, and associated resource type (e.g. script, image and so on), for the current tab. Furthermore you can whitelist specific resource from there and the popup will update itself accordingly! </li>
+          Here a screenshot of the toolbar popup:
+	  <img src="../screenshots/popup.png" alt="The popup allows you to access the settings page and it allows you to whitelist a blocked resource in the current tab."> <br>
+      </article>
+
+      <article id="settings">
+	<h2> Usage: Settings </h2>
+	Through the settings page you can customize how the extension handle non whitelisted URLs. By default it simply blocks the request. However it could redirect to a disposable qube or to a default one. Furthermore it could be disabled completely. The default qube field supports the syntax: <em> $dispvm:qube </em>. <br>
+	Here a screenshot of the settings section that rule with this behavior:
+	<img src="../screenshots/default_action.png" alt="The settings page has a &quot;default action&quot; section where you can customize how the extension handle non whitelsited URLs"> <br>
+      </article>
+
+      <article id="whitelist">
+	<h2> Usage: Whitelist </h2>
+	The whitelist is the most critical part of the extension. It allows you to specify if an URL will be opened in the <em>current qube</em>. Furthermore you can assign a descriptive label and a trust level to the whitelist entries. <br>
+	Initially the whitelist is empty. So <em>every</em> URL will be blocked. For this reason before you start to surf the web you should start to populate the whitelist. <br>
+	The whitelist is accessible through the settings page and its entries are of three types. <br>
+	The three types of entries are:
+	<ul>
+	  <li> RegExp </li>
+	  <li> Exact Match </li>
+	  <li> URL </li>
+	</ul>
+	Every entry type affects how an URL will be matched. <br>
+	<section>
+	  <h3> The "RegExp" type </h3>
+	  This is the most flexible type. In fact you can describe, through JavaScript RegExp, whitelisted URL(s). Special careful should be used while defining an entry of this type. Remember that if an URL is matched against a whitelist entry it will be opened in the <strong>current Qube</strong>.
+
+	  Here a screenshot of the input fields:
+	<img src="../screenshots/entry_type/regexp.png" alt="The &quot;RegExp&quot; type has only one input field through you can insert the JavaScript RegExp.">
+	</section>
+
+	<section>
+	  <h3> The "Exact Match" type </h3>
+	  This is the most restrictive type. In fact with this type you can specify a string that will be matched against an URL if and only if they are equally.
+
+	  Here a screenshot of the input fields:
+	<img src="../screenshots/entry_type/exact_match.png" alt="The &quot;Exact Match&quot; type has only one input field through you can insert the string.">
+	</section>
+
+	<section>
+	  <h3> The "URL" type </h3>
+	  This type allows you to add an entry specifying URL's componenent. Specifically:
+	  <ul>
+	    <li> Scheme. Default is https. </li>
+	    <li> Host, it supports: IPv4, IPv6 and DNS name </li>
+	    <li> Port. It's optional. </li>
+	    <li> Pathname, query string and fragment. It's optional. </li>
+	  </ul>
+	  <br>
+	  Here a screenshot of the input fields:
+	<img src="../screenshots/entry_type/url.png" alt="The &quot;URL&quot; type has various input fields through you can describe the whitelisted URL(s).">
+	</section>
+      </article>
+
+      <article>
+        <h2> Usage: Context Menu </h2>
+        The extension has three dedicated context menu entries from which you can choose how to handle a specific link.
+        Here a screenshot:
+	<img src="../screenshots/menus.png" alt="The context menu allows you to open in a disposable qube, in the default qube or here a specific link.">
+      </article>
+    </main>
+
+    <footer> Open in Qube is made with ♥ by <a href="https://raffaeleflorio.github.io">Raffaele Florio</a> and it's released under the GPLv3 license. </footer>
+  </body>
+</html>

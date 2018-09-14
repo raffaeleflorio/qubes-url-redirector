@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title> Open in Qube - Blocked resources </title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/req_popup.css">
+  </head>
+  <body>
+    <nav>
+      <div>
+        <img src="../logo.png">
+        <span> Open in Qube </span>
+      </div>
+
+      <a id="open_settings" href="#" alt="Open the settings page">⚙</a>
+    </nav>
+    <main class="full">
+      <table class="full">
+        <caption> <b> Blocked resources </b> </caption>
+        <thead>
+          <tr>
+            <th> URL </th>
+            <th> Type </th>
+            <th> Action </th>
+          </tr>
+        </thead>
+        <tbody id="blocked_resources">
+          <template id="req_row_tpl">
+            <tr class="res">
+              <td><a href="#" class="url"></a></td>
+              <td class="type"></td>
+              <td><button class="allow">Allow</button>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </main>
+    <script src="/webextension-browser-proxy/polyfill.js"></script>
+    <script src="../js/frontend/req_popup.js"></script>
+  </body>
+</html>

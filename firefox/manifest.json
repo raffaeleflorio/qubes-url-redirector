@@ -2,40 +2,56 @@
     "manifest_version": 2,
 
     "name": "Open in Qube",
-    "version": "2.1",
+    "version": "3.0",
     "applications": {
 	"gecko": {
-	    "id": "qubes-url-redirector@raffaeleflorio.github.io",
-	    "update_url": "https://raw.githubusercontent.com/raffaeleflorio/qubes-url-redirector/master/firefox/updates.json"
+	    "id": "qubes-url-redirector@raffaeleflorio.github.io"
 	}
     },
+    "description": "Redirect untrusted URLs to another qube while you surf the web!",
+
     "icons": {
-	"48": "common/qubes-logo.png"
+	"16": "common/logo.png",
+	"32": "common/logo.png",
+	"48": "common/logo.png",
+	"64": "common/logo.png",
+	"128": "common/logo.png"
     },
     
     "author": "Raffaele Florio",
     "homepage_url": "https://github.com/raffaeleflorio/qubes-url-redirector",
 
     "options_ui": {
-	"page": "common/options/settings.html",
+	"page": "common/html/settings.html",
 	"browser_style": true
     },
 
     "browser_action": {
 	"browser_style": true,
-	"default_title": "Open in Qube settings",
-	"default_icon": "common/qubes-logo.png"
+        "default_popup": "common/html/req_popup.html",
+	"default_title": "Blocked resources in this tab",
+	"default_icon": "common/logo_disabled.png"
     },
 
     "background": {
 	"scripts": [
-	    "common/backgrounds/anti_rdr.js",
-	    "common/backgrounds/whitelist.js",
-	    "common/backgrounds/settings.js",
-	    "common/backgrounds/native.js",
-	    "common/backgrounds/ui.js",
-	    "common/backgrounds/redirector.js",
-	    "common/backgrounds/qur.js"
+	    "common/js/backend/main.js",
+	    "common/js/backend/tabs.js",
+	    "common/js/backend/net_utils.js",
+
+	    "common/js/backend/core/settings.js",
+	    "common/js/backend/core/whitelist_entries.js",
+	    "common/js/backend/core/whitelist.js",
+	    "common/js/backend/core/native.js",
+
+	    "common/js/backend/messaging/messaging.js",
+	    "common/js/backend/messaging/settingsML.js",
+	    "common/js/backend/messaging/whitelistML.js",
+	    "common/js/backend/messaging/tabsML.js",
+
+	    "common/js/backend/req_handler.js",
+
+	    "common/js/backend/menu.js"
 	]
     },
     

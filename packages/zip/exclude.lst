@@ -1,0 +1,6 @@
+*.git
+*~
+*.py
+NativeMessagingHosts/*
+native-messaging-hosts/*
+mbjoigpcjapkbnnlagpalecjoonaeoab.json

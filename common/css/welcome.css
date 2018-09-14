@@ -1,0 +1,14 @@
+main > article {
+    padding-top: 1rem;
+}
+
+ article img {
+    display: block;
+    max-width: 60%;
+    margin: 1rem auto;
+    box-shadow: 0px 0px 8px #333;
+}
+
+ul {
+    padding-left: 2.5rem;
+}

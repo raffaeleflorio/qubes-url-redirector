@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title> Open in Qube Settings </title>
+    <link rel="stylesheet" href="/common/css/common.css">
+    <link rel="stylesheet" href="/common/css/settings.css">
+  </head>
+  <body style="display: none">
+    <section>
+      <h1> Default Action </h1>
+      <form id="settings" autocomplete="off">
+	<label>
+	  <input type="radio" name="default_action" value="0"> Open in a disposable qube
+	</label>
+
+	<label>
+	  <input type="radio" name="default_action" value="1"> Open in the default qube
+	</label>
+
+	<label>
+	  <input type="radio" name="default_action" value="3" checked> Block only
+	</label>
+
+	<label class="dangerous">
+	  <input type="radio" name="default_action" value="2"> Open here
+	</label>
+
+	<label>
+	  Default qube:
+	  <input type="text" name="default_vm" value="">
+	</label>
+
+	<button type="submit"> Save </button>
+      </form>
+    </section>
+
+    <section>
+      <h1> Whitelist </h1>
+      <form id="whitelist" autocomplete="off">
+	<em id="type_info"> Remember to escape special RegExp characters with a backslash. Escaping of slash is optional. </em> <br>
+	<h2> Type to add: </h2>
+	<ol id="entry_type_group">
+	  <li>
+	    <label>
+	      <input type="radio" name="type" value="0" checked> RegExp
+	    </label>
+	  </li>
+	  <li>
+	    <label>
+	      <input type="radio" name="type" value="1"> Exact match
+	    </label>
+	  </li>
+	  <li>
+	    <label>
+	      <input type="radio" name="type" value="2"> URL
+	    </label>
+	  </li>
+	</ol>
+
+	<div id="entry_spec">
+	  <div class="entry_spec_url">
+	    <label for="scheme"> Scheme: </label>
+	    <input type="text" id="scheme" name="scheme" size="64" value="" placeholder="Default is https.">
+	  </div>
+
+	  <div>
+	    <label id="type_label" for="spec"> JavaScript RegExp: </label>
+	    <input type="text" name="spec" id="spec" size="64" value="" required>
+	  </div>
+
+	  <div class="entry_spec_url">
+	    <label for="port"> Port: </label>
+	    <input type="text" name="port" id="port" size="5" value="">
+	  </div>
+
+	  <div class="entry_spec_url">
+	    <label for="url_remaining"> URL Remaining: </label>
+            <em> If it terminates with a /, it matches every resource in that directory (including subdir). If empty it matches every resource. Otherwise it matches the exact resource. </em> <br>
+	    <input type="text" id="url_remaining" name="path_query_fragment" size="64" value="" placeholder="e.g. /some/path?x=y#z.">
+	  </div>
+
+	  <div>
+	    <label for="entry_label"> Label: </label>
+	    <input type="text" name="entry_label" id="entry_label" size="64" value="">
+	  </div>
+        </div>
+	<button type="submit" id="whitelistSubmit"> Save </button>
+	<button type="button" id="whitelistReset"> Reset </button>
+      </form>
+
+      <table class="full" id="whitelist_entries">
+	<caption><b> Whitelist entries </b></caption>
+	<thead>
+          <tr>
+	    <th> Simple </th>
+	    <th> Detailed </th>
+	    <th> Type </th>
+	    <th> Label </th>
+	    <th> Modify </th>
+	    <th> Remove </th>
+          </tr>
+	</thead>
+        <tbody>
+	  <template id="whitelist_row_tpl">
+	    <tr class="entry" data-entrySpec="">
+	      <td class="simple"></td>
+	      <td class="detailed"></td>
+	      <td class="type"></td>
+	      <td class="label"></td>
+	      <td><button class="modify"> Modify </button></td>
+	      <td><button class="remove"> Remove </button></td>
+	    </tr>
+	  </template>
+        </tbody>
+      </table>
+    </section>
+
+    <script src="/webextension-browser-proxy/polyfill.js"></script>
+    <script src="/common/js/frontend/settings/main.js"></script>
+    <script src="/common/js/frontend/settings/messaging.js"></script>
+    <script src="/common/js/frontend/settings/settings.js"></script>
+    <script src="/common/js/frontend/settings/whitelist_entries.js"></script>
+    <script src="/common/js/frontend/settings/whitelist.js"></script>
+    <script src="/common/js/frontend/settings/init.js"></script>
+  </body
+</html>

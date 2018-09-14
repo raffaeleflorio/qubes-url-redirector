@@ -1,27 +1,22 @@
-# qubes-url-redirector v2.1
-qubes-url-redirector is a browser's extension to improve security. It's for Qubes OS and it's written using standard WebExtension APIs. It permits to manage which VM is responsible to open links, obviously redirection happens before any TCP connection is made. Furthermore, through context menu entries, you can open a specific link in a custom way. Currently you can open links in: DVM, a default-VM, a specific VM and in this VM.
+# qubes-url-redirector v3.0_beta
+This is a browser extension, aimed to improve surfing security. It's written for Qubes OS using standard WebExtension APIs and it allows you to manage which qube is responsible to open URLs. Obviously redirection happens before any TCP connection is opened. Furthermore, through context menu entries, you can open a specific link in a custom way.
 
-It has a settings page embedded in browser where you manage default behavior and it supports a whitelist based on Javascript's RegExp, in this way there is a lot of flexibility to define trustworthy URLs or domains. Settings page is also accessible through a button in browser's toolbar, besides the default way (e.g. Firefox's Add-Ons manager).
-
-Because of WebExtension API, currently, it can handles only HTTP(S) URL.
+It has a settings page embedded in browser where you customize default behavior and it supports a whitelist based on Javascript's RegExp, in this way there is a lot of flexibility to define trustworthy URLs. Settings page is also accessible through the browser's toolbar button.
 
 # Screenshots
 **Settings**
-![settings](https://raw.githubusercontent.com/raffaeleflorio/qubes-url-redirector/master/screenshots/empty_settings.png)
-**Menus with a default vm name setted**
-![menus](https://raw.githubusercontent.com/raffaeleflorio/qubes-url-redirector/master/screenshots/menus.png)
+![settings](https://raw.githubusercontent.com/raffaeleflorio/qubes-url-redirector/master/common/screenshots/settings.png)
+**Menus with a default qube setted**
+![menus](https://raw.githubusercontent.com/raffaeleflorio/qubes-url-redirector/master/common/screenshots/menus.png)
 
-# Supported Browsers
-  In theory every browser compatible with WebExtension API.
-  ### Tested Browsers
-  - Firefox (according API's reference from 50 onwards)
-  - Chrome/Chromium (according API's reference from 42 onwards)
+You can see more screenshots in the `common/screenshots` directory.
 
 # How to install
-Currently there is only a signed package for Firefox. The installation in Chrome is manual.<br>
-In both case you need to clone this repo. It also contains a submodule ([webextension-browser-proxy](https://github.com/raffaeleflorio/webextension-browser-proxy)) as dependency.
+After the beta there will be a signed rpm package. Now you need to follow these steps.
 
-In order to get the submodule you can clone this repo with:
+## Clone the repo
+
+If the target browser is Chrome/ium you need clone the repo with the `recursive` flag (because of the ([webextension-browser-proxy submodule](https://github.com/raffaeleflorio/webextension-browser-proxy)):
 ```
 $ git clone --recursive https://github.com/raffaeleflorio/qubes-url-redirector.git
 ```
@@ -31,32 +26,52 @@ qubes-url-redirector/cloned/repo $ git submodule init
 qubes-url-redirector/cloned/repo $ git submodule update
 ```
 
-Every commit is signed. You can get my key through https://pgp.mit.edu or through https://raffaeleflorio.github.io. The **fingerprint** is: _6F1B 35D5 4A43 864C 62D3  ACC3 0DEF F00A 47CF 317F_.
+## Check the signatures (it's optional, but strongly recommended):
+Every commit is signed. You can get my key [from raffaeleflorio.github.io](https://raffaeleflorio.github.io/resources/pgp.asc) or [from pgp.mit.edu](https://pgp.mit.edu/pks/lookup?op=get&search=0x0deff00a47cf317f). The **fingerprint** is: _6F1B 35D5 4A43 864C 62D3  ACC3 0DEF F00A 47CF 317F_. The fingerprint is also available in multiple keyserver.
 
-#### Firefox
-1. make firefox
+Import the key and verify its fingerprint in gpg:
+```
+$ gpg --import /path/to/the/key
+$ gpg -k --fingerprint "Raffaele Florio"
+```
 
-#### Chrome/Chromium
-1. make chrome (or chromium)
-2. Follow istructions at this link, to install the extension (it's in `chrome` dir): https://developer.chrome.com/extensions/getstarted#unpacked
-3. Replace `EXTENSION_ID_HERE` with the generated one (from the chrome://extensions page) in `~/.config/google-chrome/NativeMessagingHosts/qvm_open_in_vm.json` or `~/.config/chromium/NativeMessagingHosts/qvm_open_in_vm.json`, if you use Chrome or Chromium respectivly.
+To check **every** commit signature:
+```
+qubes-url-redirector/cloned/repo $ git log --show-signature
+```
 
-Now you can start to use it!
+To limit the check to *a_number* of commits:
+```
+qubes-url-redirector/cloned/repo $ git log --show-signature -*a_number*
+```
+
+## Firefox installation
+`qubes-url-redirector/cloned/repo $ make firefox`
+
+## Chrome installation
+`qubes-url-redirector/cloned/repo $ make chrome`
+
+## Chromium installation
+`qubes-url-redirector/cloned/repo $ make chromium`
+
+---
+
+That's all! :D
 If you encounter some problems, don't hesitate to contact me!
 
-# Additional infos
-### Chrome/Chromium new tab behavior
-Actually these browsers makes an HTTP(S) request to get the new tab contents. Currently the URL is: `https://google.com/_/chrome/newtab?ie=UTF-8`. So you need to either whitelist the URL or change the new tab behavior.
+# Supported browser
+- Firefox 52 onwards (according the API's reference). Firefox 60 strongly recommended (see [below](#firefox-1)).
+- Chromium 42 onwards (according the API's reference).
 
-### Chrome/Chromium prediction issue
-In order to use this extension with these browsers you have to disable `Use a prediction service to load pages more quickly` feature. If the latter is enabled the browser connects to a predetermined server before user consent. In this way some URL opens in an unexpected way.
+## Schemes compatibility table
+| scheme | Firefox | Chrome/ium |
+|---|---|---|
+| http | supported | supported |
+| https | supported | supported |
+| ws | supported | supported since v58 |
+| wss | supported | supported since v58|
+| ftp | not supported (see [below](#firefox-1)) | supported |
+| file | not supported | supported |
 
-### Google Search `rwt`
-In Google Search when `onmousedown` event fires on link element, `rwt` function is called. It's a Javascript function that replaces link's URL with a custom Google's URL that redirects to original URL... I implemented the rwt escaping in this extension because it's needed to work correctly.
-
-Nonetheless I also wrote a separate extension to disable this manipulation: [anti_rwt](https://github.com/raffaeleflorio/anti_rwt). However `qubes-url-redirector` implement anti manipulation more effectively with `anti_rdr` object.
-
-### anti_rdr
-`anti_rdr` is an object that escape manipulated URL. In this way correct behavior of this extension is preserved. Currently it implements escaping of:
-- `google.com/url` url
-- `l.facebook.com` url
+## Firefox
+It's strongly recommended to disable ftp support in Firefox, because the API doesn't permit the extension to intercept this type of request. Nonetheless the browser supports the protocol. Since Firefox 60 onwards you can disable ftp by setting to `false` `network.ftp.enabled` in `about:config` page.

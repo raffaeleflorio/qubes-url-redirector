@@ -1,0 +1,52 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+html, body {
+    color: #333;
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+h1 {
+    font-size: 180%;
+}
+
+section {
+    padding-bottom: 1rem;
+}
+section > form {
+    padding-left: 1rem;
+}
+
+ol#entry_type_group {
+    margin-bottom: 0.5rem;
+}
+ol#entry_type_group li {
+    list-style-type: none;
+}
+
+label {
+    display: block;
+}
+label.inline {
+    display: inline;
+}
+
+#entry_spec {
+    margin-bottom: 1rem;
+}
+#entry_spec div {
+    margin-bottom: 0.5rem;
+}
+.entry_spec_url {
+    display: none;
+}
+
+#whitelist_entries {
+    margin-top: 2rem;
+}
+#whitelist_entries caption {
+    font-size: 150%;
+}
