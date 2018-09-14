@@ -6,7 +6,7 @@ It has a settings page embedded in browser where you customize default behavior 
 # Screenshots
 **Settings**
 ![settings](https://raw.githubusercontent.com/raffaeleflorio/qubes-url-redirector/master/common/screenshots/settings.png)
-**Menus with a default qube setted**
+**Menus with a default qube setted**<br>
 ![menus](https://raw.githubusercontent.com/raffaeleflorio/qubes-url-redirector/master/common/screenshots/menus.png)
 
 You can see more screenshots in the `common/screenshots` directory.
