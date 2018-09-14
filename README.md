@@ -39,13 +39,13 @@ To limit the check to *a_number* of commits:
 qubes-url-redirector/cloned/repo $ git log --show-signature -*a_number*
 ```
 
-### Firefox installation
+## Firefox installation
 `qubes-url-redirector/cloned/repo $ make firefox`
 
-### Chrome installation
+## Chrome installation
 `qubes-url-redirector/cloned/repo $ make chrome`
 
-### Chromium installation
+## Chromium installation
 `qubes-url-redirector/cloned/repo $ make chromium`
 
 ---
