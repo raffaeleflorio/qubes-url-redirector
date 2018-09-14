@@ -12,9 +12,11 @@ It has a settings page embedded in browser where you customize default behavior 
 You can see more screenshots in the `common/screenshots` directory.
 
 # How to install
-Soon there will be a signed rpm package. Now you need to clone this repo.
+After the beta there will be a signed rpm package. Now you need to follow these steps.
 
-Because the extension needs ([webextension-browser-proxy](https://github.com/raffaeleflorio/webextension-browser-proxy), to run on Chrome/ium, clone the repo with the `recursive` flag:
+## Clone the repo
+
+If the target browser is Chrome/ium you need clone the repo with the `recursive` flag (because of the ([webextension-browser-proxy submodule](https://github.com/raffaeleflorio/webextension-browser-proxy)):
 ```
 $ git clone --recursive https://github.com/raffaeleflorio/qubes-url-redirector.git
 ```
@@ -24,7 +26,8 @@ qubes-url-redirector/cloned/repo $ git submodule init
 qubes-url-redirector/cloned/repo $ git submodule update
 ```
 
-Every commit is signed. You can get my key [from raffaeleflorio.github.io](https://raffaeleflorio.github.io/resources/pgp.asc) or [from pgp.mit.edu](https://pgp.mit.edu/pks/lookup?op=get&search=0x0deff00a47cf317f). The **fingerprint** is: _6F1B 35D5 4A43 864C 62D3  ACC3 0DEF F00A 47CF 317F_. To check the commit signature you need to import the key in gpg.
+## Check the signatures (it's optional, but strongly recommended):
+Every commit is signed. You can get my key [from raffaeleflorio.github.io](https://raffaeleflorio.github.io/resources/pgp.asc) or [from pgp.mit.edu](https://pgp.mit.edu/pks/lookup?op=get&search=0x0deff00a47cf317f). The **fingerprint** is: _6F1B 35D5 4A43 864C 62D3  ACC3 0DEF F00A 47CF 317F_. Before these steps you need to import the key in gpg.
 
 To check **every** commit signature:
 ```
@@ -36,13 +39,13 @@ To limit the check to *a_number* of commits:
 qubes-url-redirector/cloned/repo $ git log --show-signature -*a_number*
 ```
 
-## Firefox
+### Firefox installation
 `qubes-url-redirector/cloned/repo $ make firefox`
 
-## Chrome
+### Chrome installation
 `qubes-url-redirector/cloned/repo $ make chrome`
 
-## Chromium
+### Chromium installation
 `qubes-url-redirector/cloned/repo $ make chromium`
 
 ---
