@@ -10,6 +10,7 @@ PACKAGES_D=packages
 ZIP_D=${PACKAGES_D}/zip
 
 CHROME_ID=mbjoigpcjapkbnnlagpalecjoonaeoab
+FIREFOX_ID=qubes-url-redirector@raffaeleflorio.github.io
 
 CHROME_CRX=${PACKAGES_D}/chrome-${VERSION}.crx
 FIREFOX_XPI=${PACKAGES_D}/firefox-${VERSION}.xpi
@@ -24,6 +25,7 @@ CHROMIUM_NATIVE_D=~/.config/chromium/NativeMessagingHosts
 CHROMIUM_EXT_D=/usr/share/chromium/extensions
 
 FIREFOX_NATIVE_D=~/.mozilla/native-messaging-hosts
+FIREFOX_EXT_D=/usr/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}
 
 help:
 	@echo make help to show this help
@@ -57,10 +59,14 @@ firefox: setup
 	mkdir -p ${FIREFOX_NATIVE_D}
 	cp firefox/native-messaging-hosts/${NATIVE_MANIFEST} ${FIREFOX_NATIVE_D}/
 
+	sudo mkdir -p ${FIREFOX_EXT_D}
+	sudo cp ${FIREFOX_XPI} ${FIREFOX_EXT_D}/${FIREFOX_ID}.xpi
+
 clean:
 	sudo rm -rf ${QUR_D}
 
 	rm -f ${FIREFOX_NATIVE_D}/${NATIVE_MANIFEST}
+	sudo rm -f ${FIREFOX_EXT_D}/${FIREFOX_ID}.xpi
 
 	rm -f ${CHROME_NATIVE_D}${NATIVE_MANIFEST}
 	sudo rm -f ${CHROME_EXT_D}/${CHROME_ID}.json
