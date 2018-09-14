@@ -27,7 +27,13 @@ qubes-url-redirector/cloned/repo $ git submodule update
 ```
 
 ## Check the signatures (it's optional, but strongly recommended):
-Every commit is signed. You can get my key [from raffaeleflorio.github.io](https://raffaeleflorio.github.io/resources/pgp.asc) or [from pgp.mit.edu](https://pgp.mit.edu/pks/lookup?op=get&search=0x0deff00a47cf317f). The **fingerprint** is: _6F1B 35D5 4A43 864C 62D3  ACC3 0DEF F00A 47CF 317F_. Before these steps you need to import the key in gpg.
+Every commit is signed. You can get my key [from raffaeleflorio.github.io](https://raffaeleflorio.github.io/resources/pgp.asc) or [from pgp.mit.edu](https://pgp.mit.edu/pks/lookup?op=get&search=0x0deff00a47cf317f). The **fingerprint** is: _6F1B 35D5 4A43 864C 62D3  ACC3 0DEF F00A 47CF 317F_. The fingerprint is also available in multiple keyserver.
+
+Import the key and verify its fingerprint in gpg:
+```
+$ gpg --import /path/to/the/key
+$ gpg -k --fingerprint "Raffaele Florio"
+```
 
 To check **every** commit signature:
 ```
