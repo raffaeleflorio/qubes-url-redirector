@@ -77,4 +77,5 @@ If you encounter some problems, don't hesitate to contact me!
 It's strongly recommended to disable ftp support in Firefox, because the API doesn't permit the extension to intercept this type of request. Nonetheless the browser supports the protocol. Since Firefox 60 onwards you can disable ftp by setting to `false` `network.ftp.enabled` in `about:config` page.
 
 ## Other software and the system default browser
-qubes-url-redirector is also useful with software different than browser. Its policy, in fact, will be respected by every software (e.g. Thunderbird) that opens URLs through a browser (with the add-on installed). Furthermore every software that uses the system default browser, specified with XDG (or an equivalent system for default application), doesn't need any configuration.
+This extension is also useful with software different than browser. Its policy, in fact, will be respected by every program (e.g. Thunderbird) that opens URLs through a browser (with the add-on installed).
+Furthermore every software that uses the system default browser, specified with XDG (or an equivalent standard for default application), doesn't need any configuration.
