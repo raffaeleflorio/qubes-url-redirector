@@ -18,12 +18,11 @@ After the beta there will be a signed rpm package. Now you need to follow these 
 
 If the target browser is Chrome/ium you need clone the repo with the `recursive` flag (because of the ([webextension-browser-proxy submodule](https://github.com/raffaeleflorio/webextension-browser-proxy)):
 ```
-$ git clone --recursive https://github.com/raffaeleflorio/qubes-url-redirector.git
+$ git clone --recurse-submodules https://github.com/raffaeleflorio/qubes-url-redirector.git
 ```
 Otherwise you can clone the submodule separately with:
 ```
-qubes-url-redirector/cloned/repo $ git submodule init
-qubes-url-redirector/cloned/repo $ git submodule update
+qubes-url-redirector/cloned/repo $ git submodule update --init --recursive
 ```
 
 ## Check the signatures (it's optional, but strongly recommended):
