@@ -1,4 +1,4 @@
-# qubes-url-redirector v3.0_beta
+# qubes-url-redirector v3.0.1_beta
 This is a browser extension, aimed to improve surfing security. It's written for Qubes OS using standard WebExtension APIs and it allows you to manage which qube is responsible to open URLs. Obviously redirection happens before any TCP connection is opened. Furthermore, through context menu entries, you can open a specific link in a custom way.
 
 It has a settings page embedded in browser where you customize default behavior and it supports a whitelist based on Javascript's RegExp, in this way there is a lot of flexibility to define trustworthy URLs. Settings page is also accessible through the browser's toolbar button.
