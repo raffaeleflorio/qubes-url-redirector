@@ -1,7 +1,7 @@
 .PHONY: help setup chrome chromium firefox clean zip
 
 # local stuff
-VERSION=v3.0_beta
+VERSION=v3.0.1_beta
 
 NATIVE_MANIFEST=qvm_open_in_vm.json
 NATIVE_BIN=qvm-open-in-vm-we.py
@@ -9,7 +9,7 @@ NATIVE_BIN=qvm-open-in-vm-we.py
 PACKAGES_D=packages
 ZIP_D=${PACKAGES_D}/zip
 
-CHROME_ID=mbjoigpcjapkbnnlagpalecjoonaeoab
+CHROME_ID=cooilipombfggahablhdfembkajifpbi
 FIREFOX_ID=qubes-url-redirector@raffaeleflorio.github.io
 
 CHROME_CRX=${PACKAGES_D}/chrome-${VERSION}.crx
