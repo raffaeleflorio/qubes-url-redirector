@@ -147,7 +147,7 @@ QUR.whitelist_entries = (function () {
                 const schemePrefix = "^" + scheme + "://";
 
                 const escapedPqf = that.escapeRE(pqf);
-                const pqfSuffix = (pqf === "" || pqf.slice(-1) === "/") ? "" : escapedPqf + "$";
+                const pqfSuffix = escapedPqf + ((pqf === "" || pqf.slice(-1) === "/") ? "" : "$");
 
                 return schemePrefix + that.escapeRE(hostRepresentation) + portRepresentation + "(?![^/])" + pqfSuffix;
             }());
