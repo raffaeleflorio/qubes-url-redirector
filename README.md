@@ -43,6 +43,13 @@ To limit the check to *a_number* of commits:
 ```
 qubes-url-redirector/cloned/repo $ git log --show-signature -*a_number*
 ```
+# Installation
+Installation has to be done with either root-permissions via sudo or by launching a root console via
+
+[user@dom0 ~] `qvm-run --user root <VM-NAME> xterm`
+
+after runing the make command, the plugin is placed in the .\packages directory and it will also be copied to the browser plugin directory.
+For example when using firefox: /usr/share/mozilla/extensions/{ec[...]85}/qubes-url-redirector@raffaeleflorio.github.io.xpi
 
 ## Firefox installation
 `qubes-url-redirector/cloned/repo $ make firefox`
