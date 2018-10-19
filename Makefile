@@ -18,14 +18,20 @@ FIREFOX_XPI=${PACKAGES_D}/firefox-${VERSION}.xpi
 # installation dir
 QUR_D=/opt/qubes-url-redirector
 
-CHROME_NATIVE_D=~/.config/google-chrome/NativeMessagingHosts
+CHROME_NATIVE_D=/home/user/.config/google-chrome/NativeMessagingHosts
 CHROME_EXT_D=/usr/share/google-chrome/extensions
 
-CHROMIUM_NATIVE_D=~/.config/chromium/NativeMessagingHosts
+CHROMIUM_NATIVE_D=/home/user/.config/chromium/NativeMessagingHosts
 CHROMIUM_EXT_D=/usr/share/chromium/extensions
 
-FIREFOX_NATIVE_D=~/.mozilla/native-messaging-hosts
+FIREFOX_NATIVE_D=/home/user/.mozilla/native-messaging-hosts
 FIREFOX_EXT_D=/usr/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}
+
+# macro
+INSTALL=install -m644
+INSTALL_EXE=install -m755
+
+INSTALL_UCONF=sudo -u user -- install -m644
 
 help:
 	@echo make help to show this help
@@ -35,44 +41,33 @@ help:
 	@echo make clean to remove file on disk
 
 setup:
-	sudo mkdir -p ${QUR_D}
-	sudo cp common/${NATIVE_BIN} ${QUR_D}/
-	sudo chmod u+x ${QUR_D}/${NATIVE_BIN}
+	${INSTALL_EXE} -Dt ${QUR_D} common/${NATIVE_BIN}
 
 chrome: setup
-	mkdir -p ${CHROME_NATIVE_D}
-	cp chrome/NativeMessagingHosts/${NATIVE_MANIFEST} ${CHROME_NATIVE_D}/
-
-	sudo cp ${CHROME_CRX} ${QUR_D}/
-	sudo mkdir -p ${CHROME_EXT_D}
-	sudo cp chrome/${CHROME_ID}.json ${CHROME_EXT_D}/
+	${INSTALL} -Dt ${CHROME_EXT_D} chrome/${CHROME_ID}.json
+	${INSTALL} -t ${QUR_D} ${CHROME_CRX}
+	${INSTALL_UCONF} -Dt ${CHROME_NATIVE_D} chrome/NativeMessagingHosts/${NATIVE_MANIFEST}
 
 chromium: setup
-	mkdir -p ${CHROMIUM_NATIVE_D}
-	cp chrome/NativeMessagingHosts/${NATIVE_MANIFEST} ${CHROMIUM_NATIVE_D}/
-
-	sudo cp ${CHROME_CRX} ${QUR_D}/
-	sudo mkdir -p ${CHROMIUM_EXT_D}
-	sudo cp chrome/${CHROME_ID}.json ${CHROMIUM_EXT_D}/
+	${INSTALL} -Dt ${CHROMIUM_EXT_D} chrome/${CHROME_ID}.json
+	${INSTALL} -t ${QUR_D} ${CHROME_CRX}
+	${INSTALL_UCONF} -Dt ${CHROMIUM_NATIVE_D} chrome/NativeMessagingHosts/${NATIVE_MANIFEST}
 
 firefox: setup
-	mkdir -p ${FIREFOX_NATIVE_D}
-	cp firefox/native-messaging-hosts/${NATIVE_MANIFEST} ${FIREFOX_NATIVE_D}/
-
-	sudo mkdir -p ${FIREFOX_EXT_D}
-	sudo cp ${FIREFOX_XPI} ${FIREFOX_EXT_D}/${FIREFOX_ID}.xpi
+	${INSTALL} -D ${FIREFOX_XPI} ${FIREFOX_EXT_D}/${FIREFOX_ID}.xpi
+	${INSTALL_UCONF} -Dt ${FIREFOX_NATIVE_D} firefox/native-messaging-hosts/${NATIVE_MANIFEST}
 
 clean:
-	sudo rm -rf ${QUR_D}
+	rm -rf ${QUR_D}
 
 	rm -f ${FIREFOX_NATIVE_D}/${NATIVE_MANIFEST}
-	sudo rm -f ${FIREFOX_EXT_D}/${FIREFOX_ID}.xpi
+	rm -f ${FIREFOX_EXT_D}/${FIREFOX_ID}.xpi
 
 	rm -f ${CHROME_NATIVE_D}${NATIVE_MANIFEST}
-	sudo rm -f ${CHROME_EXT_D}/${CHROME_ID}.json
+	rm -f ${CHROME_EXT_D}/${CHROME_ID}.json
 
 	rm -f ${CHROMIUM_NATIVE_D}/${NATIVE_MANIFEST}
-	sudo rm -f ${CHROMIUM_EXT_D}/${CHROME_ID}.json
+	rm -f ${CHROMIUM_EXT_D}/${CHROME_ID}.json
 
 zip:
 	rm -f ${ZIP_D}/chrome-latest.zip
