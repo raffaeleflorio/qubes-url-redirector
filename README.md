@@ -45,13 +45,13 @@ qubes-url-redirector/cloned/repo $ git log --show-signature -*a_number*
 ```
 
 ## Firefox installation
-`qubes-url-redirector/cloned/repo $ make firefox`
+`qubes-url-redirector/cloned/repo # make firefox`
 
 ## Chrome installation
-`qubes-url-redirector/cloned/repo $ make chrome`
+`qubes-url-redirector/cloned/repo # make chrome`
 
 ## Chromium installation
-`qubes-url-redirector/cloned/repo $ make chromium`
+`qubes-url-redirector/cloned/repo # make chromium`
 
 ---
 
