@@ -2,7 +2,7 @@
     "manifest_version": 2,
 
     "name": "Open in Qube",
-    "version": "3.0.1",
+    "version": "3.0.2",
 
     "description": "Redirect untrusted URLs to another qube while you surf the web!",
 
