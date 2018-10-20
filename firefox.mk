@@ -4,8 +4,6 @@ FIREFOX_EXT_D := /usr/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e9
 FIREFOX_USER_NATIVE_D := /home/user/.mozilla/native-messaging-hosts
 FIREFOX_USER_EXT_D := /home/user/.mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}
 
-FIREFOX_XPI := ${PACKAGES_D}/firefox-${VERSION}.xpi
-
 .PHONY: firefox-help
 firefox-help:
 	@echo '*** Firefox ***'

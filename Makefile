@@ -8,10 +8,11 @@ ZIP_D := ${PACKAGES_D}/zip
 
 FIREFOX_D := firefox
 FIREFOX_ID := qubes-url-redirector@raffaeleflorio.github.io
+FIREFOX_XPI := ${PACKAGES_D}/firefox-${VERSION}.xpi
 
 CHROME_D := chrome
-CHROME_CRX=${PACKAGES_D}/chrome-${VERSION}.crx
 CHROME_ID=cooilipombfggahablhdfembkajifpbi
+CHROME_CRX=${PACKAGES_D}/chrome-${VERSION}.crx
 
 # Files
 NATIVE_MANIFEST := qvm_open_in_vm.json
