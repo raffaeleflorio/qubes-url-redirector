@@ -24,11 +24,11 @@ INSTALL_EXE := install -m755
 
 ZIP := zip -x @../${ZIP_D}/exclude.lst
 
-include chrome.mk firefox.mk 
+include chrome.mk chromium.mk firefox.mk
 
 .DEFAULT_GOAL := help
 .PHONY: help
-help: _help chrome-help firefox-help
+help: _help chrome-help chromium-help firefox-help
 
 .PHONY: _help
 _help:
