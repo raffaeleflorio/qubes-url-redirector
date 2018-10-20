@@ -1,4 +1,4 @@
 {
-    "external_crx": "/opt/qubes-url-redirector/chrome-v3.0.1_beta.crx",
-    "external_version": "3.0.1"
+    "external_crx": "/usr/local/share/qubes-url-redirector/chrome-v3.0.2_beta.crx",
+    "external_version": "3.0.2"
 }

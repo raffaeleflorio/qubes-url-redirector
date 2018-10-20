@@ -5,5 +5,5 @@
 	"chrome-extension://cooilipombfggahablhdfembkajifpbi/"
     ],
     "type": "stdio",
-    "path": "/opt/qubes-url-redirector/qvm-open-in-vm-we.py"
+    "path": "/usr/local/share/qubes-url-redirector/qvm-open-in-vm-we.py"
 }
