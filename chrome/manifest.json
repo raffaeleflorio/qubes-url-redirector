@@ -4,6 +4,8 @@
     "name": "Open in Qube",
     "version": "3.0.2",
 
+    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmuttgUrVEAaXzOgpu+9e/Kp+mcC8FUtqawKpdSavNkuSZNYYQmVvq36oHIdF/S0kMBeb6PmJXmU5TKUrCxfe yCJ/4kl19w1wh+yEjNGRFw2+8kmnG5HbB0RQbMaCV8R66I1EYTGnYsJGUlr/yKF7MrwmYN9sf90axiMSdzcdOxlRPO985/6uiJNzbGhn1xVB8ECMNqhjuJzNpVejF5BchzmzBD9PG8JYSbwXUV3nAMdEaT1xLqhcZHL/hE6qmdl/zrAEjZzDhUMaFqpxrPrWSzU3AgVBlMh6dAiIbRWhcfD/pWRfdfCyGntEGsUavsEFDuiHTW89JUAS4/rJ6WeCAQIDAQAB",
+
     "description": "Redirect untrusted URLs to another qube while you surf the web!",
 
     "icons": {
