@@ -7,10 +7,12 @@ PACKAGES_D := packages
 ZIP_D := ${PACKAGES_D}/zip
 
 FIREFOX_D := firefox
+CHROME_D := chrome
+
+# Extension info, used in *.mk
 FIREFOX_ID := qubes-url-redirector@raffaeleflorio.github.io
 FIREFOX_XPI := ${PACKAGES_D}/firefox-${VERSION}.xpi
 
-CHROME_D := chrome
 CHROME_ID=cooilipombfggahablhdfembkajifpbi
 CHROME_CRX=${PACKAGES_D}/chrome-${VERSION}.crx
 

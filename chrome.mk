@@ -34,3 +34,5 @@ chrome-appvm: chrome-setup
 chrome-clean:
 	rm -f ${CHROME_NATIVE_D}${NATIVE_MANIFEST}
 	rm -f ${CHROME_EXT_D}/${CHROME_ID}.json
+
+#	rm -f -Dt ${CHROME_USER_NATIVE_D}/${NATIVE_MANIFEST}
