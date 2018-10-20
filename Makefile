@@ -33,9 +33,9 @@ help: _help chrome-help chromium-help firefox-help
 
 .PHONY: _help
 _help:
-	@echo make help to show this help
-	@echo make clean to remove every extension file
-	@echo make zip to make a zip, for each browser, of the current code
+	@echo 'make help to show this help'
+	@echo 'make clean to remove every extension file'
+	@echo 'make zip to make a zip, for each browser, of the current code'
 
 .PHONY: cross-setup
 cross-setup:
