@@ -1,9 +1,3 @@
-FIREFOX_NATIVE_D := /usr/lib/mozilla/native-messaging-hosts
-FIREFOX_EXT_D := /usr/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}
-
-FIREFOX_USER_NATIVE_D := /home/user/.mozilla/native-messaging-hosts
-FIREFOX_USER_EXT_D := /home/user/.mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}
-
 .PHONY: firefox-help
 firefox-help:
 	@echo '*** Firefox ***'
@@ -17,11 +11,15 @@ firefox-zip:
 	rm -f ${ZIP_D}/firefox-latest.zip
 	cd ${FIREFOX_D} && ${ZIP} -qr ../${ZIP_D}/firefox-latest.zip -9 -X .
 
+FIREFOX_NATIVE_D := /usr/lib/mozilla/native-messaging-hosts
+FIREFOX_EXT_D := /usr/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}
 .PHONY: firefox
 firefox: cross-setup
 	${INSTALL} -Dt ${FIREFOX_NATIVE_D} ${FIREFOX_D}/native-messaging-hosts/${NATIVE_MANIFEST}
 	${INSTALL} -D ${FIREFOX_XPI} ${FIREFOX_EXT_D}/${FIREFOX_ID}.xpi
 
+FIREFOX_USER_NATIVE_D := /home/user/.mozilla/native-messaging-hosts
+FIREFOX_USER_EXT_D := /home/user/.mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}
 .PHONY: firefox-appvm
 firefox-appvm: cross-setup
 	${INSTALL_U} -Dt ${FIREFOX_USER_NATIVE_D} ${FIREFOX_D}/native-messaging-hosts/${NATIVE_MANIFEST}
