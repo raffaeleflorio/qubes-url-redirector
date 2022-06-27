@@ -18,4 +18,4 @@ if not re.match(".*://.*", msg["url"]):
     sys.exit(1)
 
 #check msg["vmname"]
-os.execvp("qvm-open-in-vm", ["qvm-open-in-vm", msg["vmname"], msg["url"]]);
+os.execvp("sudo", ["sudo", "-u", "user", "qvm-open-in-vm", msg["vmname"], msg["url"]]);
