@@ -59,7 +59,7 @@ That's all! :D
 If you encounter some problems, don't hesitate to contact me!
 
 # Supported browser
-- Firefox 52 onwards (according the API's reference). Firefox 60 strongly recommended (see [below](#firefox-1)).
+- Firefox 52 onwards (according the API's reference).
 - Chromium 42 onwards (according the API's reference).
 
 ## Schemes compatibility table
@@ -69,12 +69,9 @@ If you encounter some problems, don't hesitate to contact me!
 | https | supported | supported |
 | ws | supported | supported since v58 |
 | wss | supported | supported since v58|
-| ftp | not supported (see [below](#firefox-1)) | supported |
 | file | not supported | supported |
 
 # Additional info
-## Firefox
-It's strongly recommended to disable ftp support in Firefox, because the API doesn't permit the extension to intercept this type of request. Nonetheless the browser supports the protocol. Since Firefox 60 onwards you can disable ftp by setting to `false` `network.ftp.enabled` in `about:config` page.
 
 ## Other software and the system default browser
 This extension is also useful with software different than browser. Its policy, in fact, will be respected by every program (e.g. Thunderbird) that opens URLs through a browser (with the add-on installed).
