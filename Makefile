@@ -18,20 +18,18 @@ FIREFOX_XPI=${PACKAGES_D}/firefox-${VERSION}.xpi
 # installation dir
 QUR_D=/opt/qubes-url-redirector
 
-CHROME_NATIVE_D=/home/user/.config/google-chrome/NativeMessagingHosts
+CHROME_NATIVE_D=/etc/opt/chrome/native-messaging-hosts
 CHROME_EXT_D=/usr/share/google-chrome/extensions
 
-CHROMIUM_NATIVE_D=/home/user/.config/chromium/NativeMessagingHosts
+CHROMIUM_NATIVE_D=/etc/chromium/native-messaging-hosts
 CHROMIUM_EXT_D=/usr/share/chromium/extensions
 
-FIREFOX_NATIVE_D=/home/user/.mozilla/native-messaging-hosts
+FIREFOX_NATIVE_D=/usr/lib/mozilla/native-messaging-hosts
 FIREFOX_EXT_D=/usr/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}
 
 # macro
 INSTALL=install -m644
 INSTALL_EXE=install -m755
-
-INSTALL_UCONF=sudo -u user -- install -m644
 
 help:
 	@echo make help to show this help
@@ -46,16 +44,16 @@ setup:
 chrome: setup
 	${INSTALL} -Dt ${CHROME_EXT_D} chrome/${CHROME_ID}.json
 	${INSTALL} -t ${QUR_D} ${CHROME_CRX}
-	${INSTALL_UCONF} -Dt ${CHROME_NATIVE_D} chrome/NativeMessagingHosts/${NATIVE_MANIFEST}
+	${INSTALL} -Dt ${CHROME_NATIVE_D} chrome/NativeMessagingHosts/${NATIVE_MANIFEST}
 
 chromium: setup
 	${INSTALL} -Dt ${CHROMIUM_EXT_D} chrome/${CHROME_ID}.json
 	${INSTALL} -t ${QUR_D} ${CHROME_CRX}
-	${INSTALL_UCONF} -Dt ${CHROMIUM_NATIVE_D} chrome/NativeMessagingHosts/${NATIVE_MANIFEST}
+	${INSTALL} -Dt ${CHROMIUM_NATIVE_D} chrome/NativeMessagingHosts/${NATIVE_MANIFEST}
 
 firefox: setup
 	${INSTALL} -D ${FIREFOX_XPI} ${FIREFOX_EXT_D}/${FIREFOX_ID}.xpi
-	${INSTALL_UCONF} -Dt ${FIREFOX_NATIVE_D} firefox/native-messaging-hosts/${NATIVE_MANIFEST}
+	${INSTALL} -Dt ${FIREFOX_NATIVE_D} firefox/native-messaging-hosts/${NATIVE_MANIFEST}
 
 clean:
 	rm -rf ${QUR_D}
